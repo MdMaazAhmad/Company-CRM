@@ -1,23 +1,31 @@
 // src/app/(app)/layout.tsx
 // Layout for all authenticated app pages. Server component: resolves the session
-// user + org name and renders the sidebar chrome around the page. Auth pages
-// (/login, /signup) live OUTSIDE this group, so they render with no sidebar.
+// user + effective org (honouring super-admin impersonation) and renders the
+// sidebar chrome around the page. Blocked / suspended / expired orgs are bounced
+// to /suspended. Auth pages (/login, /signup) live OUTSIDE this group.
 
-import { getSessionUser } from "@/lib/session";
+import { requireOrg } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { ImpersonationBanner } from "@/components/impersonation-banner";
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getSessionUser();
-  if (!user) redirect("/login"); // middleware also guards; this is a safety net
+  let ctx;
+  try {
+    ctx = await requireOrg();
+  } catch (e: any) {
+    if (e?.message === "ORG_INACTIVE") redirect("/suspended");
+    redirect("/login");
+  }
+  const { user, orgId, impersonating } = ctx;
 
   const org = await prisma.organization.findUnique({
-    where: { id: user.orgId },
+    where: { id: orgId },
     select: { name: true },
   });
 
@@ -31,9 +39,12 @@ export default async function AppLayout({
   };
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar me={me} />
-      <main className="flex-1 p-10">{children}</main>
+    <div className="flex min-h-screen flex-col">
+      {impersonating && org && <ImpersonationBanner orgName={org.name} />}
+      <div className="flex flex-1">
+        <Sidebar me={me} />
+        <main className="flex-1 p-10">{children}</main>
+      </div>
     </div>
   );
 }

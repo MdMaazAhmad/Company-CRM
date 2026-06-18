@@ -39,7 +39,7 @@ export function MyTasksClient({ tasks, meName }: { tasks: Task[]; meName: string
     .filter((g) => g.items.length > 0);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <div>
         <div className="text-xs uppercase tracking-widest text-faint">Workspace</div>
         <h1 className="font-heading text-2xl font-bold text-ink">My Tasks</h1>

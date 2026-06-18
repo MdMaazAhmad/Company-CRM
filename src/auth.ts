@@ -1,9 +1,3 @@
-// src/auth.ts
-// Full auth setup (Node runtime). Spreads the edge-safe authConfig and adds the
-// Credentials provider whose authorize() uses Prisma + bcrypt. This file is
-// imported by server components, server actions, and the route handler — NOT by
-// middleware (middleware imports auth.config.ts only).
-
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -44,4 +38,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  events: {
+    async signIn({ user }) {
+      const u = user as { id?: string; orgId?: string };
+      if (!u.id || !u.orgId) return;
+      await prisma.loginSession.create({
+        data: { orgId: u.orgId, userId: u.id },
+      });
+    },
+    async signOut(message) {
+      const token = (message as { token?: { uid?: string } }).token;
+      const uid = token?.uid;
+      if (!uid) return;
+      const open = await prisma.loginSession.findFirst({
+        where: { userId: uid, logoutAt: null },
+        orderBy: { loginAt: "desc" },
+      });
+      if (open) {
+        await prisma.loginSession.update({
+          where: { id: open.id },
+          data: { logoutAt: new Date() },
+        });
+      }
+    },
+  },
 });

@@ -174,7 +174,24 @@ export async function setTaskStatus(formData: FormData) {
   });
   const order = (last?.order ?? -1) + 1;
 
-  await prisma.task.update({ where: { id: taskId }, data: { status, order } });
+  // Auto-clock fields based on the status transition.
+  const clock: { startedAt?: Date; completedAt?: Date | null } = {};
+
+  // First time work begins → stamp start.
+  if (status === "IN_PROGRESS" && !task.startedAt) {
+    clock.startedAt = new Date();
+  }
+
+  // Entering DONE → stamp completion. Leaving DONE → clear it.
+  if (status === "DONE" && task.status !== "DONE") {
+    clock.completedAt = new Date();
+    // If it somehow never had a start, stamp it now so elapsed isn't nonsense.
+    if (!task.startedAt) clock.startedAt = new Date();
+  } else if (status !== "DONE" && task.status === "DONE") {
+    clock.completedAt = null;
+  }
+
+  await prisma.task.update({ where: { id: taskId }, data: { status, order, ...clock } });
   await logActivity(orgId, taskId, user.id, "STATUS_CHANGED", task.status, status);
 
   revalidatePath(`/projects/${task.projectId}`);
@@ -196,19 +213,36 @@ export async function reorderColumn(args: {
   // Only touch tasks that genuinely belong to this org+project.
   const owned = await prisma.task.findMany({
     where: { id: { in: args.orderedIds }, orgId, projectId: args.projectId },
-    select: { id: true, status: true },
+    select: { id: true, status: true, startedAt: true },
   });
   const ownedIds = new Set(owned.map((t) => t.id));
+  const ownedById = new Map(owned.map((t) => [t.id, t]));
+
+  const now = new Date();
 
   await prisma.$transaction(
     args.orderedIds
       .filter((id) => ownedIds.has(id))
-      .map((id, idx) =>
-        prisma.task.update({
+      .map((id, idx) => {
+        const prev = ownedById.get(id)!;
+
+        // Same auto-clock rules as setTaskStatus, applied per moved task.
+        const clock: { startedAt?: Date; completedAt?: Date | null } = {};
+        if (args.status === "IN_PROGRESS" && !prev.startedAt) {
+          clock.startedAt = now;
+        }
+        if (args.status === "DONE" && prev.status !== "DONE") {
+          clock.completedAt = now;
+          if (!prev.startedAt) clock.startedAt = now;
+        } else if (args.status !== "DONE" && prev.status === "DONE") {
+          clock.completedAt = null;
+        }
+
+        return prisma.task.update({
           where: { id },
-          data: { status: args.status, order: idx },
-        })
-      )
+          data: { status: args.status, order: idx, ...clock },
+        });
+      })
   );
 
   // log status moves for any task whose column actually changed

@@ -124,8 +124,20 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   slug: 'slug',
   plan: 'plan',
   active: 'active',
+  invoiceSeq: 'invoiceSeq',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  billingAddress: 'billingAddress',
+  billingPhone: 'billingPhone',
+  status: 'status',
+  subscribedUntil: 'subscribedUntil',
+  blockedReason: 'blockedReason',
+  billingEmail: 'billingEmail',
+  billingWebsite: 'billingWebsite',
+  gstin: 'gstin',
+  placeOfSupply: 'placeOfSupply',
+  defaultHsnSac: 'defaultHsnSac',
+  gstRate: 'gstRate'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -159,6 +171,36 @@ exports.Prisma.ProjectScalarFieldEnum = {
   dueDate: 'dueDate',
   liveUrl: 'liveUrl',
   notes: 'notes',
+  gstRate: 'gstRate',
+  hsnSac: 'hsnSac',
+  taxMode: 'taxMode',
+  billingType: 'billingType',
+  monthlyAmount: 'monthlyAmount',
+  splitBilling: 'splitBilling',
+  billingActive: 'billingActive',
+  billingStart: 'billingStart',
+  billingDay: 'billingDay',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  projectId: 'projectId',
+  cgstRate: 'cgstRate',
+  sgstRate: 'sgstRate',
+  hsnSac: 'hsnSac',
+  clientGstin: 'clientGstin',
+  gstRate: 'gstRate',
+  taxMode: 'taxMode',
+  number: 'number',
+  amount: 'amount',
+  dueDate: 'dueDate',
+  periodLabel: 'periodLabel',
+  periodKey: 'periodKey',
+  status: 'status',
+  issuedAt: 'issuedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -167,6 +209,7 @@ exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   orgId: 'orgId',
   projectId: 'projectId',
+  invoiceId: 'invoiceId',
   amount: 'amount',
   kind: 'kind',
   method: 'method',
@@ -194,17 +237,39 @@ exports.Prisma.InteractionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  label: 'label',
+  color: 'color',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LoginSessionScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  userId: 'userId',
+  loginAt: 'loginAt',
+  logoutAt: 'logoutAt'
+};
+
 exports.Prisma.PlanScalarFieldEnum = {
   id: 'id',
   orgId: 'orgId',
   name: 'name',
   category: 'category',
   sellPrice: 'sellPrice',
+  gstRate: 'gstRate',
+  hsnSac: 'hsnSac',
   breakPrice: 'breakPrice',
   regularPrice: 'regularPrice',
   delivery: 'delivery',
   active: 'active',
   sortOrder: 'sortOrder',
+  billingType: 'billingType',
+  monthlyPrice: 'monthlyPrice',
   tagline: 'tagline',
   features: 'features',
   costMin: 'costMin',
@@ -273,6 +338,8 @@ exports.Prisma.TaskScalarFieldEnum = {
   reporterId: 'reporterId',
   dueDate: 'dueDate',
   estimateHours: 'estimateHours',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -326,9 +393,12 @@ exports.Prisma.ModelName = {
   Organization: 'Organization',
   Contact: 'Contact',
   Project: 'Project',
+  Invoice: 'Invoice',
   Payment: 'Payment',
   FollowUp: 'FollowUp',
   Interaction: 'Interaction',
+  Category: 'Category',
+  LoginSession: 'LoginSession',
   Plan: 'Plan',
   Source: 'Source',
   User: 'User',

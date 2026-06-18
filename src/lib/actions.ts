@@ -7,6 +7,8 @@ import { requireOrg } from "@/lib/session";
 const str = (fd: FormData, k: string) => String(fd.get(k) || "") || null;
 const intOrNull = (v: FormDataEntryValue | null) =>
   v == null || v === "" ? null : parseInt(String(v), 10);
+const floatOrNull = (v: FormDataEntryValue | null) =>
+  v == null || v === "" ? null : parseFloat(String(v));
 
 export async function createContact(formData: FormData) {
   const { orgId } = await requireOrg();
@@ -57,9 +59,7 @@ export async function updateContact(formData: FormData) {
 
 export async function setContactStatus(id: string, status: string) {
   const { orgId } = await requireOrg();
-  const data: { status: string; stage?: string; convertedAt?: Date } = {
-    status,
-  };
+  const data: { status: string; stage?: string; convertedAt?: Date } = { status };
   if (status === "CONVERTED") {
     data.stage = "CLIENT";
     data.convertedAt = new Date();
@@ -109,20 +109,33 @@ export async function createProject(formData: FormData) {
     select: { id: true },
   });
   if (!contact) throw new Error("Client not found.");
+
   const dueRaw = String(formData.get("dueDate") || "");
+  const billingType = String(formData.get("billingType") || "ONE_TIME");
+  const monthly = billingType === "MONTHLY";
+
   await prisma.project.create({
     data: {
       orgId,
       contactId,
       name: String(formData.get("name") || "Untitled project"),
       status: String(formData.get("status") || "NOT_STARTED"),
-      price: intOrNull(formData.get("price")),
+      price: monthly ? null : intOrNull(formData.get("price")),
       dueDate: dueRaw ? new Date(dueRaw) : null,
       liveUrl: str(formData, "liveUrl"),
       notes: str(formData, "notes"),
+      billingType,
+      monthlyAmount: monthly ? intOrNull(formData.get("monthlyAmount")) : null,
+      splitBilling: monthly && formData.get("splitBilling") === "true",
+      billingActive: monthly ? formData.get("billingActive") === "on" : true,
+      billingStart: monthly ? new Date() : null,
+      gstRate: floatOrNull(formData.get("gstRate")),
+      hsnSac: str(formData, "hsnSac"),
+      taxMode: String(formData.get("taxMode") || "INTRA"),
     },
   });
   revalidatePath("/projects");
+  revalidatePath("/invoices");
   revalidatePath("/");
 }
 
@@ -130,19 +143,38 @@ export async function updateProject(formData: FormData) {
   const { orgId } = await requireOrg();
   const id = String(formData.get("id") || "");
   if (!id) throw new Error("Missing project id.");
+
+  const existing = await prisma.project.findFirst({
+    where: { id, orgId },
+    select: { billingType: true, billingStart: true },
+  });
+  if (!existing) throw new Error("Project not found.");
+
   const dueRaw = String(formData.get("dueDate") || "");
+  const billingType = String(formData.get("billingType") || "ONE_TIME");
+  const monthly = billingType === "MONTHLY";
+
   await prisma.project.updateMany({
     where: { id, orgId },
     data: {
       name: String(formData.get("name") || "Untitled project"),
       status: String(formData.get("status") || "NOT_STARTED"),
-      price: intOrNull(formData.get("price")),
+      price: monthly ? null : intOrNull(formData.get("price")),
       dueDate: dueRaw ? new Date(dueRaw) : null,
       liveUrl: str(formData, "liveUrl"),
       notes: str(formData, "notes"),
+      billingType,
+      monthlyAmount: monthly ? intOrNull(formData.get("monthlyAmount")) : null,
+      splitBilling: monthly && formData.get("splitBilling") === "true",
+      billingActive: monthly ? formData.get("billingActive") === "on" : true,
+      billingStart: monthly ? existing.billingStart ?? new Date() : null,
+      gstRate: floatOrNull(formData.get("gstRate")),
+      hsnSac: str(formData, "hsnSac"),
+      taxMode: String(formData.get("taxMode") || "INTRA"),
     },
   });
   revalidatePath("/projects");
+  revalidatePath("/invoices");
   revalidatePath("/");
 }
 
@@ -272,6 +304,8 @@ export async function createPlan(formData: FormData) {
       delivery: String(formData.get("delivery") || ""),
       active: formData.get("active") === "on",
       sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
+      gstRate: floatOrNull(formData.get("gstRate")),
+      hsnSac: String(formData.get("hsnSac") ?? "") || null,
     },
   });
   revalidatePath("/manage");
@@ -298,6 +332,8 @@ export async function updatePlan(formData: FormData) {
       delivery: String(formData.get("delivery")),
       active: formData.get("active") === "on",
       sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
+      gstRate: floatOrNull(formData.get("gstRate")),
+      hsnSac: String(formData.get("hsnSac") ?? "") || null,
       tagline: String(formData.get("tagline") ?? "") || null,
       features,
       costMin: intOrNull(formData.get("costMin")),
@@ -331,3 +367,23 @@ export async function deleteSource(id: string) {
   await prisma.source.deleteMany({ where: { id, orgId } });
   revalidatePath("/manage");
 }
+
+export async function createCategory(formData: FormData) {
+  const { orgId } = await requireOrg();
+  await prisma.category.create({
+    data: {
+      orgId,
+      label: String(formData.get("label") || "Untitled"),
+      color: String(formData.get("color") || "#94A3B8"),
+      sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
+    },
+  });
+  revalidatePath("/manage");
+}
+ 
+export async function deleteCategory(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.category.deleteMany({ where: { id, orgId } });
+  revalidatePath("/manage");
+}
+ 

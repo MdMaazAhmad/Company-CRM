@@ -18,7 +18,7 @@ import { TASK_PRIORITIES, taskPriorityLabel, taskPriorityColor } from "@/lib/tas
 import { fmtDate } from "@/lib/ui";
 import { TaskDialog } from "@/components/tasks/task-dialog";
 import { ActivityTimeline } from "@/components/tasks/activity-timeline";
-
+import { TaskTimeIndicator } from "@/components/tasks/task-time-indicator";
 type Member = { id: string; name: string; avatarColor: string; role: string };
 
 function initials(n?: string | null) {
@@ -153,9 +153,13 @@ export function TaskDetailClient({
           </div>
 
           {task.estimateHours != null && (
-            <SidebarCard label="Estimate">
-              <span className="text-sm text-ink">{task.estimateHours}h</span>
-            </SidebarCard>
+            <TaskTimeIndicator
+            task={{
+              startedAt: task.startedAt ?? null,
+              completedAt: task.completedAt ?? null,
+              estimateHours: task.estimateHours ?? null,
+            }}
+          />
           )}
 
           {/* time logs */}

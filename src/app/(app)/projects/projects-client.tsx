@@ -1,10 +1,8 @@
 "use client";
 
-// src/app/projects/projects-client.tsx
-// Rebuilt on the shared CRM components.
-
+import { useState } from "react";
 import Link from "next/link";
-import { Pencil, Plus, ExternalLink } from "lucide-react";
+import { Pencil, Plus, ExternalLink, Repeat } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,12 +40,32 @@ type ProjectRow = {
   dueDate: string | null;
   liveUrl: string | null;
   clientName: string;
+  billingType: string;
+  monthlyAmount: number | null;
+  splitBilling: boolean;
+  billingActive: boolean;
+  gstRate: number | null;
+  hsnSac: string | null;
+  taxMode: string;
 };
 
 const statusOptions = PROJECT_STATUSES.map((s) => ({
   value: s,
   label: PROJECT_STATUS_LABELS[s],
 }));
+
+const GST_OPTIONS = [
+  { value: "0", label: "0% — exempt" },
+  { value: "5", label: "5%" },
+  { value: "12", label: "12%" },
+  { value: "18", label: "18%" },
+  { value: "28", label: "28%" },
+];
+
+const TAX_MODE_OPTIONS = [
+  { value: "INTRA", label: "Intra-state (CGST + SGST)" },
+  { value: "INTER", label: "Inter-state (IGST)" },
+];
 
 function ProjectFields({
   clients,
@@ -56,9 +74,11 @@ function ProjectFields({
   clients: ClientOption[];
   project?: ProjectRow;
 }) {
+  const [monthly, setMonthly] = useState(project?.billingType === "MONTHLY");
   const dueValue = project?.dueDate
     ? new Date(project.dueDate).toISOString().slice(0, 10)
     : "";
+
   return (
     <div className="grid gap-4 py-2">
       <SelectField
@@ -82,22 +102,85 @@ function ProjectFields({
           defaultValue={project?.status ?? "NOT_STARTED"}
           options={statusOptions}
         />
-        <Field
-          label="Due date"
-          name="dueDate"
-          type="date"
-          defaultValue={dueValue}
-        />
+        <Field label="Due date" name="dueDate" type="date" defaultValue={dueValue} />
       </FieldRow>
-      <FieldRow>
-        <Field
-          label="Price (₹)"
-          name="price"
-          type="number"
-          defaultValue={project?.price}
-        />
-        <Field label="Live URL" name="liveUrl" defaultValue={project?.liveUrl} />
-      </FieldRow>
+
+      <div className="grid gap-1.5">
+        <label className="text-sm font-medium text-ink">Billing</label>
+        <select
+          name="billingType"
+          defaultValue={project?.billingType ?? "ONE_TIME"}
+          onChange={(e) => setMonthly(e.target.value === "MONTHLY")}
+          className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm focus:border-brand focus:outline-none"
+        >
+          <option value="ONE_TIME">One-time</option>
+          <option value="MONTHLY">Monthly retainer</option>
+        </select>
+      </div>
+
+      {monthly ? (
+        <>
+          <FieldRow>
+            <Field
+              label="Monthly amount (₹)"
+              name="monthlyAmount"
+              type="number"
+              defaultValue={project?.monthlyAmount ?? undefined}
+              required
+            />
+            <SelectField
+              label="Schedule"
+              name="splitBilling"
+              defaultValue={project?.splitBilling ? "true" : "false"}
+              options={[
+                { value: "false", label: "Full on 1st" },
+                { value: "true", label: "50/50 — 1st & 15th" },
+              ]}
+            />
+          </FieldRow>
+          <FieldRow>
+            <SelectField
+              label="GST rate"
+              name="gstRate"
+              defaultValue={project?.gstRate != null ? String(project.gstRate) : "18"}
+              options={GST_OPTIONS}
+            />
+            <Field
+              label="HSN / SAC"
+              name="hsnSac"
+              defaultValue={project?.hsnSac}
+              placeholder="999612"
+            />
+          </FieldRow>
+          <SelectField
+            label="Tax type"
+            name="taxMode"
+            defaultValue={project?.taxMode ?? "INTRA"}
+            options={TAX_MODE_OPTIONS}
+          />
+          <label className="flex items-center gap-2 text-sm font-medium">
+            <input
+              type="checkbox"
+              name="billingActive"
+              defaultChecked={project?.billingActive ?? true}
+              className="h-4 w-4 accent-brand"
+            />
+            Billing active
+          </label>
+          <Field label="Live URL" name="liveUrl" defaultValue={project?.liveUrl} />
+        </>
+      ) : (
+        <FieldRow>
+          <Field
+            label="Price (₹)"
+            name="price"
+            type="number"
+            defaultValue={project?.price ?? undefined}
+          />
+          <Field label="Live URL" name="liveUrl" defaultValue={project?.liveUrl} />
+        </FieldRow>
+      )}
+
       <Field label="Notes" name="notes" placeholder="Scope, milestones…" />
     </div>
   );
@@ -154,11 +237,10 @@ export default function ProjectsClient({
         >
           {projects.map((p) => {
             const color = PROJECT_STATUS_COLORS[p.status] ?? "#94A3B8";
+            const recurring = p.billingType === "MONTHLY";
             const balance = p.price == null ? null : p.price - p.paid;
             const overdue =
-              p.dueDate &&
-              p.status !== "LIVE" &&
-              new Date(p.dueDate) < new Date();
+              p.dueDate && p.status !== "LIVE" && new Date(p.dueDate) < new Date();
             return (
               <TableRow
                 key={p.id}
@@ -173,6 +255,11 @@ export default function ProjectsClient({
                     >
                       {p.name}
                     </Link>
+                    {recurring && (
+                      <span title="Monthly retainer" className="text-brand">
+                        <Repeat className="h-3.5 w-3.5" />
+                      </span>
+                    )}
                     {p.liveUrl && (
                       <a
                         href={p.liveUrl}
@@ -194,14 +281,16 @@ export default function ProjectsClient({
                   />
                 </TableCell>
                 <TableCell className="text-right tabular-nums">
-                  {inr(p.price)}
+                  {recurring ? `${inr(p.monthlyAmount)}/mo` : inr(p.price)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums">
-                  <span
-                    style={{ color: balance && balance > 0 ? "#FF6B00" : "#16A34A" }}
-                  >
-                    {inr(balance)}
-                  </span>
+                  {recurring ? (
+                    <span className="text-muted">—</span>
+                  ) : (
+                    <span style={{ color: balance && balance > 0 ? "#FF6B00" : "#16A34A" }}>
+                      {inr(balance)}
+                    </span>
+                  )}
                 </TableCell>
                 <TableCell>
                   <span style={{ color: overdue ? "#DB2777" : "inherit" }}>

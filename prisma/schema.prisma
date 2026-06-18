@@ -13,26 +13,41 @@ datasource db {
 // ─────────────────────────────────────────────────────────
 
 model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique // company name → subdomain/URL
-  plan      String   @default("FREE") // SaaS billing tier: FREE | PRO | BUSINESS
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String    @id @default(cuid())
+  name            String
+  slug            String    @unique // company name → subdomain/URL
+  plan            String    @default("FREE") // SaaS billing tier: FREE | PRO | BUSINESS
+  active          Boolean   @default(true)
+  invoiceSeq      Int       @default(0) // running counter for invoice numbers (per org)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  billingAddress  String?
+  billingPhone    String?
+  status          String    @default("ACTIVE")
+  subscribedUntil DateTime?
+  blockedReason   String?
+  billingEmail    String?
+  billingWebsite  String?
+  gstin           String?
+  placeOfSupply   String?
+  defaultHsnSac   String?
+  gstRate         Float     @default(18)
 
-  users        User[]
-  contacts     Contact[]
-  projects     Project[]
-  payments     Payment[]
-  followUps    FollowUp[]
-  interactions Interaction[]
-  plans        Plan[]
-  sources      Source[]
-  tasks        Task[]
-  activities   TaskActivity[]
-  comments     TaskComment[]
-  timeLogs     TimeLog[]
+  users         User[]
+  contacts      Contact[]
+  projects      Project[]
+  payments      Payment[]
+  invoices      Invoice[]
+  followUps     FollowUp[]
+  interactions  Interaction[]
+  plans         Plan[]
+  sources       Source[]
+  tasks         Task[]
+  activities    TaskActivity[]
+  comments      TaskComment[]
+  timeLogs      TimeLog[]
+  categories    Category[]
+  loginSessions LoginSession[]
 }
 
 // ─────────────────────────────────────────────────────────
@@ -40,7 +55,7 @@ model Organization {
 // ─────────────────────────────────────────────────────────
 
 model Contact {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
@@ -51,18 +66,18 @@ model Contact {
   whatsapp    String?
   email       String?
   city        String?
-  source      String?  // referral | instagram | ad | walk-in
+  source      String? // referral | instagram | ad | walk-in
   notes       String?
   // pipeline — one record moves from LEAD to CLIENT
-  stage       String   @default("LEAD")   // LEAD | CLIENT
-  status      String   @default("NEW")
+  stage       String    @default("LEAD") // LEAD | CLIENT
+  status      String    @default("NEW")
   // NEW | CONTACTED | FOLLOW_UP | QUOTED | NEGOTIATING | CONVERTED | DROPPED
   plan        String?
   quotedPrice Int?
   dropReason  String?
   convertedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   projects     Project[]
   followUps    FollowUp[]
@@ -72,53 +87,106 @@ model Contact {
 }
 
 model Project {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact   Contact   @relation(fields: [contactId], references: [id], onDelete: Cascade)
   contactId String
   name      String
-  status    String  @default("NOT_STARTED")
+  status    String    @default("NOT_STARTED")
   // NOT_STARTED | IN_PROGRESS | REVIEW | LIVE | ON_HOLD
   price     Int?
   dueDate   DateTime?
   liveUrl   String?
   notes     String?
+  gstRate   Float?
+  hsnSac    String?
+  taxMode   String    @default("INTRA")
+
+  // ── billing ──
+  billingType   String    @default("ONE_TIME") // ONE_TIME | MONTHLY
+  monthlyAmount Int? // recurring charge per month (MONTHLY only)
+  splitBilling  Boolean   @default(false) // false = full on 1st; true = 50/50 on 1st & 15th
+  billingActive Boolean   @default(true) // pause/stop recurring generation
+  billingStart  DateTime? // first cycle date (defaults to project creation month)
+  billingDay    Int       @default(1) // anchor day for the "full"/"first-half" invoice
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   payments Payment[]
+  invoices Invoice[]
   tasks    Task[]
 
   @@index([orgId])
   @@index([contactId])
 }
 
+model Invoice {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
+  cgstRate    Float    @default(9)
+  sgstRate    Float    @default(9)
+  hsnSac      String?
+  clientGstin String?
+  gstRate     Float    @default(18)
+  taxMode     String   @default("INTRA")
+  number      String // INV-2026-0001 (unique per org)
+  amount      Int
+  dueDate     DateTime
+  periodLabel String // "June 2026" or "June 2026 (1st half)"
+  // Idempotency key so re-running generation never double-creates the same cycle.
+  // e.g. "2026-06-FULL" or "2026-06-H1" / "2026-06-H2"
+  periodKey   String
+  status      String   @default("UNPAID") // UNPAID | PARTIAL | PAID | VOID
+  issuedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payments Payment[]
+
+  @@unique([projectId, periodKey]) // one invoice per project per cycle — enforces idempotency
+  @@index([orgId])
+  @@index([projectId])
+  @@index([status])
+}
+
 model Payment {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
+
+  // Optional: a payment may settle a specific invoice (MONTHLY billing).
+  // Null for one-time project payments — keeps the existing flow unchanged.
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  invoiceId String?
+
   amount    Int
   kind      String   @default("PARTIAL") // ADVANCE | PARTIAL | MILESTONE | FINAL
-  method    String?  // cash | upi | bank | card
+  method    String? // cash | upi | bank | card
   note      String?
   paidAt    DateTime @default(now())
   createdAt DateTime @default(now())
 
   @@index([orgId])
   @@index([projectId])
+  @@index([invoiceId])
 }
 
 model FollowUp {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
   contactId String
   dueDate   DateTime
   done      Boolean  @default(false)
@@ -130,13 +198,13 @@ model FollowUp {
 }
 
 model Interaction {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
   contactId String
-  channel   String  // call | whatsapp | email | meeting
+  channel   String // call | whatsapp | email | meeting
   summary   String
   createdAt DateTime @default(now())
 
@@ -144,29 +212,62 @@ model Interaction {
   @@index([contactId])
 }
 
+model Category {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  label     String
+  color     String   @default("#94A3B8")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+}
+
+model LoginSession {
+  id       String       @id @default(cuid())
+  orgId    String
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  loginAt  DateTime     @default(now())
+  logoutAt DateTime?
+
+  @@index([orgId])
+  @@index([userId])
+}
+
 model Plan {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   name         String
-  category     String   // WordPress | Shopify | Custom
+  category     String // WordPress | Shopify | Custom | Marketing | Video | Performance
   sellPrice    Int
+  gstRate      Float?
+  hsnSac       String?
   breakPrice   Int?
-  regularPrice Int?     // struck-through "regular" price shown to client
+  regularPrice Int? // struck-through "regular" price shown to client
   delivery     String?
-  active       Boolean  @default(true)
-  sortOrder    Int      @default(0)
+  active       Boolean @default(true)
+  sortOrder    Int     @default(0)
+
+  // ── billing ──
+  billingType  String @default("ONE_TIME") // ONE_TIME | MONTHLY
+  monthlyPrice Int? // recurring price (MONTHLY plans)
 
   // detail-page fields
-  tagline   String?  // one-line pitch
-  features  String?  // JSON array of feature strings
-  costMin   Int?     // your hard cost (low)
-  costMax   Int?     // your hard cost (high)
-  target    String?  // who this plan is for
-  pitch     String?  // opening line / script
-  objection String?  // key objection + answer
-  upsell    String?  // upsell note
+  tagline   String? // one-line pitch
+  features  String? // JSON array of feature strings
+  costMin   Int? // your hard cost (low)
+  costMax   Int? // your hard cost (high)
+  target    String? // who this plan is for
+  pitch     String? // opening line / script
+  objection String? // key objection + answer
+  upsell    String? // upsell note
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -175,7 +276,7 @@ model Plan {
 }
 
 model Source {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
@@ -191,7 +292,7 @@ model Source {
 // ─────────────────────────────────────────────────────────
 
 model User {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
@@ -199,7 +300,7 @@ model User {
   email        String
   passwordHash String
   role         String   @default("MEMBER") // OWNER | ADMIN | MEMBER | VIEWER (within an org)
-  isSuperAdmin Boolean  @default(false)    // YOU — cross-org support/admin
+  isSuperAdmin Boolean  @default(false) // YOU — cross-org support/admin
   active       Boolean  @default(true)
   avatarColor  String   @default("#FF6B00")
   createdAt    DateTime @default(now())
@@ -215,6 +316,7 @@ model User {
   activities    TaskActivity[]
   comments      TaskComment[]
   timeLogs      TimeLog[]
+  loginSessions LoginSession[]
 
   @@unique([orgId, email]) // email unique per company, not globally
   @@index([orgId])
@@ -253,23 +355,25 @@ model Session {
 // ─────────────────────────────────────────────────────────
 
 model Task {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId     String
   title         String
   description   String?
-  status        String   @default("BACKLOG") // BACKLOG | TODO | IN_PROGRESS | IN_REVIEW | DONE | BLOCKED
-  priority      String   @default("MEDIUM")  // LOW | MEDIUM | HIGH | URGENT
+  status        String    @default("BACKLOG") // BACKLOG | TODO | IN_PROGRESS | IN_REVIEW | DONE | BLOCKED
+  priority      String    @default("MEDIUM") // LOW | MEDIUM | HIGH | URGENT
   assigneeId    String?
   reporterId    String
   dueDate       DateTime?
   estimateHours Int?
-  order         Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  startedAt     DateTime? // when work clock started (e.g. 3pm)
+  completedAt   DateTime? // when actually finished (e.g. 5pm)
+  order         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   assignee   User?          @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
   reporter   User           @relation("TaskReporter", fields: [reporterId], references: [id])
@@ -284,14 +388,14 @@ model Task {
 }
 
 model TaskActivity {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
   type      String // CREATED | STATUS_CHANGED | ASSIGNED | PRIORITY_CHANGED | COMMENTED | LOGGED_TIME | DUE_CHANGED | TITLE_CHANGED
   fromValue String?
   toValue   String?
@@ -303,14 +407,14 @@ model TaskActivity {
 }
 
 model TaskComment {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -320,17 +424,17 @@ model TaskComment {
 }
 
 model TimeLog {
-  id    String @id @default(cuid())
+  id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  task    Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId  String
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
-  hours   Float
-  note    String?
-  spentOn DateTime @default(now())
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  hours     Float
+  note      String?
+  spentOn   DateTime @default(now())
   createdAt DateTime @default(now())
 
   @@index([orgId])

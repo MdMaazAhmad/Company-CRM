@@ -44,7 +44,7 @@ export function TeamClient({ members, meId }: { members: Member[]; meId: string 
   const [addOpen, setAddOpen] = useState(false);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
+    <div className="mx-auto max-w-6xl px-6 py-8">
       <PageHeader
         eyebrow="Workspace"
         title="Team"
@@ -179,7 +179,7 @@ function Backdrop({ children, onClose }: { children: React.ReactNode; onClose: (
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6 shadow-xl"
+        className="w-full max-w-xl rounded-2xl border border-line bg-surface p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

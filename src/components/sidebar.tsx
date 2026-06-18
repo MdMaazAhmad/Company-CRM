@@ -9,9 +9,12 @@ import {
   Filter,
   CalendarDays,
   FolderKanban,
+  Receipt,
   Settings,
+  Building2,
   UserCog,
   ListChecks,
+  Clock,
   LogOut,
 } from "lucide-react";
 import { can } from "@/lib/permissions";
@@ -32,7 +35,10 @@ const nav = [
   { href: "/leads", label: "Leads", icon: Filter },
   { href: "/follow-ups", label: "Follow-ups", icon: CalendarDays },
   { href: "/projects", label: "Projects", icon: FolderKanban },
+  { href: "/attendance", label: "Attendance", icon: Clock },
+  { href: "/invoices", label: "Invoices", icon: Receipt, perm: "manage_users" as const },
   { href: "/manage", label: "Manage", icon: Settings, perm: "manage_pricing" as const },
+  { href: "/settings", label: "Settings", icon: Building2, perm: "manage_users" as const },
   { href: "/team", label: "Team", icon: UserCog, perm: "manage_users" as const },
 ];
 
@@ -70,8 +76,8 @@ export function Sidebar({ me }: { me: Me }) {
   return (
     <aside className="flex w-60 shrink-0 flex-col border-r border-line bg-surface p-4">
       <div className="mb-6 flex items-center gap-1 px-2 pt-1 font-heading text-xl font-semibold tracking-wide">
-  <OrgName name={me.orgName ?? "Workspace"} />
-</div>
+        <OrgName name={me.orgName ?? "Workspace"} />
+      </div>
 
       <div className="mb-2 px-2 text-[10px] uppercase tracking-widest text-faint">
         Menu

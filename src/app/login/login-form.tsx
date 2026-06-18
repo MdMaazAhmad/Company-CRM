@@ -1,9 +1,9 @@
-// src/app/login/login-form.tsx
 "use client";
 
 import { useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { PasswordInput } from "@/components/password-input";
 
 export function LoginForm() {
   const router = useRouter();
@@ -49,8 +49,7 @@ export function LoginForm() {
 
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-muted">Password</label>
-        <input
-          type="password"
+        <PasswordInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}

@@ -13,26 +13,41 @@ datasource db {
 // ─────────────────────────────────────────────────────────
 
 model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique // company name → subdomain/URL
-  plan      String   @default("FREE") // SaaS billing tier: FREE | PRO | BUSINESS
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String    @id @default(cuid())
+  name            String
+  slug            String    @unique // company name → subdomain/URL
+  plan            String    @default("FREE") // SaaS billing tier: FREE | PRO | BUSINESS
+  active          Boolean   @default(true)
+  invoiceSeq      Int       @default(0) // running counter for invoice numbers (per org)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  billingAddress  String?
+  billingPhone    String?
+  status          String    @default("ACTIVE")
+  subscribedUntil DateTime?
+  blockedReason   String?
+  billingEmail    String?
+  billingWebsite  String?
+  gstin           String?
+  placeOfSupply   String?
+  defaultHsnSac   String?
+  gstRate         Float     @default(18)
 
-  users        User[]
-  contacts     Contact[]
-  projects     Project[]
-  payments     Payment[]
-  followUps    FollowUp[]
-  interactions Interaction[]
-  plans        Plan[]
-  sources      Source[]
-  tasks        Task[]
-  activities   TaskActivity[]
-  comments     TaskComment[]
-  timeLogs     TimeLog[]
+  users         User[]
+  contacts      Contact[]
+  projects      Project[]
+  payments      Payment[]
+  invoices      Invoice[]
+  followUps     FollowUp[]
+  interactions  Interaction[]
+  plans         Plan[]
+  sources       Source[]
+  tasks         Task[]
+  activities    TaskActivity[]
+  comments      TaskComment[]
+  timeLogs      TimeLog[]
+  categories    Category[]
+  loginSessions LoginSession[]
 }
 
 // ─────────────────────────────────────────────────────────
@@ -85,14 +100,60 @@ model Project {
   dueDate   DateTime?
   liveUrl   String?
   notes     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  gstRate   Float?
+  hsnSac    String?
+  taxMode   String    @default("INTRA")
+
+  // ── billing ──
+  billingType   String    @default("ONE_TIME") // ONE_TIME | MONTHLY
+  monthlyAmount Int? // recurring charge per month (MONTHLY only)
+  splitBilling  Boolean   @default(false) // false = full on 1st; true = 50/50 on 1st & 15th
+  billingActive Boolean   @default(true) // pause/stop recurring generation
+  billingStart  DateTime? // first cycle date (defaults to project creation month)
+  billingDay    Int       @default(1) // anchor day for the "full"/"first-half" invoice
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   payments Payment[]
+  invoices Invoice[]
   tasks    Task[]
 
   @@index([orgId])
   @@index([contactId])
+}
+
+model Invoice {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
+  cgstRate    Float    @default(9)
+  sgstRate    Float    @default(9)
+  hsnSac      String?
+  clientGstin String?
+  gstRate     Float    @default(18)
+  taxMode     String   @default("INTRA")
+  number      String // INV-2026-0001 (unique per org)
+  amount      Int
+  dueDate     DateTime
+  periodLabel String // "June 2026" or "June 2026 (1st half)"
+  // Idempotency key so re-running generation never double-creates the same cycle.
+  // e.g. "2026-06-FULL" or "2026-06-H1" / "2026-06-H2"
+  periodKey   String
+  status      String   @default("UNPAID") // UNPAID | PARTIAL | PAID | VOID
+  issuedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payments Payment[]
+
+  @@unique([projectId, periodKey]) // one invoice per project per cycle — enforces idempotency
+  @@index([orgId])
+  @@index([projectId])
+  @@index([status])
 }
 
 model Payment {
@@ -100,8 +161,14 @@ model Payment {
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
+
+  // Optional: a payment may settle a specific invoice (MONTHLY billing).
+  // Null for one-time project payments — keeps the existing flow unchanged.
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  invoiceId String?
+
   amount    Int
   kind      String   @default("PARTIAL") // ADVANCE | PARTIAL | MILESTONE | FINAL
   method    String? // cash | upi | bank | card
@@ -111,6 +178,7 @@ model Payment {
 
   @@index([orgId])
   @@index([projectId])
+  @@index([invoiceId])
 }
 
 model FollowUp {
@@ -144,19 +212,52 @@ model Interaction {
   @@index([contactId])
 }
 
+model Category {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  label     String
+  color     String   @default("#94A3B8")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+}
+
+model LoginSession {
+  id       String       @id @default(cuid())
+  orgId    String
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  loginAt  DateTime     @default(now())
+  logoutAt DateTime?
+
+  @@index([orgId])
+  @@index([userId])
+}
+
 model Plan {
   id    String       @id @default(cuid())
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   name         String
-  category     String // WordPress | Shopify | Custom
+  category     String // WordPress | Shopify | Custom | Marketing | Video | Performance
   sellPrice    Int
+  gstRate      Float?
+  hsnSac       String?
   breakPrice   Int?
   regularPrice Int? // struck-through "regular" price shown to client
   delivery     String?
   active       Boolean @default(true)
   sortOrder    Int     @default(0)
+
+  // ── billing ──
+  billingType  String @default("ONE_TIME") // ONE_TIME | MONTHLY
+  monthlyPrice Int? // recurring price (MONTHLY plans)
 
   // detail-page fields
   tagline   String? // one-line pitch
@@ -215,6 +316,7 @@ model User {
   activities    TaskActivity[]
   comments      TaskComment[]
   timeLogs      TimeLog[]
+  loginSessions LoginSession[]
 
   @@unique([orgId, email]) // email unique per company, not globally
   @@index([orgId])
@@ -267,6 +369,8 @@ model Task {
   reporterId    String
   dueDate       DateTime?
   estimateHours Int?
+  startedAt     DateTime? // when work clock started (e.g. 3pm)
+  completedAt   DateTime? // when actually finished (e.g. 5pm)
   order         Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

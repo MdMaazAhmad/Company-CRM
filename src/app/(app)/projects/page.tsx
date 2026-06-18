@@ -29,6 +29,13 @@ export default async function ProjectsPage() {
         dueDate: p.dueDate ? p.dueDate.toISOString() : null,
         liveUrl: p.liveUrl,
         clientName: p.contact.name,
+        billingType: p.billingType,
+        monthlyAmount: p.monthlyAmount,
+        splitBilling: p.splitBilling,
+        billingActive: p.billingActive,
+        gstRate: p.gstRate,
+        hsnSac: p.hsnSac,
+        taxMode: p.taxMode,
       }))}
       clients={clients.map((c) => ({
         id: c.id,
