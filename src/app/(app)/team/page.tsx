@@ -8,7 +8,6 @@ import { TeamClient } from "./team-client";
 export default async function TeamPage() {
   const me = await requireSession();
 
-  // VIEWER/MEMBER can't manage users — bounce them to the dashboard.
   if (!can(me, "manage_users")) redirect("/");
 
   const members = await prisma.user.findMany({
@@ -19,6 +18,7 @@ export default async function TeamPage() {
       name: true,
       email: true,
       role: true,
+      team: true,
       active: true,
       avatarColor: true,
       isSuperAdmin: true,

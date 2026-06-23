@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
 import { assertCan, can } from "@/lib/permissions";
-import { cyclesDueFor, formatInvoiceNumber } from "@/lib/billing";
+import { cyclesDueFor, formatInvoiceNumber, resolveTaxMode } from "@/lib/billing";
 import { revalidatePath } from "next/cache";
 
 function str(fd: FormData, key: string) {
@@ -21,9 +21,10 @@ export async function generateDueInvoices(): Promise<number> {
 
   const org = await prisma.organization.findUnique({
     where: { id: orgId },
-    select: { gstRate: true },
+    select: { gstRate: true, placeOfSupply: true },
   });
   const orgGst = org?.gstRate ?? 18;
+  const orgPlace = org?.placeOfSupply ?? null;
 
   const projects = await prisma.project.findMany({
     where: { orgId, billingType: "MONTHLY", billingActive: true },
@@ -39,6 +40,7 @@ export async function generateDueInvoices(): Promise<number> {
       gstRate: true,
       hsnSac: true,
       taxMode: true,
+      contact: { select: { state: true } },
       invoices: { select: { periodKey: true } },
     },
   });
@@ -51,7 +53,11 @@ export async function generateDueInvoices(): Promise<number> {
     if (due.length === 0) continue;
 
     const gstRate = p.gstRate ?? orgGst;
-    const taxMode = p.taxMode ?? "INTRA";
+    const taxMode = resolveTaxMode(
+      p.contact.state,
+      orgPlace,
+      p.taxMode === "INTER" ? "INTER" : "INTRA"
+    );
     const hsnSac = p.hsnSac ?? null;
 
     for (const cycle of due) {

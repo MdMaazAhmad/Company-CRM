@@ -137,7 +137,8 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   gstin: 'gstin',
   placeOfSupply: 'placeOfSupply',
   defaultHsnSac: 'defaultHsnSac',
-  gstRate: 'gstRate'
+  gstRate: 'gstRate',
+  monthlyFee: 'monthlyFee'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -151,12 +152,32 @@ exports.Prisma.ContactScalarFieldEnum = {
   city: 'city',
   source: 'source',
   notes: 'notes',
+  gstin: 'gstin',
+  billingAddress: 'billingAddress',
+  state: 'state',
   stage: 'stage',
   status: 'status',
   plan: 'plan',
   quotedPrice: 'quotedPrice',
   dropReason: 'dropReason',
   convertedAt: 'convertedAt',
+  assigneeId: 'assigneeId',
+  nextActionAt: 'nextActionAt',
+  nextActionNote: 'nextActionNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadActivityScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  contactId: 'contactId',
+  type: 'type',
+  title: 'title',
+  dueDate: 'dueDate',
+  done: 'done',
+  outcome: 'outcome',
+  assigneeId: 'assigneeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -301,7 +322,8 @@ exports.Prisma.UserScalarFieldEnum = {
   active: 'active',
   avatarColor: 'avatarColor',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  team: 'team'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -324,6 +346,35 @@ exports.Prisma.SessionScalarFieldEnum = {
   sessionToken: 'sessionToken',
   userId: 'userId',
   expires: 'expires'
+};
+
+exports.Prisma.MeetingScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  contactId: 'contactId',
+  projectId: 'projectId',
+  summary: 'summary',
+  transcriptUrl: 'transcriptUrl',
+  externalId: 'externalId',
+  hostId: 'hostId',
+  title: 'title',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  location: 'location',
+  link: 'link',
+  status: 'status',
+  outcome: 'outcome',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MeetingNoteScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  meetingId: 'meetingId',
+  authorId: 'authorId',
+  body: 'body',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TaskScalarFieldEnum = {
@@ -378,6 +429,35 @@ exports.Prisma.TimeLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PlatformPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  monthlyPrice: 'monthlyPrice',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PlatformPaymentScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  amount: 'amount',
+  period: 'period',
+  note: 'note',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PlatformAuditLogScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  actorId: 'actorId',
+  actorEmail: 'actorEmail',
+  action: 'action',
+  detail: 'detail',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -392,6 +472,7 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   Contact: 'Contact',
+  LeadActivity: 'LeadActivity',
   Project: 'Project',
   Invoice: 'Invoice',
   Payment: 'Payment',
@@ -404,10 +485,15 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
+  Meeting: 'Meeting',
+  MeetingNote: 'MeetingNote',
   Task: 'Task',
   TaskActivity: 'TaskActivity',
   TaskComment: 'TaskComment',
-  TimeLog: 'TimeLog'
+  TimeLog: 'TimeLog',
+  PlatformPlan: 'PlatformPlan',
+  PlatformPayment: 'PlatformPayment',
+  PlatformAuditLog: 'PlatformAuditLog'
 };
 
 /**

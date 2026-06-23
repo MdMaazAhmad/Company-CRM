@@ -24,6 +24,7 @@ import {
   createSource,
   deleteSource,
   createCategory,
+  renameCategory,
   deleteCategory,
 } from "@/lib/actions";
 
@@ -182,9 +183,25 @@ function CategoryRow({ category }: { category: Category }) {
         <span className="h-3 w-3 rounded-full" style={{ background: category.color }} />
         {category.label}
       </span>
-      <Button variant="ghost" size="icon" className="h-8 w-8" disabled={pending} onClick={() => start(() => deleteCategory(category.id))}>
-        <Trash2 className="h-3.5 w-3.5 text-st-dropped" />
-      </Button>
+      <div className="flex items-center gap-1">
+        <FormDialog
+          trigger={<Button variant="ghost" size="icon" className="h-8 w-8"><Pencil className="h-3.5 w-3.5" /></Button>}
+          title="Rename category"
+          action={renameCategory}
+          submitLabel="Rename"
+          hiddenId={category.id}
+        >
+          <div className="grid gap-2 py-2">
+            <Field label="Category name" name="label" defaultValue={category.label} required />
+            <p className="text-xs text-muted">
+              Plans using this category will be updated to the new name automatically.
+            </p>
+          </div>
+        </FormDialog>
+        <Button variant="ghost" size="icon" className="h-8 w-8" disabled={pending} onClick={() => start(() => deleteCategory(category.id))}>
+          <Trash2 className="h-3.5 w-3.5 text-st-dropped" />
+        </Button>
+      </div>
     </div>
   );
 }

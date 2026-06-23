@@ -31,6 +31,9 @@ type Client = {
   whatsapp: string | null;
   email: string | null;
   city: string | null;
+  state: string | null;
+  gstin: string | null;
+  billingAddress: string | null;
   source: string | null;
   notes: string | null;
   projectCount: number;
@@ -53,6 +56,33 @@ function ClientFields({ client }: { client: Client }) {
         <Field label="Email" name="email" defaultValue={client.email} />
         <Field label="City" name="city" defaultValue={client.city} />
       </FieldRow>
+      <FieldRow>
+        <Field
+          label="GSTIN"
+          name="gstin"
+          defaultValue={client.gstin}
+          placeholder="07ABEFA2267J1ZG"
+        />
+        <Field
+          label="State"
+          name="state"
+          defaultValue={client.state}
+          placeholder="Delhi / Maharashtra"
+        />
+      </FieldRow>
+      <div className="grid gap-1.5">
+        <label className="text-sm font-medium text-ink">
+          Billing address{" "}
+          <span className="font-normal text-muted">(one line per row — used on invoices)</span>
+        </label>
+        <textarea
+          name="billingAddress"
+          rows={3}
+          defaultValue={client.billingAddress ?? ""}
+          placeholder={"Shop 12, MG Road\nNew Delhi 110001"}
+          className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm focus:border-brand focus:outline-none"
+        />
+      </div>
       <Field label="Notes" name="notes" defaultValue={client.notes} />
     </div>
   );

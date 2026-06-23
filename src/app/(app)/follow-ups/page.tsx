@@ -5,8 +5,8 @@ import FollowUpsClient from "./follow-ups-client";
 export default async function FollowUpsPage() {
   const { orgId } = await requireOrg();
 
-  const [followUps, contacts] = await Promise.all([
-    prisma.followUp.findMany({
+  const [activities, contacts] = await Promise.all([
+    prisma.leadActivity.findMany({
       where: { orgId },
       orderBy: { dueDate: "asc" },
       include: { contact: true },
@@ -19,12 +19,13 @@ export default async function FollowUpsPage() {
 
   return (
     <FollowUpsClient
-      followUps={followUps.map((f) => ({
-        id: f.id,
-        dueDate: f.dueDate.toISOString(),
-        done: f.done,
-        note: f.note,
-        contactName: f.contact.name,
+      activities={activities.map((a) => ({
+        id: a.id,
+        type: a.type,
+        dueDate: a.dueDate ? a.dueDate.toISOString() : null,
+        done: a.done,
+        outcome: a.outcome,
+        contactName: a.contact.name,
       }))}
       contacts={contacts.map((c) => ({ id: c.id, label: c.name }))}
     />

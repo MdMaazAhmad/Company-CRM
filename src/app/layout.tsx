@@ -16,7 +16,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Web x Hunter — Lead Tracker",
+  title: "CRM — Lead Tracker",
   description: "Internal CRM for lead and client management",
 };
 

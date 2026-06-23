@@ -42,6 +42,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user }) {
       const u = user as { id?: string; orgId?: string };
       if (!u.id || !u.orgId) return;
+
+      // Close any sessions left open from a previous visit (browser closed
+      // without signing out) so attendance never shows "Active" forever.
+      await prisma.loginSession.updateMany({
+        where: { userId: u.id, logoutAt: null },
+        data: { logoutAt: new Date() },
+      });
+
       await prisma.loginSession.create({
         data: { orgId: u.orgId, userId: u.id },
       });

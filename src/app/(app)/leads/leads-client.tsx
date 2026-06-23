@@ -1,9 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { Pencil, Plus, ArrowRightCircle, ChevronDown } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Pencil, Plus, ArrowRightCircle, ChevronDown, AlertTriangle } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import NextLink from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 import {
   PageHeader,
   EmptyState,
@@ -26,7 +36,14 @@ import {
   setContactStatus,
   convertContact,
   deleteContact,
+  assignContact,
 } from "@/lib/actions";
+
+type Member = {
+  id: string;
+  name: string;
+  avatarColor: string;
+};
 
 type Lead = {
   id: string;
@@ -36,10 +53,14 @@ type Lead = {
   whatsapp: string | null;
   email: string | null;
   city: string | null;
+  state: string | null;
+  gstin: string | null;
+  billingAddress: string | null;
   source: string | null;
   notes: string | null;
   plan: string | null;
   quotedPrice: number | null;
+  assigneeId: string | null;
   createdAt?: string;
   status: string;
 };
@@ -97,12 +118,180 @@ function LeadFields({ lead }: { lead?: Lead }) {
           />
         )}
       </FieldRow>
+      <FieldRow>
+        <Field
+          label="GSTIN"
+          name="gstin"
+          defaultValue={lead?.gstin}
+          placeholder="07ABEFA2267J1ZG"
+        />
+        <Field
+          label="State"
+          name="state"
+          defaultValue={lead?.state}
+          placeholder="Delhi / Maharashtra"
+        />
+      </FieldRow>
+      <div className="grid gap-1.5">
+        <label className="text-sm font-medium text-ink">
+          Billing address{" "}
+          <span className="font-normal text-muted">(one line per row — used on invoices)</span>
+        </label>
+        <textarea
+          name="billingAddress"
+          rows={3}
+          defaultValue={lead?.billingAddress ?? ""}
+          placeholder={"Shop 12, MG Road\nNew Delhi 110001"}
+          className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm focus:border-brand focus:outline-none"
+        />
+      </div>
       <Field label="Notes" name="notes" defaultValue={lead?.notes} />
     </div>
   );
 }
 
-export default function LeadsClient({ leads }: { leads: Lead[] }) {
+function DuplicateModal({
+  dup,
+  onClose,
+}: {
+  dup: { id: string; name: string; stage: string };
+  onClose: () => void;
+}) {
+  const where = dup.stage === "CLIENT" ? "client" : "lead";
+  return (
+    <Dialog open onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="w-[95vw] sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-st-quoted" />
+            Lead already exists
+          </DialogTitle>
+        </DialogHeader>
+        <div className="py-2 text-sm text-muted">
+          <span className="font-medium text-ink">{dup.name}</span> is already in your system as a{" "}
+          {where} (same phone or email). Open that record and add a new project instead of
+          creating a duplicate.
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <NextLink href={`/leads/${dup.id}`}>
+            <Button>Open existing {where}</Button>
+          </NextLink>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function NewLeadDialog() {
+  const [open, setOpen] = useState(false);
+  const [pending, start] = useTransition();
+  const [dup, setDup] = useState<{ id: string; name: string; stage: string } | null>(null);
+
+  function submit(fd: FormData) {
+    start(async () => {
+      try {
+        const res = await createContact(fd);
+        if (res.ok) {
+          setOpen(false);
+        } else {
+          setOpen(false);
+          setDup(res.duplicate);
+        }
+      } catch (e: any) {
+        alert(e?.message ?? "Failed to add lead.");
+      }
+    });
+  }
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button className="gap-1.5">
+            <Plus className="h-4 w-4" /> New lead
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-[95vw] sm:max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>New lead</DialogTitle>
+          </DialogHeader>
+          <form action={submit}>
+            <LeadFields />
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit" disabled={pending}>
+                {pending ? "Adding…" : "Add lead"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {dup && <DuplicateModal dup={dup} onClose={() => setDup(null)} />}
+    </>
+  );
+}
+
+function AssigneeSelect({
+  leadId,
+  assigneeId,
+  members,
+}: {
+  leadId: string;
+  assigneeId: string | null;
+  members: Member[];
+}) {
+  const [pending, start] = useTransition();
+  const current = members.find((m) => m.id === assigneeId);
+
+  function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const v = e.target.value || null;
+    start(async () => {
+      try {
+        await assignContact(leadId, v);
+      } catch (err: any) {
+        alert(err?.message ?? "Failed to assign.");
+      }
+    });
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-medium text-white"
+        style={{ background: current?.avatarColor ?? "#CBD5E1" }}
+      >
+        {current ? current.name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase() : "—"}
+      </span>
+      <select
+        value={assigneeId ?? ""}
+        onChange={onChange}
+        disabled={pending}
+        className="rounded-md border border-line bg-surface px-2 py-1 text-xs text-ink focus:border-brand focus:outline-none disabled:opacity-50"
+      >
+        <option value="">Unassigned</option>
+        {members.map((m) => (
+          <option key={m.id} value={m.id}>
+            {m.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+export default function LeadsClient({
+  leads,
+  members,
+}: {
+  leads: Lead[];
+  members: Member[];
+}) {
   const [filter, setFilter] = useState("ALL");
   const [page, setPage] = useState(1);
 
@@ -141,20 +330,7 @@ export default function LeadsClient({ leads }: { leads: Lead[] }) {
         subtitle={`${leads.length} prospect${
           leads.length === 1 ? "" : "s"
         } in the funnel`}
-        action={
-          <FormDialog
-            trigger={
-              <Button className="gap-1.5">
-                <Plus className="h-4 w-4" /> New lead
-              </Button>
-            }
-            title="New lead"
-            action={createContact}
-            submitLabel="Add lead"
-          >
-            <LeadFields />
-          </FormDialog>
-        }
+        action={<NewLeadDialog />}
       />
 
       <FilterChips
@@ -178,6 +354,7 @@ export default function LeadsClient({ leads }: { leads: Lead[] }) {
             headers={[
               { label: "Lead" },
               { label: "Status" },
+              { label: "Owner" },
               { label: "Plan" },
               { label: "Quote" },
               { label: "Added" },
@@ -194,7 +371,9 @@ export default function LeadsClient({ leads }: { leads: Lead[] }) {
                   style={{ boxShadow: `inset 3px 0 0 ${color}` }}
                 >
                   <TableCell>
-                    <div className="font-medium text-ink">{l.name}</div>
+                    <NextLink href={`/leads/${l.id}`} className="font-medium text-ink hover:text-brand hover:underline">
+                      {l.name}
+                    </NextLink>
                     <div className="text-xs text-faint">
                       {l.business || l.city || "—"}
                     </div>
@@ -216,6 +395,13 @@ export default function LeadsClient({ leads }: { leads: Lead[] }) {
                           <ChevronDown className="h-3 w-3 text-faint" />
                         </button>
                       }
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <AssigneeSelect
+                      leadId={l.id}
+                      assigneeId={l.assigneeId}
+                      members={members}
                     />
                   </TableCell>
                   <TableCell className="text-muted">{l.plan || "—"}</TableCell>

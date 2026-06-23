@@ -4,6 +4,7 @@ import { renderToBuffer } from "@react-pdf/renderer";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
 import { InvoicePdf, type InvoicePdfData } from "@/lib/invoice-pdf";
+import { resolveTaxMode, toAddressLines } from "@/lib/billing";
 
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
@@ -22,7 +23,16 @@ export async function GET(
         project: {
           select: {
             name: true,
-            contact: { select: { name: true, business: true, city: true } },
+            contact: {
+              select: {
+                name: true,
+                business: true,
+                city: true,
+                state: true,
+                billingAddress: true,
+                gstin: true,
+              },
+            },
           },
         },
         payments: { select: { amount: true } },
@@ -48,10 +58,21 @@ export async function GET(
   const paid = invoice.payments.reduce((sum, p) => sum + p.amount, 0);
   const contact = invoice.project.contact;
 
+  const clientAddressLines =
+    toAddressLines(contact.billingAddress).length > 0
+      ? toAddressLines(contact.billingAddress)
+      : [contact.city ?? ""].filter(Boolean);
+
+  const mode = resolveTaxMode(
+    contact.state,
+    org.placeOfSupply,
+    invoice.taxMode === "INTER" ? "INTER" : "INTRA"
+  );
+
   const data: InvoicePdfData = {
     org: {
       name: org.name,
-      addressLines: (org.billingAddress ?? "").split("\n").map((l) => l.trim()).filter(Boolean),
+      addressLines: toAddressLines(org.billingAddress),
       phone: org.billingPhone ?? undefined,
       email: org.billingEmail ?? undefined,
       website: org.billingWebsite ?? undefined,
@@ -61,8 +82,8 @@ export async function GET(
     client: {
       name: contact.name,
       business: contact.business,
-      addressLines: [contact.city ?? ""].filter(Boolean),
-      gstin: null,
+      addressLines: clientAddressLines,
+      gstin: contact.gstin,
     },
     invoice: {
       number: invoice.number,
@@ -76,7 +97,7 @@ export async function GET(
       qty: 1,
       rate: invoice.amount,
     },
-    tax: { gstRate: invoice.gstRate, mode: invoice.taxMode === "INTER" ? "INTER" : "INTRA" },
+    tax: { gstRate: invoice.gstRate, mode },
     paidAmount: paid,
   };
 

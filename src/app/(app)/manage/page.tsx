@@ -1,9 +1,13 @@
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
+import { can } from "@/lib/permissions";
 import ManageClient from "./manage-client";
 
 export default async function ManagePage() {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+
+  if (!can(user, "manage_pricing")) redirect("/");
 
   const [plans, sources, categories] = await Promise.all([
     prisma.plan.findMany({

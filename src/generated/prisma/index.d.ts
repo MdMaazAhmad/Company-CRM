@@ -24,6 +24,11 @@ export type Organization = $Result.DefaultSelection<Prisma.$OrganizationPayload>
  */
 export type Contact = $Result.DefaultSelection<Prisma.$ContactPayload>
 /**
+ * Model LeadActivity
+ * 
+ */
+export type LeadActivity = $Result.DefaultSelection<Prisma.$LeadActivityPayload>
+/**
  * Model Project
  * 
  */
@@ -84,6 +89,16 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 /**
+ * Model Meeting
+ * 
+ */
+export type Meeting = $Result.DefaultSelection<Prisma.$MeetingPayload>
+/**
+ * Model MeetingNote
+ * 
+ */
+export type MeetingNote = $Result.DefaultSelection<Prisma.$MeetingNotePayload>
+/**
  * Model Task
  * 
  */
@@ -103,6 +118,21 @@ export type TaskComment = $Result.DefaultSelection<Prisma.$TaskCommentPayload>
  * 
  */
 export type TimeLog = $Result.DefaultSelection<Prisma.$TimeLogPayload>
+/**
+ * Model PlatformPlan
+ * 
+ */
+export type PlatformPlan = $Result.DefaultSelection<Prisma.$PlatformPlanPayload>
+/**
+ * Model PlatformPayment
+ * 
+ */
+export type PlatformPayment = $Result.DefaultSelection<Prisma.$PlatformPaymentPayload>
+/**
+ * Model PlatformAuditLog
+ * 
+ */
+export type PlatformAuditLog = $Result.DefaultSelection<Prisma.$PlatformAuditLogPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -243,6 +273,16 @@ export class PrismaClient<
   get contact(): Prisma.ContactDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.leadActivity`: Exposes CRUD operations for the **LeadActivity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeadActivities
+    * const leadActivities = await prisma.leadActivity.findMany()
+    * ```
+    */
+  get leadActivity(): Prisma.LeadActivityDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.project`: Exposes CRUD operations for the **Project** model.
     * Example usage:
     * ```ts
@@ -363,6 +403,26 @@ export class PrismaClient<
   get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.meeting`: Exposes CRUD operations for the **Meeting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Meetings
+    * const meetings = await prisma.meeting.findMany()
+    * ```
+    */
+  get meeting(): Prisma.MeetingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.meetingNote`: Exposes CRUD operations for the **MeetingNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MeetingNotes
+    * const meetingNotes = await prisma.meetingNote.findMany()
+    * ```
+    */
+  get meetingNote(): Prisma.MeetingNoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.task`: Exposes CRUD operations for the **Task** model.
     * Example usage:
     * ```ts
@@ -401,6 +461,36 @@ export class PrismaClient<
     * ```
     */
   get timeLog(): Prisma.TimeLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformPlan`: Exposes CRUD operations for the **PlatformPlan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformPlans
+    * const platformPlans = await prisma.platformPlan.findMany()
+    * ```
+    */
+  get platformPlan(): Prisma.PlatformPlanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformPayment`: Exposes CRUD operations for the **PlatformPayment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformPayments
+    * const platformPayments = await prisma.platformPayment.findMany()
+    * ```
+    */
+  get platformPayment(): Prisma.PlatformPaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformAuditLog`: Exposes CRUD operations for the **PlatformAuditLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformAuditLogs
+    * const platformAuditLogs = await prisma.platformAuditLog.findMany()
+    * ```
+    */
+  get platformAuditLog(): Prisma.PlatformAuditLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -844,6 +934,7 @@ export namespace Prisma {
   export const ModelName: {
     Organization: 'Organization',
     Contact: 'Contact',
+    LeadActivity: 'LeadActivity',
     Project: 'Project',
     Invoice: 'Invoice',
     Payment: 'Payment',
@@ -856,10 +947,15 @@ export namespace Prisma {
     User: 'User',
     Account: 'Account',
     Session: 'Session',
+    Meeting: 'Meeting',
+    MeetingNote: 'MeetingNote',
     Task: 'Task',
     TaskActivity: 'TaskActivity',
     TaskComment: 'TaskComment',
-    TimeLog: 'TimeLog'
+    TimeLog: 'TimeLog',
+    PlatformPlan: 'PlatformPlan',
+    PlatformPayment: 'PlatformPayment',
+    PlatformAuditLog: 'PlatformAuditLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -878,7 +974,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "contact" | "project" | "invoice" | "payment" | "followUp" | "interaction" | "category" | "loginSession" | "plan" | "source" | "user" | "account" | "session" | "task" | "taskActivity" | "taskComment" | "timeLog"
+      modelProps: "organization" | "contact" | "leadActivity" | "project" | "invoice" | "payment" | "followUp" | "interaction" | "category" | "loginSession" | "plan" | "source" | "user" | "account" | "session" | "meeting" | "meetingNote" | "task" | "taskActivity" | "taskComment" | "timeLog" | "platformPlan" | "platformPayment" | "platformAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1027,6 +1123,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ContactCountArgs<ExtArgs>
             result: $Utils.Optional<ContactCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeadActivity: {
+        payload: Prisma.$LeadActivityPayload<ExtArgs>
+        fields: Prisma.LeadActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeadActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeadActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.LeadActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeadActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          findMany: {
+            args: Prisma.LeadActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>[]
+          }
+          create: {
+            args: Prisma.LeadActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          createMany: {
+            args: Prisma.LeadActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeadActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.LeadActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          update: {
+            args: Prisma.LeadActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeadActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeadActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LeadActivityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>[]
+          }
+          upsert: {
+            args: Prisma.LeadActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.LeadActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeadActivity>
+          }
+          groupBy: {
+            args: Prisma.LeadActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeadActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeadActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<LeadActivityCountAggregateOutputType> | number
           }
         }
       }
@@ -1918,6 +2088,154 @@ export namespace Prisma {
           }
         }
       }
+      Meeting: {
+        payload: Prisma.$MeetingPayload<ExtArgs>
+        fields: Prisma.MeetingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MeetingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MeetingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          findFirst: {
+            args: Prisma.MeetingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MeetingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          findMany: {
+            args: Prisma.MeetingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>[]
+          }
+          create: {
+            args: Prisma.MeetingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          createMany: {
+            args: Prisma.MeetingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MeetingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>[]
+          }
+          delete: {
+            args: Prisma.MeetingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          update: {
+            args: Prisma.MeetingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          deleteMany: {
+            args: Prisma.MeetingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MeetingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MeetingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>[]
+          }
+          upsert: {
+            args: Prisma.MeetingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingPayload>
+          }
+          aggregate: {
+            args: Prisma.MeetingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMeeting>
+          }
+          groupBy: {
+            args: Prisma.MeetingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MeetingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MeetingCountArgs<ExtArgs>
+            result: $Utils.Optional<MeetingCountAggregateOutputType> | number
+          }
+        }
+      }
+      MeetingNote: {
+        payload: Prisma.$MeetingNotePayload<ExtArgs>
+        fields: Prisma.MeetingNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MeetingNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MeetingNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          findFirst: {
+            args: Prisma.MeetingNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MeetingNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          findMany: {
+            args: Prisma.MeetingNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>[]
+          }
+          create: {
+            args: Prisma.MeetingNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          createMany: {
+            args: Prisma.MeetingNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MeetingNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>[]
+          }
+          delete: {
+            args: Prisma.MeetingNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          update: {
+            args: Prisma.MeetingNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.MeetingNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MeetingNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MeetingNoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>[]
+          }
+          upsert: {
+            args: Prisma.MeetingNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MeetingNotePayload>
+          }
+          aggregate: {
+            args: Prisma.MeetingNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMeetingNote>
+          }
+          groupBy: {
+            args: Prisma.MeetingNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MeetingNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MeetingNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<MeetingNoteCountAggregateOutputType> | number
+          }
+        }
+      }
       Task: {
         payload: Prisma.$TaskPayload<ExtArgs>
         fields: Prisma.TaskFieldRefs
@@ -2214,6 +2532,228 @@ export namespace Prisma {
           }
         }
       }
+      PlatformPlan: {
+        payload: Prisma.$PlatformPlanPayload<ExtArgs>
+        fields: Prisma.PlatformPlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformPlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformPlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformPlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformPlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformPlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformPlanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformPlanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformPlanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformPlanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          update: {
+            args: Prisma.PlatformPlanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformPlanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformPlanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformPlanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformPlanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPlanPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformPlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformPlan>
+          }
+          groupBy: {
+            args: Prisma.PlatformPlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformPlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformPlanCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformPlanCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlatformPayment: {
+        payload: Prisma.$PlatformPaymentPayload<ExtArgs>
+        fields: Prisma.PlatformPaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformPaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformPaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformPaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformPaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformPaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformPaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformPaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformPaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformPaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          update: {
+            args: Prisma.PlatformPaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformPaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformPaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformPaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformPaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformPaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformPaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformPayment>
+          }
+          groupBy: {
+            args: Prisma.PlatformPaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformPaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformPaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformPaymentCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlatformAuditLog: {
+        payload: Prisma.$PlatformAuditLogPayload<ExtArgs>
+        fields: Prisma.PlatformAuditLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformAuditLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformAuditLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformAuditLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformAuditLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformAuditLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformAuditLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformAuditLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformAuditLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformAuditLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          update: {
+            args: Prisma.PlatformAuditLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformAuditLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformAuditLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformAuditLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformAuditLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAuditLogPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformAuditLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformAuditLog>
+          }
+          groupBy: {
+            args: Prisma.PlatformAuditLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformAuditLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformAuditLogCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformAuditLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2312,6 +2852,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     organization?: OrganizationOmit
     contact?: ContactOmit
+    leadActivity?: LeadActivityOmit
     project?: ProjectOmit
     invoice?: InvoiceOmit
     payment?: PaymentOmit
@@ -2324,10 +2865,15 @@ export namespace Prisma {
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
+    meeting?: MeetingOmit
+    meetingNote?: MeetingNoteOmit
     task?: TaskOmit
     taskActivity?: TaskActivityOmit
     taskComment?: TaskCommentOmit
     timeLog?: TimeLogOmit
+    platformPlan?: PlatformPlanOmit
+    platformPayment?: PlatformPaymentOmit
+    platformAuditLog?: PlatformAuditLogOmit
   }
 
   /* Types for Logging */
@@ -2423,6 +2969,11 @@ export namespace Prisma {
     timeLogs: number
     categories: number
     loginSessions: number
+    platformPayments: number
+    platformAuditLogs: number
+    leadActivities: number
+    meetings: number
+    meetingNotes: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2441,6 +2992,11 @@ export namespace Prisma {
     timeLogs?: boolean | OrganizationCountOutputTypeCountTimeLogsArgs
     categories?: boolean | OrganizationCountOutputTypeCountCategoriesArgs
     loginSessions?: boolean | OrganizationCountOutputTypeCountLoginSessionsArgs
+    platformPayments?: boolean | OrganizationCountOutputTypeCountPlatformPaymentsArgs
+    platformAuditLogs?: boolean | OrganizationCountOutputTypeCountPlatformAuditLogsArgs
+    leadActivities?: boolean | OrganizationCountOutputTypeCountLeadActivitiesArgs
+    meetings?: boolean | OrganizationCountOutputTypeCountMeetingsArgs
+    meetingNotes?: boolean | OrganizationCountOutputTypeCountMeetingNotesArgs
   }
 
   // Custom InputTypes
@@ -2559,6 +3115,41 @@ export namespace Prisma {
     where?: LoginSessionWhereInput
   }
 
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountPlatformPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformPaymentWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountPlatformAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAuditLogWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountLeadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadActivityWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountMeetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountMeetingNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingNoteWhereInput
+  }
+
 
   /**
    * Count Type ContactCountOutputType
@@ -2568,12 +3159,16 @@ export namespace Prisma {
     projects: number
     followUps: number
     interactions: number
+    leadActivities: number
+    meetings: number
   }
 
   export type ContactCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     projects?: boolean | ContactCountOutputTypeCountProjectsArgs
     followUps?: boolean | ContactCountOutputTypeCountFollowUpsArgs
     interactions?: boolean | ContactCountOutputTypeCountInteractionsArgs
+    leadActivities?: boolean | ContactCountOutputTypeCountLeadActivitiesArgs
+    meetings?: boolean | ContactCountOutputTypeCountMeetingsArgs
   }
 
   // Custom InputTypes
@@ -2608,6 +3203,20 @@ export namespace Prisma {
     where?: InteractionWhereInput
   }
 
+  /**
+   * ContactCountOutputType without action
+   */
+  export type ContactCountOutputTypeCountLeadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadActivityWhereInput
+  }
+
+  /**
+   * ContactCountOutputType without action
+   */
+  export type ContactCountOutputTypeCountMeetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingWhereInput
+  }
+
 
   /**
    * Count Type ProjectCountOutputType
@@ -2617,12 +3226,14 @@ export namespace Prisma {
     payments: number
     invoices: number
     tasks: number
+    meetings: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payments?: boolean | ProjectCountOutputTypeCountPaymentsArgs
     invoices?: boolean | ProjectCountOutputTypeCountInvoicesArgs
     tasks?: boolean | ProjectCountOutputTypeCountTasksArgs
+    meetings?: boolean | ProjectCountOutputTypeCountMeetingsArgs
   }
 
   // Custom InputTypes
@@ -2655,6 +3266,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountMeetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingWhereInput
   }
 
 
@@ -2699,9 +3317,13 @@ export namespace Prisma {
     assignedTasks: number
     reportedTasks: number
     activities: number
+    assignedContacts: number
     comments: number
     timeLogs: number
     loginSessions: number
+    leadActivities: number
+    hostedMeetings: number
+    meetingNotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2710,9 +3332,13 @@ export namespace Prisma {
     assignedTasks?: boolean | UserCountOutputTypeCountAssignedTasksArgs
     reportedTasks?: boolean | UserCountOutputTypeCountReportedTasksArgs
     activities?: boolean | UserCountOutputTypeCountActivitiesArgs
+    assignedContacts?: boolean | UserCountOutputTypeCountAssignedContactsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
     timeLogs?: boolean | UserCountOutputTypeCountTimeLogsArgs
     loginSessions?: boolean | UserCountOutputTypeCountLoginSessionsArgs
+    leadActivities?: boolean | UserCountOutputTypeCountLeadActivitiesArgs
+    hostedMeetings?: boolean | UserCountOutputTypeCountHostedMeetingsArgs
+    meetingNotes?: boolean | UserCountOutputTypeCountMeetingNotesArgs
   }
 
   // Custom InputTypes
@@ -2764,6 +3390,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountAssignedContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContactWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskCommentWhereInput
   }
@@ -2780,6 +3413,58 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLoginSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LoginSessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLeadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadActivityWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHostedMeetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMeetingNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingNoteWhereInput
+  }
+
+
+  /**
+   * Count Type MeetingCountOutputType
+   */
+
+  export type MeetingCountOutputType = {
+    notes: number
+  }
+
+  export type MeetingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    notes?: boolean | MeetingCountOutputTypeCountNotesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MeetingCountOutputType without action
+   */
+  export type MeetingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingCountOutputType
+     */
+    select?: MeetingCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MeetingCountOutputType without action
+   */
+  export type MeetingCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingNoteWhereInput
   }
 
 
@@ -2851,11 +3536,13 @@ export namespace Prisma {
   export type OrganizationAvgAggregateOutputType = {
     invoiceSeq: number | null
     gstRate: number | null
+    monthlyFee: number | null
   }
 
   export type OrganizationSumAggregateOutputType = {
     invoiceSeq: number | null
     gstRate: number | null
+    monthlyFee: number | null
   }
 
   export type OrganizationMinAggregateOutputType = {
@@ -2878,6 +3565,7 @@ export namespace Prisma {
     placeOfSupply: string | null
     defaultHsnSac: string | null
     gstRate: number | null
+    monthlyFee: number | null
   }
 
   export type OrganizationMaxAggregateOutputType = {
@@ -2900,6 +3588,7 @@ export namespace Prisma {
     placeOfSupply: string | null
     defaultHsnSac: string | null
     gstRate: number | null
+    monthlyFee: number | null
   }
 
   export type OrganizationCountAggregateOutputType = {
@@ -2922,6 +3611,7 @@ export namespace Prisma {
     placeOfSupply: number
     defaultHsnSac: number
     gstRate: number
+    monthlyFee: number
     _all: number
   }
 
@@ -2929,11 +3619,13 @@ export namespace Prisma {
   export type OrganizationAvgAggregateInputType = {
     invoiceSeq?: true
     gstRate?: true
+    monthlyFee?: true
   }
 
   export type OrganizationSumAggregateInputType = {
     invoiceSeq?: true
     gstRate?: true
+    monthlyFee?: true
   }
 
   export type OrganizationMinAggregateInputType = {
@@ -2956,6 +3648,7 @@ export namespace Prisma {
     placeOfSupply?: true
     defaultHsnSac?: true
     gstRate?: true
+    monthlyFee?: true
   }
 
   export type OrganizationMaxAggregateInputType = {
@@ -2978,6 +3671,7 @@ export namespace Prisma {
     placeOfSupply?: true
     defaultHsnSac?: true
     gstRate?: true
+    monthlyFee?: true
   }
 
   export type OrganizationCountAggregateInputType = {
@@ -3000,6 +3694,7 @@ export namespace Prisma {
     placeOfSupply?: true
     defaultHsnSac?: true
     gstRate?: true
+    monthlyFee?: true
     _all?: true
   }
 
@@ -3109,6 +3804,7 @@ export namespace Prisma {
     placeOfSupply: string | null
     defaultHsnSac: string | null
     gstRate: number
+    monthlyFee: number | null
     _count: OrganizationCountAggregateOutputType | null
     _avg: OrganizationAvgAggregateOutputType | null
     _sum: OrganizationSumAggregateOutputType | null
@@ -3150,6 +3846,7 @@ export namespace Prisma {
     placeOfSupply?: boolean
     defaultHsnSac?: boolean
     gstRate?: boolean
+    monthlyFee?: boolean
     users?: boolean | Organization$usersArgs<ExtArgs>
     contacts?: boolean | Organization$contactsArgs<ExtArgs>
     projects?: boolean | Organization$projectsArgs<ExtArgs>
@@ -3165,6 +3862,11 @@ export namespace Prisma {
     timeLogs?: boolean | Organization$timeLogsArgs<ExtArgs>
     categories?: boolean | Organization$categoriesArgs<ExtArgs>
     loginSessions?: boolean | Organization$loginSessionsArgs<ExtArgs>
+    platformPayments?: boolean | Organization$platformPaymentsArgs<ExtArgs>
+    platformAuditLogs?: boolean | Organization$platformAuditLogsArgs<ExtArgs>
+    leadActivities?: boolean | Organization$leadActivitiesArgs<ExtArgs>
+    meetings?: boolean | Organization$meetingsArgs<ExtArgs>
+    meetingNotes?: boolean | Organization$meetingNotesArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -3188,6 +3890,7 @@ export namespace Prisma {
     placeOfSupply?: boolean
     defaultHsnSac?: boolean
     gstRate?: boolean
+    monthlyFee?: boolean
   }, ExtArgs["result"]["organization"]>
 
   export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3210,6 +3913,7 @@ export namespace Prisma {
     placeOfSupply?: boolean
     defaultHsnSac?: boolean
     gstRate?: boolean
+    monthlyFee?: boolean
   }, ExtArgs["result"]["organization"]>
 
   export type OrganizationSelectScalar = {
@@ -3232,9 +3936,10 @@ export namespace Prisma {
     placeOfSupply?: boolean
     defaultHsnSac?: boolean
     gstRate?: boolean
+    monthlyFee?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "active" | "invoiceSeq" | "createdAt" | "updatedAt" | "billingAddress" | "billingPhone" | "status" | "subscribedUntil" | "blockedReason" | "billingEmail" | "billingWebsite" | "gstin" | "placeOfSupply" | "defaultHsnSac" | "gstRate", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "active" | "invoiceSeq" | "createdAt" | "updatedAt" | "billingAddress" | "billingPhone" | "status" | "subscribedUntil" | "blockedReason" | "billingEmail" | "billingWebsite" | "gstin" | "placeOfSupply" | "defaultHsnSac" | "gstRate" | "monthlyFee", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Organization$usersArgs<ExtArgs>
     contacts?: boolean | Organization$contactsArgs<ExtArgs>
@@ -3251,6 +3956,11 @@ export namespace Prisma {
     timeLogs?: boolean | Organization$timeLogsArgs<ExtArgs>
     categories?: boolean | Organization$categoriesArgs<ExtArgs>
     loginSessions?: boolean | Organization$loginSessionsArgs<ExtArgs>
+    platformPayments?: boolean | Organization$platformPaymentsArgs<ExtArgs>
+    platformAuditLogs?: boolean | Organization$platformAuditLogsArgs<ExtArgs>
+    leadActivities?: boolean | Organization$leadActivitiesArgs<ExtArgs>
+    meetings?: boolean | Organization$meetingsArgs<ExtArgs>
+    meetingNotes?: boolean | Organization$meetingNotesArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3274,6 +3984,11 @@ export namespace Prisma {
       timeLogs: Prisma.$TimeLogPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       loginSessions: Prisma.$LoginSessionPayload<ExtArgs>[]
+      platformPayments: Prisma.$PlatformPaymentPayload<ExtArgs>[]
+      platformAuditLogs: Prisma.$PlatformAuditLogPayload<ExtArgs>[]
+      leadActivities: Prisma.$LeadActivityPayload<ExtArgs>[]
+      meetings: Prisma.$MeetingPayload<ExtArgs>[]
+      meetingNotes: Prisma.$MeetingNotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3295,6 +4010,7 @@ export namespace Prisma {
       placeOfSupply: string | null
       defaultHsnSac: string | null
       gstRate: number
+      monthlyFee: number | null
     }, ExtArgs["result"]["organization"]>
     composites: {}
   }
@@ -3704,6 +4420,11 @@ export namespace Prisma {
     timeLogs<T extends Organization$timeLogsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$timeLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends Organization$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loginSessions<T extends Organization$loginSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$loginSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    platformPayments<T extends Organization$platformPaymentsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$platformPaymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    platformAuditLogs<T extends Organization$platformAuditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$platformAuditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leadActivities<T extends Organization$leadActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$leadActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    meetings<T extends Organization$meetingsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$meetingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    meetingNotes<T extends Organization$meetingNotesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$meetingNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3752,6 +4473,7 @@ export namespace Prisma {
     readonly placeOfSupply: FieldRef<"Organization", 'String'>
     readonly defaultHsnSac: FieldRef<"Organization", 'String'>
     readonly gstRate: FieldRef<"Organization", 'Float'>
+    readonly monthlyFee: FieldRef<"Organization", 'Int'>
   }
     
 
@@ -4498,6 +5220,126 @@ export namespace Prisma {
   }
 
   /**
+   * Organization.platformPayments
+   */
+  export type Organization$platformPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    where?: PlatformPaymentWhereInput
+    orderBy?: PlatformPaymentOrderByWithRelationInput | PlatformPaymentOrderByWithRelationInput[]
+    cursor?: PlatformPaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformPaymentScalarFieldEnum | PlatformPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.platformAuditLogs
+   */
+  export type Organization$platformAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    where?: PlatformAuditLogWhereInput
+    orderBy?: PlatformAuditLogOrderByWithRelationInput | PlatformAuditLogOrderByWithRelationInput[]
+    cursor?: PlatformAuditLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformAuditLogScalarFieldEnum | PlatformAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.leadActivities
+   */
+  export type Organization$leadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    where?: LeadActivityWhereInput
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    cursor?: LeadActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.meetings
+   */
+  export type Organization$meetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    where?: MeetingWhereInput
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    cursor?: MeetingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.meetingNotes
+   */
+  export type Organization$meetingNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    where?: MeetingNoteWhereInput
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    cursor?: MeetingNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
+  }
+
+  /**
    * Organization without action
    */
   export type OrganizationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4547,12 +5389,18 @@ export namespace Prisma {
     city: string | null
     source: string | null
     notes: string | null
+    gstin: string | null
+    billingAddress: string | null
+    state: string | null
     stage: string | null
     status: string | null
     plan: string | null
     quotedPrice: number | null
     dropReason: string | null
     convertedAt: Date | null
+    assigneeId: string | null
+    nextActionAt: Date | null
+    nextActionNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4568,12 +5416,18 @@ export namespace Prisma {
     city: string | null
     source: string | null
     notes: string | null
+    gstin: string | null
+    billingAddress: string | null
+    state: string | null
     stage: string | null
     status: string | null
     plan: string | null
     quotedPrice: number | null
     dropReason: string | null
     convertedAt: Date | null
+    assigneeId: string | null
+    nextActionAt: Date | null
+    nextActionNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4589,12 +5443,18 @@ export namespace Prisma {
     city: number
     source: number
     notes: number
+    gstin: number
+    billingAddress: number
+    state: number
     stage: number
     status: number
     plan: number
     quotedPrice: number
     dropReason: number
     convertedAt: number
+    assigneeId: number
+    nextActionAt: number
+    nextActionNote: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4620,12 +5480,18 @@ export namespace Prisma {
     city?: true
     source?: true
     notes?: true
+    gstin?: true
+    billingAddress?: true
+    state?: true
     stage?: true
     status?: true
     plan?: true
     quotedPrice?: true
     dropReason?: true
     convertedAt?: true
+    assigneeId?: true
+    nextActionAt?: true
+    nextActionNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4641,12 +5507,18 @@ export namespace Prisma {
     city?: true
     source?: true
     notes?: true
+    gstin?: true
+    billingAddress?: true
+    state?: true
     stage?: true
     status?: true
     plan?: true
     quotedPrice?: true
     dropReason?: true
     convertedAt?: true
+    assigneeId?: true
+    nextActionAt?: true
+    nextActionNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4662,12 +5534,18 @@ export namespace Prisma {
     city?: true
     source?: true
     notes?: true
+    gstin?: true
+    billingAddress?: true
+    state?: true
     stage?: true
     status?: true
     plan?: true
     quotedPrice?: true
     dropReason?: true
     convertedAt?: true
+    assigneeId?: true
+    nextActionAt?: true
+    nextActionNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4770,12 +5648,18 @@ export namespace Prisma {
     city: string | null
     source: string | null
     notes: string | null
+    gstin: string | null
+    billingAddress: string | null
+    state: string | null
     stage: string
     status: string
     plan: string | null
     quotedPrice: number | null
     dropReason: string | null
     convertedAt: Date | null
+    assigneeId: string | null
+    nextActionAt: Date | null
+    nextActionNote: string | null
     createdAt: Date
     updatedAt: Date
     _count: ContactCountAggregateOutputType | null
@@ -4810,18 +5694,27 @@ export namespace Prisma {
     city?: boolean
     source?: boolean
     notes?: boolean
+    gstin?: boolean
+    billingAddress?: boolean
+    state?: boolean
     stage?: boolean
     status?: boolean
     plan?: boolean
     quotedPrice?: boolean
     dropReason?: boolean
     convertedAt?: boolean
+    assigneeId?: boolean
+    nextActionAt?: boolean
+    nextActionNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
     projects?: boolean | Contact$projectsArgs<ExtArgs>
     followUps?: boolean | Contact$followUpsArgs<ExtArgs>
     interactions?: boolean | Contact$interactionsArgs<ExtArgs>
+    leadActivities?: boolean | Contact$leadActivitiesArgs<ExtArgs>
+    meetings?: boolean | Contact$meetingsArgs<ExtArgs>
     _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
@@ -4836,15 +5729,22 @@ export namespace Prisma {
     city?: boolean
     source?: boolean
     notes?: boolean
+    gstin?: boolean
+    billingAddress?: boolean
+    state?: boolean
     stage?: boolean
     status?: boolean
     plan?: boolean
     quotedPrice?: boolean
     dropReason?: boolean
     convertedAt?: boolean
+    assigneeId?: boolean
+    nextActionAt?: boolean
+    nextActionNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
   export type ContactSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4858,15 +5758,22 @@ export namespace Prisma {
     city?: boolean
     source?: boolean
     notes?: boolean
+    gstin?: boolean
+    billingAddress?: boolean
+    state?: boolean
     stage?: boolean
     status?: boolean
     plan?: boolean
     quotedPrice?: boolean
     dropReason?: boolean
     convertedAt?: boolean
+    assigneeId?: boolean
+    nextActionAt?: boolean
+    nextActionNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
   export type ContactSelectScalar = {
@@ -4880,38 +5787,52 @@ export namespace Prisma {
     city?: boolean
     source?: boolean
     notes?: boolean
+    gstin?: boolean
+    billingAddress?: boolean
+    state?: boolean
     stage?: boolean
     status?: boolean
     plan?: boolean
     quotedPrice?: boolean
     dropReason?: boolean
     convertedAt?: boolean
+    assigneeId?: boolean
+    nextActionAt?: boolean
+    nextActionNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "name" | "business" | "phone" | "whatsapp" | "email" | "city" | "source" | "notes" | "stage" | "status" | "plan" | "quotedPrice" | "dropReason" | "convertedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
+  export type ContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "name" | "business" | "phone" | "whatsapp" | "email" | "city" | "source" | "notes" | "gstin" | "billingAddress" | "state" | "stage" | "status" | "plan" | "quotedPrice" | "dropReason" | "convertedAt" | "assigneeId" | "nextActionAt" | "nextActionNote" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
   export type ContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
     projects?: boolean | Contact$projectsArgs<ExtArgs>
     followUps?: boolean | Contact$followUpsArgs<ExtArgs>
     interactions?: boolean | Contact$interactionsArgs<ExtArgs>
+    leadActivities?: boolean | Contact$leadActivitiesArgs<ExtArgs>
+    meetings?: boolean | Contact$meetingsArgs<ExtArgs>
     _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
   }
   export type ContactIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    assignee?: boolean | Contact$assigneeArgs<ExtArgs>
   }
 
   export type $ContactPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Contact"
     objects: {
       org: Prisma.$OrganizationPayload<ExtArgs>
+      assignee: Prisma.$UserPayload<ExtArgs> | null
       projects: Prisma.$ProjectPayload<ExtArgs>[]
       followUps: Prisma.$FollowUpPayload<ExtArgs>[]
       interactions: Prisma.$InteractionPayload<ExtArgs>[]
+      leadActivities: Prisma.$LeadActivityPayload<ExtArgs>[]
+      meetings: Prisma.$MeetingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4924,12 +5845,18 @@ export namespace Prisma {
       city: string | null
       source: string | null
       notes: string | null
+      gstin: string | null
+      billingAddress: string | null
+      state: string | null
       stage: string
       status: string
       plan: string | null
       quotedPrice: number | null
       dropReason: string | null
       convertedAt: Date | null
+      assigneeId: string | null
+      nextActionAt: Date | null
+      nextActionNote: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["contact"]>
@@ -5327,9 +6254,12 @@ export namespace Prisma {
   export interface Prisma__ContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     org<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignee<T extends Contact$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Contact$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     projects<T extends Contact$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followUps<T extends Contact$followUpsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$followUpsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowUpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     interactions<T extends Contact$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leadActivities<T extends Contact$leadActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, Contact$leadActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    meetings<T extends Contact$meetingsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$meetingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5369,12 +6299,18 @@ export namespace Prisma {
     readonly city: FieldRef<"Contact", 'String'>
     readonly source: FieldRef<"Contact", 'String'>
     readonly notes: FieldRef<"Contact", 'String'>
+    readonly gstin: FieldRef<"Contact", 'String'>
+    readonly billingAddress: FieldRef<"Contact", 'String'>
+    readonly state: FieldRef<"Contact", 'String'>
     readonly stage: FieldRef<"Contact", 'String'>
     readonly status: FieldRef<"Contact", 'String'>
     readonly plan: FieldRef<"Contact", 'String'>
     readonly quotedPrice: FieldRef<"Contact", 'Int'>
     readonly dropReason: FieldRef<"Contact", 'String'>
     readonly convertedAt: FieldRef<"Contact", 'DateTime'>
+    readonly assigneeId: FieldRef<"Contact", 'String'>
+    readonly nextActionAt: FieldRef<"Contact", 'DateTime'>
+    readonly nextActionNote: FieldRef<"Contact", 'String'>
     readonly createdAt: FieldRef<"Contact", 'DateTime'>
     readonly updatedAt: FieldRef<"Contact", 'DateTime'>
   }
@@ -5771,6 +6707,25 @@ export namespace Prisma {
   }
 
   /**
+   * Contact.assignee
+   */
+  export type Contact$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Contact.projects
    */
   export type Contact$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5843,6 +6798,54 @@ export namespace Prisma {
   }
 
   /**
+   * Contact.leadActivities
+   */
+  export type Contact$leadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    where?: LeadActivityWhereInput
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    cursor?: LeadActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Contact.meetings
+   */
+  export type Contact$meetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    where?: MeetingWhereInput
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    cursor?: MeetingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
    * Contact without action
    */
   export type ContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5858,6 +6861,1175 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ContactInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeadActivity
+   */
+
+  export type AggregateLeadActivity = {
+    _count: LeadActivityCountAggregateOutputType | null
+    _min: LeadActivityMinAggregateOutputType | null
+    _max: LeadActivityMaxAggregateOutputType | null
+  }
+
+  export type LeadActivityMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    contactId: string | null
+    type: string | null
+    title: string | null
+    dueDate: Date | null
+    done: boolean | null
+    outcome: string | null
+    assigneeId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeadActivityMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    contactId: string | null
+    type: string | null
+    title: string | null
+    dueDate: Date | null
+    done: boolean | null
+    outcome: string | null
+    assigneeId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeadActivityCountAggregateOutputType = {
+    id: number
+    orgId: number
+    contactId: number
+    type: number
+    title: number
+    dueDate: number
+    done: number
+    outcome: number
+    assigneeId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LeadActivityMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    type?: true
+    title?: true
+    dueDate?: true
+    done?: true
+    outcome?: true
+    assigneeId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeadActivityMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    type?: true
+    title?: true
+    dueDate?: true
+    done?: true
+    outcome?: true
+    assigneeId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeadActivityCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    type?: true
+    title?: true
+    dueDate?: true
+    done?: true
+    outcome?: true
+    assigneeId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LeadActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadActivity to aggregate.
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadActivities to fetch.
+     */
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeadActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeadActivities
+    **/
+    _count?: true | LeadActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeadActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeadActivityMaxAggregateInputType
+  }
+
+  export type GetLeadActivityAggregateType<T extends LeadActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeadActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeadActivity[P]>
+      : GetScalarType<T[P], AggregateLeadActivity[P]>
+  }
+
+
+
+
+  export type LeadActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadActivityWhereInput
+    orderBy?: LeadActivityOrderByWithAggregationInput | LeadActivityOrderByWithAggregationInput[]
+    by: LeadActivityScalarFieldEnum[] | LeadActivityScalarFieldEnum
+    having?: LeadActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeadActivityCountAggregateInputType | true
+    _min?: LeadActivityMinAggregateInputType
+    _max?: LeadActivityMaxAggregateInputType
+  }
+
+  export type LeadActivityGroupByOutputType = {
+    id: string
+    orgId: string
+    contactId: string
+    type: string
+    title: string | null
+    dueDate: Date | null
+    done: boolean
+    outcome: string | null
+    assigneeId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LeadActivityCountAggregateOutputType | null
+    _min: LeadActivityMinAggregateOutputType | null
+    _max: LeadActivityMaxAggregateOutputType | null
+  }
+
+  type GetLeadActivityGroupByPayload<T extends LeadActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeadActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeadActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeadActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], LeadActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeadActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    type?: boolean
+    title?: boolean
+    dueDate?: boolean
+    done?: boolean
+    outcome?: boolean
+    assigneeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }, ExtArgs["result"]["leadActivity"]>
+
+  export type LeadActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    type?: boolean
+    title?: boolean
+    dueDate?: boolean
+    done?: boolean
+    outcome?: boolean
+    assigneeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }, ExtArgs["result"]["leadActivity"]>
+
+  export type LeadActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    type?: boolean
+    title?: boolean
+    dueDate?: boolean
+    done?: boolean
+    outcome?: boolean
+    assigneeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }, ExtArgs["result"]["leadActivity"]>
+
+  export type LeadActivitySelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    type?: boolean
+    title?: boolean
+    dueDate?: boolean
+    done?: boolean
+    outcome?: boolean
+    assigneeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LeadActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "contactId" | "type" | "title" | "dueDate" | "done" | "outcome" | "assigneeId" | "createdAt" | "updatedAt", ExtArgs["result"]["leadActivity"]>
+  export type LeadActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }
+  export type LeadActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }
+  export type LeadActivityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    assignee?: boolean | LeadActivity$assigneeArgs<ExtArgs>
+  }
+
+  export type $LeadActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeadActivity"
+    objects: {
+      org: Prisma.$OrganizationPayload<ExtArgs>
+      contact: Prisma.$ContactPayload<ExtArgs>
+      assignee: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      contactId: string
+      type: string
+      title: string | null
+      dueDate: Date | null
+      done: boolean
+      outcome: string | null
+      assigneeId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["leadActivity"]>
+    composites: {}
+  }
+
+  type LeadActivityGetPayload<S extends boolean | null | undefined | LeadActivityDefaultArgs> = $Result.GetResult<Prisma.$LeadActivityPayload, S>
+
+  type LeadActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LeadActivityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LeadActivityCountAggregateInputType | true
+    }
+
+  export interface LeadActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeadActivity'], meta: { name: 'LeadActivity' } }
+    /**
+     * Find zero or one LeadActivity that matches the filter.
+     * @param {LeadActivityFindUniqueArgs} args - Arguments to find a LeadActivity
+     * @example
+     * // Get one LeadActivity
+     * const leadActivity = await prisma.leadActivity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeadActivityFindUniqueArgs>(args: SelectSubset<T, LeadActivityFindUniqueArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LeadActivity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LeadActivityFindUniqueOrThrowArgs} args - Arguments to find a LeadActivity
+     * @example
+     * // Get one LeadActivity
+     * const leadActivity = await prisma.leadActivity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeadActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, LeadActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeadActivity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityFindFirstArgs} args - Arguments to find a LeadActivity
+     * @example
+     * // Get one LeadActivity
+     * const leadActivity = await prisma.leadActivity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeadActivityFindFirstArgs>(args?: SelectSubset<T, LeadActivityFindFirstArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeadActivity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityFindFirstOrThrowArgs} args - Arguments to find a LeadActivity
+     * @example
+     * // Get one LeadActivity
+     * const leadActivity = await prisma.leadActivity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeadActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, LeadActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeadActivities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeadActivities
+     * const leadActivities = await prisma.leadActivity.findMany()
+     * 
+     * // Get first 10 LeadActivities
+     * const leadActivities = await prisma.leadActivity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leadActivityWithIdOnly = await prisma.leadActivity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeadActivityFindManyArgs>(args?: SelectSubset<T, LeadActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LeadActivity.
+     * @param {LeadActivityCreateArgs} args - Arguments to create a LeadActivity.
+     * @example
+     * // Create one LeadActivity
+     * const LeadActivity = await prisma.leadActivity.create({
+     *   data: {
+     *     // ... data to create a LeadActivity
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeadActivityCreateArgs>(args: SelectSubset<T, LeadActivityCreateArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LeadActivities.
+     * @param {LeadActivityCreateManyArgs} args - Arguments to create many LeadActivities.
+     * @example
+     * // Create many LeadActivities
+     * const leadActivity = await prisma.leadActivity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeadActivityCreateManyArgs>(args?: SelectSubset<T, LeadActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeadActivities and returns the data saved in the database.
+     * @param {LeadActivityCreateManyAndReturnArgs} args - Arguments to create many LeadActivities.
+     * @example
+     * // Create many LeadActivities
+     * const leadActivity = await prisma.leadActivity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeadActivities and only return the `id`
+     * const leadActivityWithIdOnly = await prisma.leadActivity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeadActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, LeadActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LeadActivity.
+     * @param {LeadActivityDeleteArgs} args - Arguments to delete one LeadActivity.
+     * @example
+     * // Delete one LeadActivity
+     * const LeadActivity = await prisma.leadActivity.delete({
+     *   where: {
+     *     // ... filter to delete one LeadActivity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeadActivityDeleteArgs>(args: SelectSubset<T, LeadActivityDeleteArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LeadActivity.
+     * @param {LeadActivityUpdateArgs} args - Arguments to update one LeadActivity.
+     * @example
+     * // Update one LeadActivity
+     * const leadActivity = await prisma.leadActivity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeadActivityUpdateArgs>(args: SelectSubset<T, LeadActivityUpdateArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LeadActivities.
+     * @param {LeadActivityDeleteManyArgs} args - Arguments to filter LeadActivities to delete.
+     * @example
+     * // Delete a few LeadActivities
+     * const { count } = await prisma.leadActivity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeadActivityDeleteManyArgs>(args?: SelectSubset<T, LeadActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeadActivities
+     * const leadActivity = await prisma.leadActivity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeadActivityUpdateManyArgs>(args: SelectSubset<T, LeadActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadActivities and returns the data updated in the database.
+     * @param {LeadActivityUpdateManyAndReturnArgs} args - Arguments to update many LeadActivities.
+     * @example
+     * // Update many LeadActivities
+     * const leadActivity = await prisma.leadActivity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LeadActivities and only return the `id`
+     * const leadActivityWithIdOnly = await prisma.leadActivity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LeadActivityUpdateManyAndReturnArgs>(args: SelectSubset<T, LeadActivityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LeadActivity.
+     * @param {LeadActivityUpsertArgs} args - Arguments to update or create a LeadActivity.
+     * @example
+     * // Update or create a LeadActivity
+     * const leadActivity = await prisma.leadActivity.upsert({
+     *   create: {
+     *     // ... data to create a LeadActivity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeadActivity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeadActivityUpsertArgs>(args: SelectSubset<T, LeadActivityUpsertArgs<ExtArgs>>): Prisma__LeadActivityClient<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LeadActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityCountArgs} args - Arguments to filter LeadActivities to count.
+     * @example
+     * // Count the number of LeadActivities
+     * const count = await prisma.leadActivity.count({
+     *   where: {
+     *     // ... the filter for the LeadActivities we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeadActivityCountArgs>(
+      args?: Subset<T, LeadActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeadActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeadActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeadActivityAggregateArgs>(args: Subset<T, LeadActivityAggregateArgs>): Prisma.PrismaPromise<GetLeadActivityAggregateType<T>>
+
+    /**
+     * Group by LeadActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeadActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeadActivityGroupByArgs['orderBy'] }
+        : { orderBy?: LeadActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeadActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeadActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeadActivity model
+   */
+  readonly fields: LeadActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeadActivity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeadActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    org<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    contact<T extends ContactDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContactDefaultArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignee<T extends LeadActivity$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, LeadActivity$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeadActivity model
+   */
+  interface LeadActivityFieldRefs {
+    readonly id: FieldRef<"LeadActivity", 'String'>
+    readonly orgId: FieldRef<"LeadActivity", 'String'>
+    readonly contactId: FieldRef<"LeadActivity", 'String'>
+    readonly type: FieldRef<"LeadActivity", 'String'>
+    readonly title: FieldRef<"LeadActivity", 'String'>
+    readonly dueDate: FieldRef<"LeadActivity", 'DateTime'>
+    readonly done: FieldRef<"LeadActivity", 'Boolean'>
+    readonly outcome: FieldRef<"LeadActivity", 'String'>
+    readonly assigneeId: FieldRef<"LeadActivity", 'String'>
+    readonly createdAt: FieldRef<"LeadActivity", 'DateTime'>
+    readonly updatedAt: FieldRef<"LeadActivity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeadActivity findUnique
+   */
+  export type LeadActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadActivity to fetch.
+     */
+    where: LeadActivityWhereUniqueInput
+  }
+
+  /**
+   * LeadActivity findUniqueOrThrow
+   */
+  export type LeadActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadActivity to fetch.
+     */
+    where: LeadActivityWhereUniqueInput
+  }
+
+  /**
+   * LeadActivity findFirst
+   */
+  export type LeadActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadActivity to fetch.
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadActivities to fetch.
+     */
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadActivities.
+     */
+    cursor?: LeadActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadActivities.
+     */
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * LeadActivity findFirstOrThrow
+   */
+  export type LeadActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadActivity to fetch.
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadActivities to fetch.
+     */
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadActivities.
+     */
+    cursor?: LeadActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadActivities.
+     */
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * LeadActivity findMany
+   */
+  export type LeadActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadActivities to fetch.
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadActivities to fetch.
+     */
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeadActivities.
+     */
+    cursor?: LeadActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadActivities.
+     */
+    skip?: number
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * LeadActivity create
+   */
+  export type LeadActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeadActivity.
+     */
+    data: XOR<LeadActivityCreateInput, LeadActivityUncheckedCreateInput>
+  }
+
+  /**
+   * LeadActivity createMany
+   */
+  export type LeadActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeadActivities.
+     */
+    data: LeadActivityCreateManyInput | LeadActivityCreateManyInput[]
+  }
+
+  /**
+   * LeadActivity createManyAndReturn
+   */
+  export type LeadActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * The data used to create many LeadActivities.
+     */
+    data: LeadActivityCreateManyInput | LeadActivityCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadActivity update
+   */
+  export type LeadActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeadActivity.
+     */
+    data: XOR<LeadActivityUpdateInput, LeadActivityUncheckedUpdateInput>
+    /**
+     * Choose, which LeadActivity to update.
+     */
+    where: LeadActivityWhereUniqueInput
+  }
+
+  /**
+   * LeadActivity updateMany
+   */
+  export type LeadActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeadActivities.
+     */
+    data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadActivities to update
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * Limit how many LeadActivities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeadActivity updateManyAndReturn
+   */
+  export type LeadActivityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * The data used to update LeadActivities.
+     */
+    data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadActivities to update
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * Limit how many LeadActivities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadActivity upsert
+   */
+  export type LeadActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeadActivity to update in case it exists.
+     */
+    where: LeadActivityWhereUniqueInput
+    /**
+     * In case the LeadActivity found by the `where` argument doesn't exist, create a new LeadActivity with this data.
+     */
+    create: XOR<LeadActivityCreateInput, LeadActivityUncheckedCreateInput>
+    /**
+     * In case the LeadActivity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeadActivityUpdateInput, LeadActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * LeadActivity delete
+   */
+  export type LeadActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    /**
+     * Filter which LeadActivity to delete.
+     */
+    where: LeadActivityWhereUniqueInput
+  }
+
+  /**
+   * LeadActivity deleteMany
+   */
+  export type LeadActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadActivities to delete
+     */
+    where?: LeadActivityWhereInput
+    /**
+     * Limit how many LeadActivities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeadActivity.assignee
+   */
+  export type LeadActivity$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * LeadActivity without action
+   */
+  export type LeadActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
   }
 
 
@@ -6196,6 +8368,7 @@ export namespace Prisma {
     payments?: boolean | Project$paymentsArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
+    meetings?: boolean | Project$meetingsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -6279,6 +8452,7 @@ export namespace Prisma {
     payments?: boolean | Project$paymentsArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
+    meetings?: boolean | Project$meetingsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6298,6 +8472,7 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       tasks: Prisma.$TaskPayload<ExtArgs>[]
+      meetings: Prisma.$MeetingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6719,6 +8894,7 @@ export namespace Prisma {
     payments<T extends Project$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoices<T extends Project$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Project$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tasks<T extends Project$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Project$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    meetings<T extends Project$meetingsArgs<ExtArgs> = {}>(args?: Subset<T, Project$meetingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7231,6 +9407,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Project.meetings
+   */
+  export type Project$meetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    where?: MeetingWhereInput
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    cursor?: MeetingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
   }
 
   /**
@@ -16541,6 +18741,7 @@ export namespace Prisma {
     avatarColor: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    team: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -16555,6 +18756,7 @@ export namespace Prisma {
     avatarColor: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    team: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -16569,6 +18771,7 @@ export namespace Prisma {
     avatarColor: number
     createdAt: number
     updatedAt: number
+    team: number
     _all: number
   }
 
@@ -16585,6 +18788,7 @@ export namespace Prisma {
     avatarColor?: true
     createdAt?: true
     updatedAt?: true
+    team?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -16599,6 +18803,7 @@ export namespace Prisma {
     avatarColor?: true
     createdAt?: true
     updatedAt?: true
+    team?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -16613,6 +18818,7 @@ export namespace Prisma {
     avatarColor?: true
     createdAt?: true
     updatedAt?: true
+    team?: true
     _all?: true
   }
 
@@ -16700,6 +18906,7 @@ export namespace Prisma {
     avatarColor: string
     createdAt: Date
     updatedAt: Date
+    team: string
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -16731,15 +18938,20 @@ export namespace Prisma {
     avatarColor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    team?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     assignedTasks?: boolean | User$assignedTasksArgs<ExtArgs>
     reportedTasks?: boolean | User$reportedTasksArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
+    assignedContacts?: boolean | User$assignedContactsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     timeLogs?: boolean | User$timeLogsArgs<ExtArgs>
     loginSessions?: boolean | User$loginSessionsArgs<ExtArgs>
+    leadActivities?: boolean | User$leadActivitiesArgs<ExtArgs>
+    hostedMeetings?: boolean | User$hostedMeetingsArgs<ExtArgs>
+    meetingNotes?: boolean | User$meetingNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -16755,6 +18967,7 @@ export namespace Prisma {
     avatarColor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    team?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -16770,6 +18983,7 @@ export namespace Prisma {
     avatarColor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    team?: boolean
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -16785,9 +18999,10 @@ export namespace Prisma {
     avatarColor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    team?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "name" | "email" | "passwordHash" | "role" | "isSuperAdmin" | "active" | "avatarColor" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "name" | "email" | "passwordHash" | "role" | "isSuperAdmin" | "active" | "avatarColor" | "createdAt" | "updatedAt" | "team", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     org?: boolean | OrganizationDefaultArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -16795,9 +19010,13 @@ export namespace Prisma {
     assignedTasks?: boolean | User$assignedTasksArgs<ExtArgs>
     reportedTasks?: boolean | User$reportedTasksArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
+    assignedContacts?: boolean | User$assignedContactsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     timeLogs?: boolean | User$timeLogsArgs<ExtArgs>
     loginSessions?: boolean | User$loginSessionsArgs<ExtArgs>
+    leadActivities?: boolean | User$leadActivitiesArgs<ExtArgs>
+    hostedMeetings?: boolean | User$hostedMeetingsArgs<ExtArgs>
+    meetingNotes?: boolean | User$meetingNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16816,9 +19035,13 @@ export namespace Prisma {
       assignedTasks: Prisma.$TaskPayload<ExtArgs>[]
       reportedTasks: Prisma.$TaskPayload<ExtArgs>[]
       activities: Prisma.$TaskActivityPayload<ExtArgs>[]
+      assignedContacts: Prisma.$ContactPayload<ExtArgs>[]
       comments: Prisma.$TaskCommentPayload<ExtArgs>[]
       timeLogs: Prisma.$TimeLogPayload<ExtArgs>[]
       loginSessions: Prisma.$LoginSessionPayload<ExtArgs>[]
+      leadActivities: Prisma.$LeadActivityPayload<ExtArgs>[]
+      hostedMeetings: Prisma.$MeetingPayload<ExtArgs>[]
+      meetingNotes: Prisma.$MeetingNotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16832,6 +19055,7 @@ export namespace Prisma {
       avatarColor: string
       createdAt: Date
       updatedAt: Date
+      team: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -17232,9 +19456,13 @@ export namespace Prisma {
     assignedTasks<T extends User$assignedTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reportedTasks<T extends User$reportedTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$reportedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     activities<T extends User$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedContacts<T extends User$assignedContactsArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedContactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timeLogs<T extends User$timeLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$timeLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loginSessions<T extends User$loginSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$loginSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leadActivities<T extends User$leadActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$leadActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hostedMeetings<T extends User$hostedMeetingsArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedMeetingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    meetingNotes<T extends User$meetingNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$meetingNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17275,6 +19503,7 @@ export namespace Prisma {
     readonly avatarColor: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly team: FieldRef<"User", 'String'>
   }
     
 
@@ -17789,6 +20018,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.assignedContacts
+   */
+  export type User$assignedContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contact
+     */
+    select?: ContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contact
+     */
+    omit?: ContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactInclude<ExtArgs> | null
+    where?: ContactWhereInput
+    orderBy?: ContactOrderByWithRelationInput | ContactOrderByWithRelationInput[]
+    cursor?: ContactWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContactScalarFieldEnum | ContactScalarFieldEnum[]
+  }
+
+  /**
    * User.comments
    */
   export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17858,6 +20111,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LoginSessionScalarFieldEnum | LoginSessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.leadActivities
+   */
+  export type User$leadActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadActivity
+     */
+    select?: LeadActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeadActivity
+     */
+    omit?: LeadActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadActivityInclude<ExtArgs> | null
+    where?: LeadActivityWhereInput
+    orderBy?: LeadActivityOrderByWithRelationInput | LeadActivityOrderByWithRelationInput[]
+    cursor?: LeadActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * User.hostedMeetings
+   */
+  export type User$hostedMeetingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    where?: MeetingWhereInput
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    cursor?: MeetingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * User.meetingNotes
+   */
+  export type User$meetingNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    where?: MeetingNoteWhereInput
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    cursor?: MeetingNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
   }
 
   /**
@@ -20100,6 +22425,2414 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Meeting
+   */
+
+  export type AggregateMeeting = {
+    _count: MeetingCountAggregateOutputType | null
+    _min: MeetingMinAggregateOutputType | null
+    _max: MeetingMaxAggregateOutputType | null
+  }
+
+  export type MeetingMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    contactId: string | null
+    projectId: string | null
+    summary: string | null
+    transcriptUrl: string | null
+    externalId: string | null
+    hostId: string | null
+    title: string | null
+    startAt: Date | null
+    endAt: Date | null
+    location: string | null
+    link: string | null
+    status: string | null
+    outcome: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MeetingMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    contactId: string | null
+    projectId: string | null
+    summary: string | null
+    transcriptUrl: string | null
+    externalId: string | null
+    hostId: string | null
+    title: string | null
+    startAt: Date | null
+    endAt: Date | null
+    location: string | null
+    link: string | null
+    status: string | null
+    outcome: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MeetingCountAggregateOutputType = {
+    id: number
+    orgId: number
+    contactId: number
+    projectId: number
+    summary: number
+    transcriptUrl: number
+    externalId: number
+    hostId: number
+    title: number
+    startAt: number
+    endAt: number
+    location: number
+    link: number
+    status: number
+    outcome: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MeetingMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    projectId?: true
+    summary?: true
+    transcriptUrl?: true
+    externalId?: true
+    hostId?: true
+    title?: true
+    startAt?: true
+    endAt?: true
+    location?: true
+    link?: true
+    status?: true
+    outcome?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MeetingMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    projectId?: true
+    summary?: true
+    transcriptUrl?: true
+    externalId?: true
+    hostId?: true
+    title?: true
+    startAt?: true
+    endAt?: true
+    location?: true
+    link?: true
+    status?: true
+    outcome?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MeetingCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    contactId?: true
+    projectId?: true
+    summary?: true
+    transcriptUrl?: true
+    externalId?: true
+    hostId?: true
+    title?: true
+    startAt?: true
+    endAt?: true
+    location?: true
+    link?: true
+    status?: true
+    outcome?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MeetingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Meeting to aggregate.
+     */
+    where?: MeetingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Meetings to fetch.
+     */
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MeetingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Meetings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Meetings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Meetings
+    **/
+    _count?: true | MeetingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MeetingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MeetingMaxAggregateInputType
+  }
+
+  export type GetMeetingAggregateType<T extends MeetingAggregateArgs> = {
+        [P in keyof T & keyof AggregateMeeting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMeeting[P]>
+      : GetScalarType<T[P], AggregateMeeting[P]>
+  }
+
+
+
+
+  export type MeetingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingWhereInput
+    orderBy?: MeetingOrderByWithAggregationInput | MeetingOrderByWithAggregationInput[]
+    by: MeetingScalarFieldEnum[] | MeetingScalarFieldEnum
+    having?: MeetingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MeetingCountAggregateInputType | true
+    _min?: MeetingMinAggregateInputType
+    _max?: MeetingMaxAggregateInputType
+  }
+
+  export type MeetingGroupByOutputType = {
+    id: string
+    orgId: string
+    contactId: string
+    projectId: string | null
+    summary: string | null
+    transcriptUrl: string | null
+    externalId: string | null
+    hostId: string | null
+    title: string
+    startAt: Date
+    endAt: Date | null
+    location: string | null
+    link: string | null
+    status: string
+    outcome: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MeetingCountAggregateOutputType | null
+    _min: MeetingMinAggregateOutputType | null
+    _max: MeetingMaxAggregateOutputType | null
+  }
+
+  type GetMeetingGroupByPayload<T extends MeetingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MeetingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MeetingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MeetingGroupByOutputType[P]>
+            : GetScalarType<T[P], MeetingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MeetingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    projectId?: boolean
+    summary?: boolean
+    transcriptUrl?: boolean
+    externalId?: boolean
+    hostId?: boolean
+    title?: boolean
+    startAt?: boolean
+    endAt?: boolean
+    location?: boolean
+    link?: boolean
+    status?: boolean
+    outcome?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+    notes?: boolean | Meeting$notesArgs<ExtArgs>
+    _count?: boolean | MeetingCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["meeting"]>
+
+  export type MeetingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    projectId?: boolean
+    summary?: boolean
+    transcriptUrl?: boolean
+    externalId?: boolean
+    hostId?: boolean
+    title?: boolean
+    startAt?: boolean
+    endAt?: boolean
+    location?: boolean
+    link?: boolean
+    status?: boolean
+    outcome?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+  }, ExtArgs["result"]["meeting"]>
+
+  export type MeetingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    projectId?: boolean
+    summary?: boolean
+    transcriptUrl?: boolean
+    externalId?: boolean
+    hostId?: boolean
+    title?: boolean
+    startAt?: boolean
+    endAt?: boolean
+    location?: boolean
+    link?: boolean
+    status?: boolean
+    outcome?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+  }, ExtArgs["result"]["meeting"]>
+
+  export type MeetingSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    contactId?: boolean
+    projectId?: boolean
+    summary?: boolean
+    transcriptUrl?: boolean
+    externalId?: boolean
+    hostId?: boolean
+    title?: boolean
+    startAt?: boolean
+    endAt?: boolean
+    location?: boolean
+    link?: boolean
+    status?: boolean
+    outcome?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MeetingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "contactId" | "projectId" | "summary" | "transcriptUrl" | "externalId" | "hostId" | "title" | "startAt" | "endAt" | "location" | "link" | "status" | "outcome" | "createdAt" | "updatedAt", ExtArgs["result"]["meeting"]>
+  export type MeetingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+    notes?: boolean | Meeting$notesArgs<ExtArgs>
+    _count?: boolean | MeetingCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MeetingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+  }
+  export type MeetingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    contact?: boolean | ContactDefaultArgs<ExtArgs>
+    project?: boolean | Meeting$projectArgs<ExtArgs>
+    host?: boolean | Meeting$hostArgs<ExtArgs>
+  }
+
+  export type $MeetingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Meeting"
+    objects: {
+      org: Prisma.$OrganizationPayload<ExtArgs>
+      contact: Prisma.$ContactPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+      host: Prisma.$UserPayload<ExtArgs> | null
+      notes: Prisma.$MeetingNotePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      contactId: string
+      projectId: string | null
+      summary: string | null
+      transcriptUrl: string | null
+      externalId: string | null
+      hostId: string | null
+      title: string
+      startAt: Date
+      endAt: Date | null
+      location: string | null
+      link: string | null
+      status: string
+      outcome: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["meeting"]>
+    composites: {}
+  }
+
+  type MeetingGetPayload<S extends boolean | null | undefined | MeetingDefaultArgs> = $Result.GetResult<Prisma.$MeetingPayload, S>
+
+  type MeetingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MeetingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MeetingCountAggregateInputType | true
+    }
+
+  export interface MeetingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Meeting'], meta: { name: 'Meeting' } }
+    /**
+     * Find zero or one Meeting that matches the filter.
+     * @param {MeetingFindUniqueArgs} args - Arguments to find a Meeting
+     * @example
+     * // Get one Meeting
+     * const meeting = await prisma.meeting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MeetingFindUniqueArgs>(args: SelectSubset<T, MeetingFindUniqueArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Meeting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MeetingFindUniqueOrThrowArgs} args - Arguments to find a Meeting
+     * @example
+     * // Get one Meeting
+     * const meeting = await prisma.meeting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MeetingFindUniqueOrThrowArgs>(args: SelectSubset<T, MeetingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Meeting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingFindFirstArgs} args - Arguments to find a Meeting
+     * @example
+     * // Get one Meeting
+     * const meeting = await prisma.meeting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MeetingFindFirstArgs>(args?: SelectSubset<T, MeetingFindFirstArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Meeting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingFindFirstOrThrowArgs} args - Arguments to find a Meeting
+     * @example
+     * // Get one Meeting
+     * const meeting = await prisma.meeting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MeetingFindFirstOrThrowArgs>(args?: SelectSubset<T, MeetingFindFirstOrThrowArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Meetings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Meetings
+     * const meetings = await prisma.meeting.findMany()
+     * 
+     * // Get first 10 Meetings
+     * const meetings = await prisma.meeting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const meetingWithIdOnly = await prisma.meeting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MeetingFindManyArgs>(args?: SelectSubset<T, MeetingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Meeting.
+     * @param {MeetingCreateArgs} args - Arguments to create a Meeting.
+     * @example
+     * // Create one Meeting
+     * const Meeting = await prisma.meeting.create({
+     *   data: {
+     *     // ... data to create a Meeting
+     *   }
+     * })
+     * 
+     */
+    create<T extends MeetingCreateArgs>(args: SelectSubset<T, MeetingCreateArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Meetings.
+     * @param {MeetingCreateManyArgs} args - Arguments to create many Meetings.
+     * @example
+     * // Create many Meetings
+     * const meeting = await prisma.meeting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MeetingCreateManyArgs>(args?: SelectSubset<T, MeetingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Meetings and returns the data saved in the database.
+     * @param {MeetingCreateManyAndReturnArgs} args - Arguments to create many Meetings.
+     * @example
+     * // Create many Meetings
+     * const meeting = await prisma.meeting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Meetings and only return the `id`
+     * const meetingWithIdOnly = await prisma.meeting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MeetingCreateManyAndReturnArgs>(args?: SelectSubset<T, MeetingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Meeting.
+     * @param {MeetingDeleteArgs} args - Arguments to delete one Meeting.
+     * @example
+     * // Delete one Meeting
+     * const Meeting = await prisma.meeting.delete({
+     *   where: {
+     *     // ... filter to delete one Meeting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MeetingDeleteArgs>(args: SelectSubset<T, MeetingDeleteArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Meeting.
+     * @param {MeetingUpdateArgs} args - Arguments to update one Meeting.
+     * @example
+     * // Update one Meeting
+     * const meeting = await prisma.meeting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MeetingUpdateArgs>(args: SelectSubset<T, MeetingUpdateArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Meetings.
+     * @param {MeetingDeleteManyArgs} args - Arguments to filter Meetings to delete.
+     * @example
+     * // Delete a few Meetings
+     * const { count } = await prisma.meeting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MeetingDeleteManyArgs>(args?: SelectSubset<T, MeetingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Meetings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Meetings
+     * const meeting = await prisma.meeting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MeetingUpdateManyArgs>(args: SelectSubset<T, MeetingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Meetings and returns the data updated in the database.
+     * @param {MeetingUpdateManyAndReturnArgs} args - Arguments to update many Meetings.
+     * @example
+     * // Update many Meetings
+     * const meeting = await prisma.meeting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Meetings and only return the `id`
+     * const meetingWithIdOnly = await prisma.meeting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MeetingUpdateManyAndReturnArgs>(args: SelectSubset<T, MeetingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Meeting.
+     * @param {MeetingUpsertArgs} args - Arguments to update or create a Meeting.
+     * @example
+     * // Update or create a Meeting
+     * const meeting = await prisma.meeting.upsert({
+     *   create: {
+     *     // ... data to create a Meeting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Meeting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MeetingUpsertArgs>(args: SelectSubset<T, MeetingUpsertArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Meetings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingCountArgs} args - Arguments to filter Meetings to count.
+     * @example
+     * // Count the number of Meetings
+     * const count = await prisma.meeting.count({
+     *   where: {
+     *     // ... the filter for the Meetings we want to count
+     *   }
+     * })
+    **/
+    count<T extends MeetingCountArgs>(
+      args?: Subset<T, MeetingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MeetingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Meeting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MeetingAggregateArgs>(args: Subset<T, MeetingAggregateArgs>): Prisma.PrismaPromise<GetMeetingAggregateType<T>>
+
+    /**
+     * Group by Meeting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MeetingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MeetingGroupByArgs['orderBy'] }
+        : { orderBy?: MeetingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MeetingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMeetingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Meeting model
+   */
+  readonly fields: MeetingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Meeting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MeetingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    org<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    contact<T extends ContactDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContactDefaultArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    project<T extends Meeting$projectArgs<ExtArgs> = {}>(args?: Subset<T, Meeting$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    host<T extends Meeting$hostArgs<ExtArgs> = {}>(args?: Subset<T, Meeting$hostArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    notes<T extends Meeting$notesArgs<ExtArgs> = {}>(args?: Subset<T, Meeting$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Meeting model
+   */
+  interface MeetingFieldRefs {
+    readonly id: FieldRef<"Meeting", 'String'>
+    readonly orgId: FieldRef<"Meeting", 'String'>
+    readonly contactId: FieldRef<"Meeting", 'String'>
+    readonly projectId: FieldRef<"Meeting", 'String'>
+    readonly summary: FieldRef<"Meeting", 'String'>
+    readonly transcriptUrl: FieldRef<"Meeting", 'String'>
+    readonly externalId: FieldRef<"Meeting", 'String'>
+    readonly hostId: FieldRef<"Meeting", 'String'>
+    readonly title: FieldRef<"Meeting", 'String'>
+    readonly startAt: FieldRef<"Meeting", 'DateTime'>
+    readonly endAt: FieldRef<"Meeting", 'DateTime'>
+    readonly location: FieldRef<"Meeting", 'String'>
+    readonly link: FieldRef<"Meeting", 'String'>
+    readonly status: FieldRef<"Meeting", 'String'>
+    readonly outcome: FieldRef<"Meeting", 'String'>
+    readonly createdAt: FieldRef<"Meeting", 'DateTime'>
+    readonly updatedAt: FieldRef<"Meeting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Meeting findUnique
+   */
+  export type MeetingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter, which Meeting to fetch.
+     */
+    where: MeetingWhereUniqueInput
+  }
+
+  /**
+   * Meeting findUniqueOrThrow
+   */
+  export type MeetingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter, which Meeting to fetch.
+     */
+    where: MeetingWhereUniqueInput
+  }
+
+  /**
+   * Meeting findFirst
+   */
+  export type MeetingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter, which Meeting to fetch.
+     */
+    where?: MeetingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Meetings to fetch.
+     */
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Meetings.
+     */
+    cursor?: MeetingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Meetings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Meetings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Meetings.
+     */
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * Meeting findFirstOrThrow
+   */
+  export type MeetingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter, which Meeting to fetch.
+     */
+    where?: MeetingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Meetings to fetch.
+     */
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Meetings.
+     */
+    cursor?: MeetingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Meetings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Meetings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Meetings.
+     */
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * Meeting findMany
+   */
+  export type MeetingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter, which Meetings to fetch.
+     */
+    where?: MeetingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Meetings to fetch.
+     */
+    orderBy?: MeetingOrderByWithRelationInput | MeetingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Meetings.
+     */
+    cursor?: MeetingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Meetings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Meetings.
+     */
+    skip?: number
+    distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * Meeting create
+   */
+  export type MeetingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Meeting.
+     */
+    data: XOR<MeetingCreateInput, MeetingUncheckedCreateInput>
+  }
+
+  /**
+   * Meeting createMany
+   */
+  export type MeetingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Meetings.
+     */
+    data: MeetingCreateManyInput | MeetingCreateManyInput[]
+  }
+
+  /**
+   * Meeting createManyAndReturn
+   */
+  export type MeetingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Meetings.
+     */
+    data: MeetingCreateManyInput | MeetingCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Meeting update
+   */
+  export type MeetingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Meeting.
+     */
+    data: XOR<MeetingUpdateInput, MeetingUncheckedUpdateInput>
+    /**
+     * Choose, which Meeting to update.
+     */
+    where: MeetingWhereUniqueInput
+  }
+
+  /**
+   * Meeting updateMany
+   */
+  export type MeetingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Meetings.
+     */
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyInput>
+    /**
+     * Filter which Meetings to update
+     */
+    where?: MeetingWhereInput
+    /**
+     * Limit how many Meetings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Meeting updateManyAndReturn
+   */
+  export type MeetingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * The data used to update Meetings.
+     */
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyInput>
+    /**
+     * Filter which Meetings to update
+     */
+    where?: MeetingWhereInput
+    /**
+     * Limit how many Meetings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Meeting upsert
+   */
+  export type MeetingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Meeting to update in case it exists.
+     */
+    where: MeetingWhereUniqueInput
+    /**
+     * In case the Meeting found by the `where` argument doesn't exist, create a new Meeting with this data.
+     */
+    create: XOR<MeetingCreateInput, MeetingUncheckedCreateInput>
+    /**
+     * In case the Meeting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MeetingUpdateInput, MeetingUncheckedUpdateInput>
+  }
+
+  /**
+   * Meeting delete
+   */
+  export type MeetingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+    /**
+     * Filter which Meeting to delete.
+     */
+    where: MeetingWhereUniqueInput
+  }
+
+  /**
+   * Meeting deleteMany
+   */
+  export type MeetingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Meetings to delete
+     */
+    where?: MeetingWhereInput
+    /**
+     * Limit how many Meetings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Meeting.project
+   */
+  export type Meeting$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * Meeting.host
+   */
+  export type Meeting$hostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Meeting.notes
+   */
+  export type Meeting$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    where?: MeetingNoteWhereInput
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    cursor?: MeetingNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
+  }
+
+  /**
+   * Meeting without action
+   */
+  export type MeetingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Meeting
+     */
+    select?: MeetingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Meeting
+     */
+    omit?: MeetingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MeetingNote
+   */
+
+  export type AggregateMeetingNote = {
+    _count: MeetingNoteCountAggregateOutputType | null
+    _min: MeetingNoteMinAggregateOutputType | null
+    _max: MeetingNoteMaxAggregateOutputType | null
+  }
+
+  export type MeetingNoteMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    meetingId: string | null
+    authorId: string | null
+    body: string | null
+    createdAt: Date | null
+  }
+
+  export type MeetingNoteMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    meetingId: string | null
+    authorId: string | null
+    body: string | null
+    createdAt: Date | null
+  }
+
+  export type MeetingNoteCountAggregateOutputType = {
+    id: number
+    orgId: number
+    meetingId: number
+    authorId: number
+    body: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MeetingNoteMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    meetingId?: true
+    authorId?: true
+    body?: true
+    createdAt?: true
+  }
+
+  export type MeetingNoteMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    meetingId?: true
+    authorId?: true
+    body?: true
+    createdAt?: true
+  }
+
+  export type MeetingNoteCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    meetingId?: true
+    authorId?: true
+    body?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MeetingNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MeetingNote to aggregate.
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MeetingNotes to fetch.
+     */
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MeetingNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MeetingNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MeetingNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MeetingNotes
+    **/
+    _count?: true | MeetingNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MeetingNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MeetingNoteMaxAggregateInputType
+  }
+
+  export type GetMeetingNoteAggregateType<T extends MeetingNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateMeetingNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMeetingNote[P]>
+      : GetScalarType<T[P], AggregateMeetingNote[P]>
+  }
+
+
+
+
+  export type MeetingNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MeetingNoteWhereInput
+    orderBy?: MeetingNoteOrderByWithAggregationInput | MeetingNoteOrderByWithAggregationInput[]
+    by: MeetingNoteScalarFieldEnum[] | MeetingNoteScalarFieldEnum
+    having?: MeetingNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MeetingNoteCountAggregateInputType | true
+    _min?: MeetingNoteMinAggregateInputType
+    _max?: MeetingNoteMaxAggregateInputType
+  }
+
+  export type MeetingNoteGroupByOutputType = {
+    id: string
+    orgId: string
+    meetingId: string
+    authorId: string | null
+    body: string
+    createdAt: Date
+    _count: MeetingNoteCountAggregateOutputType | null
+    _min: MeetingNoteMinAggregateOutputType | null
+    _max: MeetingNoteMaxAggregateOutputType | null
+  }
+
+  type GetMeetingNoteGroupByPayload<T extends MeetingNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MeetingNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MeetingNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MeetingNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], MeetingNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MeetingNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    meetingId?: boolean
+    authorId?: boolean
+    body?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }, ExtArgs["result"]["meetingNote"]>
+
+  export type MeetingNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    meetingId?: boolean
+    authorId?: boolean
+    body?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }, ExtArgs["result"]["meetingNote"]>
+
+  export type MeetingNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    meetingId?: boolean
+    authorId?: boolean
+    body?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }, ExtArgs["result"]["meetingNote"]>
+
+  export type MeetingNoteSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    meetingId?: boolean
+    authorId?: boolean
+    body?: boolean
+    createdAt?: boolean
+  }
+
+  export type MeetingNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "meetingId" | "authorId" | "body" | "createdAt", ExtArgs["result"]["meetingNote"]>
+  export type MeetingNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }
+  export type MeetingNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }
+  export type MeetingNoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+    meeting?: boolean | MeetingDefaultArgs<ExtArgs>
+    author?: boolean | MeetingNote$authorArgs<ExtArgs>
+  }
+
+  export type $MeetingNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MeetingNote"
+    objects: {
+      org: Prisma.$OrganizationPayload<ExtArgs>
+      meeting: Prisma.$MeetingPayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      meetingId: string
+      authorId: string | null
+      body: string
+      createdAt: Date
+    }, ExtArgs["result"]["meetingNote"]>
+    composites: {}
+  }
+
+  type MeetingNoteGetPayload<S extends boolean | null | undefined | MeetingNoteDefaultArgs> = $Result.GetResult<Prisma.$MeetingNotePayload, S>
+
+  type MeetingNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MeetingNoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MeetingNoteCountAggregateInputType | true
+    }
+
+  export interface MeetingNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MeetingNote'], meta: { name: 'MeetingNote' } }
+    /**
+     * Find zero or one MeetingNote that matches the filter.
+     * @param {MeetingNoteFindUniqueArgs} args - Arguments to find a MeetingNote
+     * @example
+     * // Get one MeetingNote
+     * const meetingNote = await prisma.meetingNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MeetingNoteFindUniqueArgs>(args: SelectSubset<T, MeetingNoteFindUniqueArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MeetingNote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MeetingNoteFindUniqueOrThrowArgs} args - Arguments to find a MeetingNote
+     * @example
+     * // Get one MeetingNote
+     * const meetingNote = await prisma.meetingNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MeetingNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, MeetingNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MeetingNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteFindFirstArgs} args - Arguments to find a MeetingNote
+     * @example
+     * // Get one MeetingNote
+     * const meetingNote = await prisma.meetingNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MeetingNoteFindFirstArgs>(args?: SelectSubset<T, MeetingNoteFindFirstArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MeetingNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteFindFirstOrThrowArgs} args - Arguments to find a MeetingNote
+     * @example
+     * // Get one MeetingNote
+     * const meetingNote = await prisma.meetingNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MeetingNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, MeetingNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MeetingNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MeetingNotes
+     * const meetingNotes = await prisma.meetingNote.findMany()
+     * 
+     * // Get first 10 MeetingNotes
+     * const meetingNotes = await prisma.meetingNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const meetingNoteWithIdOnly = await prisma.meetingNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MeetingNoteFindManyArgs>(args?: SelectSubset<T, MeetingNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MeetingNote.
+     * @param {MeetingNoteCreateArgs} args - Arguments to create a MeetingNote.
+     * @example
+     * // Create one MeetingNote
+     * const MeetingNote = await prisma.meetingNote.create({
+     *   data: {
+     *     // ... data to create a MeetingNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends MeetingNoteCreateArgs>(args: SelectSubset<T, MeetingNoteCreateArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MeetingNotes.
+     * @param {MeetingNoteCreateManyArgs} args - Arguments to create many MeetingNotes.
+     * @example
+     * // Create many MeetingNotes
+     * const meetingNote = await prisma.meetingNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MeetingNoteCreateManyArgs>(args?: SelectSubset<T, MeetingNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MeetingNotes and returns the data saved in the database.
+     * @param {MeetingNoteCreateManyAndReturnArgs} args - Arguments to create many MeetingNotes.
+     * @example
+     * // Create many MeetingNotes
+     * const meetingNote = await prisma.meetingNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MeetingNotes and only return the `id`
+     * const meetingNoteWithIdOnly = await prisma.meetingNote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MeetingNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, MeetingNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MeetingNote.
+     * @param {MeetingNoteDeleteArgs} args - Arguments to delete one MeetingNote.
+     * @example
+     * // Delete one MeetingNote
+     * const MeetingNote = await prisma.meetingNote.delete({
+     *   where: {
+     *     // ... filter to delete one MeetingNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MeetingNoteDeleteArgs>(args: SelectSubset<T, MeetingNoteDeleteArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MeetingNote.
+     * @param {MeetingNoteUpdateArgs} args - Arguments to update one MeetingNote.
+     * @example
+     * // Update one MeetingNote
+     * const meetingNote = await prisma.meetingNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MeetingNoteUpdateArgs>(args: SelectSubset<T, MeetingNoteUpdateArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MeetingNotes.
+     * @param {MeetingNoteDeleteManyArgs} args - Arguments to filter MeetingNotes to delete.
+     * @example
+     * // Delete a few MeetingNotes
+     * const { count } = await prisma.meetingNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MeetingNoteDeleteManyArgs>(args?: SelectSubset<T, MeetingNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MeetingNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MeetingNotes
+     * const meetingNote = await prisma.meetingNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MeetingNoteUpdateManyArgs>(args: SelectSubset<T, MeetingNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MeetingNotes and returns the data updated in the database.
+     * @param {MeetingNoteUpdateManyAndReturnArgs} args - Arguments to update many MeetingNotes.
+     * @example
+     * // Update many MeetingNotes
+     * const meetingNote = await prisma.meetingNote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MeetingNotes and only return the `id`
+     * const meetingNoteWithIdOnly = await prisma.meetingNote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MeetingNoteUpdateManyAndReturnArgs>(args: SelectSubset<T, MeetingNoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MeetingNote.
+     * @param {MeetingNoteUpsertArgs} args - Arguments to update or create a MeetingNote.
+     * @example
+     * // Update or create a MeetingNote
+     * const meetingNote = await prisma.meetingNote.upsert({
+     *   create: {
+     *     // ... data to create a MeetingNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MeetingNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MeetingNoteUpsertArgs>(args: SelectSubset<T, MeetingNoteUpsertArgs<ExtArgs>>): Prisma__MeetingNoteClient<$Result.GetResult<Prisma.$MeetingNotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MeetingNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteCountArgs} args - Arguments to filter MeetingNotes to count.
+     * @example
+     * // Count the number of MeetingNotes
+     * const count = await prisma.meetingNote.count({
+     *   where: {
+     *     // ... the filter for the MeetingNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends MeetingNoteCountArgs>(
+      args?: Subset<T, MeetingNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MeetingNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MeetingNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MeetingNoteAggregateArgs>(args: Subset<T, MeetingNoteAggregateArgs>): Prisma.PrismaPromise<GetMeetingNoteAggregateType<T>>
+
+    /**
+     * Group by MeetingNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MeetingNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MeetingNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MeetingNoteGroupByArgs['orderBy'] }
+        : { orderBy?: MeetingNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MeetingNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMeetingNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MeetingNote model
+   */
+  readonly fields: MeetingNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MeetingNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MeetingNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    org<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    meeting<T extends MeetingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MeetingDefaultArgs<ExtArgs>>): Prisma__MeetingClient<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends MeetingNote$authorArgs<ExtArgs> = {}>(args?: Subset<T, MeetingNote$authorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MeetingNote model
+   */
+  interface MeetingNoteFieldRefs {
+    readonly id: FieldRef<"MeetingNote", 'String'>
+    readonly orgId: FieldRef<"MeetingNote", 'String'>
+    readonly meetingId: FieldRef<"MeetingNote", 'String'>
+    readonly authorId: FieldRef<"MeetingNote", 'String'>
+    readonly body: FieldRef<"MeetingNote", 'String'>
+    readonly createdAt: FieldRef<"MeetingNote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MeetingNote findUnique
+   */
+  export type MeetingNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which MeetingNote to fetch.
+     */
+    where: MeetingNoteWhereUniqueInput
+  }
+
+  /**
+   * MeetingNote findUniqueOrThrow
+   */
+  export type MeetingNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which MeetingNote to fetch.
+     */
+    where: MeetingNoteWhereUniqueInput
+  }
+
+  /**
+   * MeetingNote findFirst
+   */
+  export type MeetingNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which MeetingNote to fetch.
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MeetingNotes to fetch.
+     */
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MeetingNotes.
+     */
+    cursor?: MeetingNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MeetingNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MeetingNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MeetingNotes.
+     */
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
+  }
+
+  /**
+   * MeetingNote findFirstOrThrow
+   */
+  export type MeetingNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which MeetingNote to fetch.
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MeetingNotes to fetch.
+     */
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MeetingNotes.
+     */
+    cursor?: MeetingNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MeetingNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MeetingNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MeetingNotes.
+     */
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
+  }
+
+  /**
+   * MeetingNote findMany
+   */
+  export type MeetingNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which MeetingNotes to fetch.
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MeetingNotes to fetch.
+     */
+    orderBy?: MeetingNoteOrderByWithRelationInput | MeetingNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MeetingNotes.
+     */
+    cursor?: MeetingNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MeetingNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MeetingNotes.
+     */
+    skip?: number
+    distinct?: MeetingNoteScalarFieldEnum | MeetingNoteScalarFieldEnum[]
+  }
+
+  /**
+   * MeetingNote create
+   */
+  export type MeetingNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MeetingNote.
+     */
+    data: XOR<MeetingNoteCreateInput, MeetingNoteUncheckedCreateInput>
+  }
+
+  /**
+   * MeetingNote createMany
+   */
+  export type MeetingNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MeetingNotes.
+     */
+    data: MeetingNoteCreateManyInput | MeetingNoteCreateManyInput[]
+  }
+
+  /**
+   * MeetingNote createManyAndReturn
+   */
+  export type MeetingNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many MeetingNotes.
+     */
+    data: MeetingNoteCreateManyInput | MeetingNoteCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MeetingNote update
+   */
+  export type MeetingNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MeetingNote.
+     */
+    data: XOR<MeetingNoteUpdateInput, MeetingNoteUncheckedUpdateInput>
+    /**
+     * Choose, which MeetingNote to update.
+     */
+    where: MeetingNoteWhereUniqueInput
+  }
+
+  /**
+   * MeetingNote updateMany
+   */
+  export type MeetingNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MeetingNotes.
+     */
+    data: XOR<MeetingNoteUpdateManyMutationInput, MeetingNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which MeetingNotes to update
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * Limit how many MeetingNotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MeetingNote updateManyAndReturn
+   */
+  export type MeetingNoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * The data used to update MeetingNotes.
+     */
+    data: XOR<MeetingNoteUpdateManyMutationInput, MeetingNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which MeetingNotes to update
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * Limit how many MeetingNotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MeetingNote upsert
+   */
+  export type MeetingNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MeetingNote to update in case it exists.
+     */
+    where: MeetingNoteWhereUniqueInput
+    /**
+     * In case the MeetingNote found by the `where` argument doesn't exist, create a new MeetingNote with this data.
+     */
+    create: XOR<MeetingNoteCreateInput, MeetingNoteUncheckedCreateInput>
+    /**
+     * In case the MeetingNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MeetingNoteUpdateInput, MeetingNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * MeetingNote delete
+   */
+  export type MeetingNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
+    /**
+     * Filter which MeetingNote to delete.
+     */
+    where: MeetingNoteWhereUniqueInput
+  }
+
+  /**
+   * MeetingNote deleteMany
+   */
+  export type MeetingNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MeetingNotes to delete
+     */
+    where?: MeetingNoteWhereInput
+    /**
+     * Limit how many MeetingNotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MeetingNote.author
+   */
+  export type MeetingNote$authorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * MeetingNote without action
+   */
+  export type MeetingNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MeetingNote
+     */
+    select?: MeetingNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MeetingNote
+     */
+    omit?: MeetingNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MeetingNoteInclude<ExtArgs> | null
   }
 
 
@@ -24837,6 +29570,3267 @@ export namespace Prisma {
 
 
   /**
+   * Model PlatformPlan
+   */
+
+  export type AggregatePlatformPlan = {
+    _count: PlatformPlanCountAggregateOutputType | null
+    _avg: PlatformPlanAvgAggregateOutputType | null
+    _sum: PlatformPlanSumAggregateOutputType | null
+    _min: PlatformPlanMinAggregateOutputType | null
+    _max: PlatformPlanMaxAggregateOutputType | null
+  }
+
+  export type PlatformPlanAvgAggregateOutputType = {
+    monthlyPrice: number | null
+    sortOrder: number | null
+  }
+
+  export type PlatformPlanSumAggregateOutputType = {
+    monthlyPrice: number | null
+    sortOrder: number | null
+  }
+
+  export type PlatformPlanMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    monthlyPrice: number | null
+    active: boolean | null
+    sortOrder: number | null
+    createdAt: Date | null
+  }
+
+  export type PlatformPlanMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    monthlyPrice: number | null
+    active: boolean | null
+    sortOrder: number | null
+    createdAt: Date | null
+  }
+
+  export type PlatformPlanCountAggregateOutputType = {
+    id: number
+    name: number
+    monthlyPrice: number
+    active: number
+    sortOrder: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PlatformPlanAvgAggregateInputType = {
+    monthlyPrice?: true
+    sortOrder?: true
+  }
+
+  export type PlatformPlanSumAggregateInputType = {
+    monthlyPrice?: true
+    sortOrder?: true
+  }
+
+  export type PlatformPlanMinAggregateInputType = {
+    id?: true
+    name?: true
+    monthlyPrice?: true
+    active?: true
+    sortOrder?: true
+    createdAt?: true
+  }
+
+  export type PlatformPlanMaxAggregateInputType = {
+    id?: true
+    name?: true
+    monthlyPrice?: true
+    active?: true
+    sortOrder?: true
+    createdAt?: true
+  }
+
+  export type PlatformPlanCountAggregateInputType = {
+    id?: true
+    name?: true
+    monthlyPrice?: true
+    active?: true
+    sortOrder?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PlatformPlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformPlan to aggregate.
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPlans to fetch.
+     */
+    orderBy?: PlatformPlanOrderByWithRelationInput | PlatformPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformPlans
+    **/
+    _count?: true | PlatformPlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlatformPlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlatformPlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformPlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformPlanMaxAggregateInputType
+  }
+
+  export type GetPlatformPlanAggregateType<T extends PlatformPlanAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformPlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformPlan[P]>
+      : GetScalarType<T[P], AggregatePlatformPlan[P]>
+  }
+
+
+
+
+  export type PlatformPlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformPlanWhereInput
+    orderBy?: PlatformPlanOrderByWithAggregationInput | PlatformPlanOrderByWithAggregationInput[]
+    by: PlatformPlanScalarFieldEnum[] | PlatformPlanScalarFieldEnum
+    having?: PlatformPlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformPlanCountAggregateInputType | true
+    _avg?: PlatformPlanAvgAggregateInputType
+    _sum?: PlatformPlanSumAggregateInputType
+    _min?: PlatformPlanMinAggregateInputType
+    _max?: PlatformPlanMaxAggregateInputType
+  }
+
+  export type PlatformPlanGroupByOutputType = {
+    id: string
+    name: string
+    monthlyPrice: number
+    active: boolean
+    sortOrder: number
+    createdAt: Date
+    _count: PlatformPlanCountAggregateOutputType | null
+    _avg: PlatformPlanAvgAggregateOutputType | null
+    _sum: PlatformPlanSumAggregateOutputType | null
+    _min: PlatformPlanMinAggregateOutputType | null
+    _max: PlatformPlanMaxAggregateOutputType | null
+  }
+
+  type GetPlatformPlanGroupByPayload<T extends PlatformPlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformPlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformPlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformPlanGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformPlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    monthlyPrice?: boolean
+    active?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["platformPlan"]>
+
+  export type PlatformPlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    monthlyPrice?: boolean
+    active?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["platformPlan"]>
+
+  export type PlatformPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    monthlyPrice?: boolean
+    active?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["platformPlan"]>
+
+  export type PlatformPlanSelectScalar = {
+    id?: boolean
+    name?: boolean
+    monthlyPrice?: boolean
+    active?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+  }
+
+  export type PlatformPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "monthlyPrice" | "active" | "sortOrder" | "createdAt", ExtArgs["result"]["platformPlan"]>
+
+  export type $PlatformPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformPlan"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      monthlyPrice: number
+      active: boolean
+      sortOrder: number
+      createdAt: Date
+    }, ExtArgs["result"]["platformPlan"]>
+    composites: {}
+  }
+
+  type PlatformPlanGetPayload<S extends boolean | null | undefined | PlatformPlanDefaultArgs> = $Result.GetResult<Prisma.$PlatformPlanPayload, S>
+
+  type PlatformPlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformPlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformPlanCountAggregateInputType | true
+    }
+
+  export interface PlatformPlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformPlan'], meta: { name: 'PlatformPlan' } }
+    /**
+     * Find zero or one PlatformPlan that matches the filter.
+     * @param {PlatformPlanFindUniqueArgs} args - Arguments to find a PlatformPlan
+     * @example
+     * // Get one PlatformPlan
+     * const platformPlan = await prisma.platformPlan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformPlanFindUniqueArgs>(args: SelectSubset<T, PlatformPlanFindUniqueArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformPlan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformPlanFindUniqueOrThrowArgs} args - Arguments to find a PlatformPlan
+     * @example
+     * // Get one PlatformPlan
+     * const platformPlan = await prisma.platformPlan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformPlanFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformPlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformPlan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanFindFirstArgs} args - Arguments to find a PlatformPlan
+     * @example
+     * // Get one PlatformPlan
+     * const platformPlan = await prisma.platformPlan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformPlanFindFirstArgs>(args?: SelectSubset<T, PlatformPlanFindFirstArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformPlan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanFindFirstOrThrowArgs} args - Arguments to find a PlatformPlan
+     * @example
+     * // Get one PlatformPlan
+     * const platformPlan = await prisma.platformPlan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformPlanFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformPlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformPlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformPlans
+     * const platformPlans = await prisma.platformPlan.findMany()
+     * 
+     * // Get first 10 PlatformPlans
+     * const platformPlans = await prisma.platformPlan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformPlanWithIdOnly = await prisma.platformPlan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformPlanFindManyArgs>(args?: SelectSubset<T, PlatformPlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformPlan.
+     * @param {PlatformPlanCreateArgs} args - Arguments to create a PlatformPlan.
+     * @example
+     * // Create one PlatformPlan
+     * const PlatformPlan = await prisma.platformPlan.create({
+     *   data: {
+     *     // ... data to create a PlatformPlan
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformPlanCreateArgs>(args: SelectSubset<T, PlatformPlanCreateArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformPlans.
+     * @param {PlatformPlanCreateManyArgs} args - Arguments to create many PlatformPlans.
+     * @example
+     * // Create many PlatformPlans
+     * const platformPlan = await prisma.platformPlan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformPlanCreateManyArgs>(args?: SelectSubset<T, PlatformPlanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformPlans and returns the data saved in the database.
+     * @param {PlatformPlanCreateManyAndReturnArgs} args - Arguments to create many PlatformPlans.
+     * @example
+     * // Create many PlatformPlans
+     * const platformPlan = await prisma.platformPlan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformPlans and only return the `id`
+     * const platformPlanWithIdOnly = await prisma.platformPlan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformPlanCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformPlanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformPlan.
+     * @param {PlatformPlanDeleteArgs} args - Arguments to delete one PlatformPlan.
+     * @example
+     * // Delete one PlatformPlan
+     * const PlatformPlan = await prisma.platformPlan.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformPlan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformPlanDeleteArgs>(args: SelectSubset<T, PlatformPlanDeleteArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformPlan.
+     * @param {PlatformPlanUpdateArgs} args - Arguments to update one PlatformPlan.
+     * @example
+     * // Update one PlatformPlan
+     * const platformPlan = await prisma.platformPlan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformPlanUpdateArgs>(args: SelectSubset<T, PlatformPlanUpdateArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformPlans.
+     * @param {PlatformPlanDeleteManyArgs} args - Arguments to filter PlatformPlans to delete.
+     * @example
+     * // Delete a few PlatformPlans
+     * const { count } = await prisma.platformPlan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformPlanDeleteManyArgs>(args?: SelectSubset<T, PlatformPlanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformPlans
+     * const platformPlan = await prisma.platformPlan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformPlanUpdateManyArgs>(args: SelectSubset<T, PlatformPlanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformPlans and returns the data updated in the database.
+     * @param {PlatformPlanUpdateManyAndReturnArgs} args - Arguments to update many PlatformPlans.
+     * @example
+     * // Update many PlatformPlans
+     * const platformPlan = await prisma.platformPlan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformPlans and only return the `id`
+     * const platformPlanWithIdOnly = await prisma.platformPlan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformPlanUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformPlanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformPlan.
+     * @param {PlatformPlanUpsertArgs} args - Arguments to update or create a PlatformPlan.
+     * @example
+     * // Update or create a PlatformPlan
+     * const platformPlan = await prisma.platformPlan.upsert({
+     *   create: {
+     *     // ... data to create a PlatformPlan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformPlan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformPlanUpsertArgs>(args: SelectSubset<T, PlatformPlanUpsertArgs<ExtArgs>>): Prisma__PlatformPlanClient<$Result.GetResult<Prisma.$PlatformPlanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanCountArgs} args - Arguments to filter PlatformPlans to count.
+     * @example
+     * // Count the number of PlatformPlans
+     * const count = await prisma.platformPlan.count({
+     *   where: {
+     *     // ... the filter for the PlatformPlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformPlanCountArgs>(
+      args?: Subset<T, PlatformPlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformPlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformPlanAggregateArgs>(args: Subset<T, PlatformPlanAggregateArgs>): Prisma.PrismaPromise<GetPlatformPlanAggregateType<T>>
+
+    /**
+     * Group by PlatformPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformPlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformPlanGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformPlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformPlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformPlan model
+   */
+  readonly fields: PlatformPlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformPlan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformPlan model
+   */
+  interface PlatformPlanFieldRefs {
+    readonly id: FieldRef<"PlatformPlan", 'String'>
+    readonly name: FieldRef<"PlatformPlan", 'String'>
+    readonly monthlyPrice: FieldRef<"PlatformPlan", 'Int'>
+    readonly active: FieldRef<"PlatformPlan", 'Boolean'>
+    readonly sortOrder: FieldRef<"PlatformPlan", 'Int'>
+    readonly createdAt: FieldRef<"PlatformPlan", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformPlan findUnique
+   */
+  export type PlatformPlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformPlan to fetch.
+     */
+    where: PlatformPlanWhereUniqueInput
+  }
+
+  /**
+   * PlatformPlan findUniqueOrThrow
+   */
+  export type PlatformPlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformPlan to fetch.
+     */
+    where: PlatformPlanWhereUniqueInput
+  }
+
+  /**
+   * PlatformPlan findFirst
+   */
+  export type PlatformPlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformPlan to fetch.
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPlans to fetch.
+     */
+    orderBy?: PlatformPlanOrderByWithRelationInput | PlatformPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformPlans.
+     */
+    cursor?: PlatformPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformPlans.
+     */
+    distinct?: PlatformPlanScalarFieldEnum | PlatformPlanScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPlan findFirstOrThrow
+   */
+  export type PlatformPlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformPlan to fetch.
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPlans to fetch.
+     */
+    orderBy?: PlatformPlanOrderByWithRelationInput | PlatformPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformPlans.
+     */
+    cursor?: PlatformPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformPlans.
+     */
+    distinct?: PlatformPlanScalarFieldEnum | PlatformPlanScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPlan findMany
+   */
+  export type PlatformPlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformPlans to fetch.
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPlans to fetch.
+     */
+    orderBy?: PlatformPlanOrderByWithRelationInput | PlatformPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformPlans.
+     */
+    cursor?: PlatformPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPlans.
+     */
+    skip?: number
+    distinct?: PlatformPlanScalarFieldEnum | PlatformPlanScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPlan create
+   */
+  export type PlatformPlanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformPlan.
+     */
+    data: XOR<PlatformPlanCreateInput, PlatformPlanUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformPlan createMany
+   */
+  export type PlatformPlanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformPlans.
+     */
+    data: PlatformPlanCreateManyInput | PlatformPlanCreateManyInput[]
+  }
+
+  /**
+   * PlatformPlan createManyAndReturn
+   */
+  export type PlatformPlanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformPlans.
+     */
+    data: PlatformPlanCreateManyInput | PlatformPlanCreateManyInput[]
+  }
+
+  /**
+   * PlatformPlan update
+   */
+  export type PlatformPlanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformPlan.
+     */
+    data: XOR<PlatformPlanUpdateInput, PlatformPlanUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformPlan to update.
+     */
+    where: PlatformPlanWhereUniqueInput
+  }
+
+  /**
+   * PlatformPlan updateMany
+   */
+  export type PlatformPlanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformPlans.
+     */
+    data: XOR<PlatformPlanUpdateManyMutationInput, PlatformPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformPlans to update
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * Limit how many PlatformPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformPlan updateManyAndReturn
+   */
+  export type PlatformPlanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformPlans.
+     */
+    data: XOR<PlatformPlanUpdateManyMutationInput, PlatformPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformPlans to update
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * Limit how many PlatformPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformPlan upsert
+   */
+  export type PlatformPlanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformPlan to update in case it exists.
+     */
+    where: PlatformPlanWhereUniqueInput
+    /**
+     * In case the PlatformPlan found by the `where` argument doesn't exist, create a new PlatformPlan with this data.
+     */
+    create: XOR<PlatformPlanCreateInput, PlatformPlanUncheckedCreateInput>
+    /**
+     * In case the PlatformPlan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformPlanUpdateInput, PlatformPlanUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformPlan delete
+   */
+  export type PlatformPlanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+    /**
+     * Filter which PlatformPlan to delete.
+     */
+    where: PlatformPlanWhereUniqueInput
+  }
+
+  /**
+   * PlatformPlan deleteMany
+   */
+  export type PlatformPlanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformPlans to delete
+     */
+    where?: PlatformPlanWhereInput
+    /**
+     * Limit how many PlatformPlans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformPlan without action
+   */
+  export type PlatformPlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPlan
+     */
+    select?: PlatformPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPlan
+     */
+    omit?: PlatformPlanOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlatformPayment
+   */
+
+  export type AggregatePlatformPayment = {
+    _count: PlatformPaymentCountAggregateOutputType | null
+    _avg: PlatformPaymentAvgAggregateOutputType | null
+    _sum: PlatformPaymentSumAggregateOutputType | null
+    _min: PlatformPaymentMinAggregateOutputType | null
+    _max: PlatformPaymentMaxAggregateOutputType | null
+  }
+
+  export type PlatformPaymentAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PlatformPaymentSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PlatformPaymentMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    amount: number | null
+    period: string | null
+    note: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PlatformPaymentMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    amount: number | null
+    period: string | null
+    note: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PlatformPaymentCountAggregateOutputType = {
+    id: number
+    orgId: number
+    amount: number
+    period: number
+    note: number
+    paidAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PlatformPaymentAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PlatformPaymentSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PlatformPaymentMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    amount?: true
+    period?: true
+    note?: true
+    paidAt?: true
+    createdAt?: true
+  }
+
+  export type PlatformPaymentMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    amount?: true
+    period?: true
+    note?: true
+    paidAt?: true
+    createdAt?: true
+  }
+
+  export type PlatformPaymentCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    amount?: true
+    period?: true
+    note?: true
+    paidAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PlatformPaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformPayment to aggregate.
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPayments to fetch.
+     */
+    orderBy?: PlatformPaymentOrderByWithRelationInput | PlatformPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformPayments
+    **/
+    _count?: true | PlatformPaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlatformPaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlatformPaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformPaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformPaymentMaxAggregateInputType
+  }
+
+  export type GetPlatformPaymentAggregateType<T extends PlatformPaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformPayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformPayment[P]>
+      : GetScalarType<T[P], AggregatePlatformPayment[P]>
+  }
+
+
+
+
+  export type PlatformPaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformPaymentWhereInput
+    orderBy?: PlatformPaymentOrderByWithAggregationInput | PlatformPaymentOrderByWithAggregationInput[]
+    by: PlatformPaymentScalarFieldEnum[] | PlatformPaymentScalarFieldEnum
+    having?: PlatformPaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformPaymentCountAggregateInputType | true
+    _avg?: PlatformPaymentAvgAggregateInputType
+    _sum?: PlatformPaymentSumAggregateInputType
+    _min?: PlatformPaymentMinAggregateInputType
+    _max?: PlatformPaymentMaxAggregateInputType
+  }
+
+  export type PlatformPaymentGroupByOutputType = {
+    id: string
+    orgId: string
+    amount: number
+    period: string | null
+    note: string | null
+    paidAt: Date
+    createdAt: Date
+    _count: PlatformPaymentCountAggregateOutputType | null
+    _avg: PlatformPaymentAvgAggregateOutputType | null
+    _sum: PlatformPaymentSumAggregateOutputType | null
+    _min: PlatformPaymentMinAggregateOutputType | null
+    _max: PlatformPaymentMaxAggregateOutputType | null
+  }
+
+  type GetPlatformPaymentGroupByPayload<T extends PlatformPaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformPaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformPaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformPaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformPaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformPaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    amount?: boolean
+    period?: boolean
+    note?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformPayment"]>
+
+  export type PlatformPaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    amount?: boolean
+    period?: boolean
+    note?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformPayment"]>
+
+  export type PlatformPaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    amount?: boolean
+    period?: boolean
+    note?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformPayment"]>
+
+  export type PlatformPaymentSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    amount?: boolean
+    period?: boolean
+    note?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type PlatformPaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "amount" | "period" | "note" | "paidAt" | "createdAt", ExtArgs["result"]["platformPayment"]>
+  export type PlatformPaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type PlatformPaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type PlatformPaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $PlatformPaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformPayment"
+    objects: {
+      org: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      amount: number
+      period: string | null
+      note: string | null
+      paidAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["platformPayment"]>
+    composites: {}
+  }
+
+  type PlatformPaymentGetPayload<S extends boolean | null | undefined | PlatformPaymentDefaultArgs> = $Result.GetResult<Prisma.$PlatformPaymentPayload, S>
+
+  type PlatformPaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformPaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformPaymentCountAggregateInputType | true
+    }
+
+  export interface PlatformPaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformPayment'], meta: { name: 'PlatformPayment' } }
+    /**
+     * Find zero or one PlatformPayment that matches the filter.
+     * @param {PlatformPaymentFindUniqueArgs} args - Arguments to find a PlatformPayment
+     * @example
+     * // Get one PlatformPayment
+     * const platformPayment = await prisma.platformPayment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformPaymentFindUniqueArgs>(args: SelectSubset<T, PlatformPaymentFindUniqueArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformPayment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformPaymentFindUniqueOrThrowArgs} args - Arguments to find a PlatformPayment
+     * @example
+     * // Get one PlatformPayment
+     * const platformPayment = await prisma.platformPayment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformPaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformPaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformPayment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentFindFirstArgs} args - Arguments to find a PlatformPayment
+     * @example
+     * // Get one PlatformPayment
+     * const platformPayment = await prisma.platformPayment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformPaymentFindFirstArgs>(args?: SelectSubset<T, PlatformPaymentFindFirstArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformPayment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentFindFirstOrThrowArgs} args - Arguments to find a PlatformPayment
+     * @example
+     * // Get one PlatformPayment
+     * const platformPayment = await prisma.platformPayment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformPaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformPaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformPayments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformPayments
+     * const platformPayments = await prisma.platformPayment.findMany()
+     * 
+     * // Get first 10 PlatformPayments
+     * const platformPayments = await prisma.platformPayment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformPaymentWithIdOnly = await prisma.platformPayment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformPaymentFindManyArgs>(args?: SelectSubset<T, PlatformPaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformPayment.
+     * @param {PlatformPaymentCreateArgs} args - Arguments to create a PlatformPayment.
+     * @example
+     * // Create one PlatformPayment
+     * const PlatformPayment = await prisma.platformPayment.create({
+     *   data: {
+     *     // ... data to create a PlatformPayment
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformPaymentCreateArgs>(args: SelectSubset<T, PlatformPaymentCreateArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformPayments.
+     * @param {PlatformPaymentCreateManyArgs} args - Arguments to create many PlatformPayments.
+     * @example
+     * // Create many PlatformPayments
+     * const platformPayment = await prisma.platformPayment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformPaymentCreateManyArgs>(args?: SelectSubset<T, PlatformPaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformPayments and returns the data saved in the database.
+     * @param {PlatformPaymentCreateManyAndReturnArgs} args - Arguments to create many PlatformPayments.
+     * @example
+     * // Create many PlatformPayments
+     * const platformPayment = await prisma.platformPayment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformPayments and only return the `id`
+     * const platformPaymentWithIdOnly = await prisma.platformPayment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformPaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformPaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformPayment.
+     * @param {PlatformPaymentDeleteArgs} args - Arguments to delete one PlatformPayment.
+     * @example
+     * // Delete one PlatformPayment
+     * const PlatformPayment = await prisma.platformPayment.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformPayment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformPaymentDeleteArgs>(args: SelectSubset<T, PlatformPaymentDeleteArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformPayment.
+     * @param {PlatformPaymentUpdateArgs} args - Arguments to update one PlatformPayment.
+     * @example
+     * // Update one PlatformPayment
+     * const platformPayment = await prisma.platformPayment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformPaymentUpdateArgs>(args: SelectSubset<T, PlatformPaymentUpdateArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformPayments.
+     * @param {PlatformPaymentDeleteManyArgs} args - Arguments to filter PlatformPayments to delete.
+     * @example
+     * // Delete a few PlatformPayments
+     * const { count } = await prisma.platformPayment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformPaymentDeleteManyArgs>(args?: SelectSubset<T, PlatformPaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformPayments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformPayments
+     * const platformPayment = await prisma.platformPayment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformPaymentUpdateManyArgs>(args: SelectSubset<T, PlatformPaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformPayments and returns the data updated in the database.
+     * @param {PlatformPaymentUpdateManyAndReturnArgs} args - Arguments to update many PlatformPayments.
+     * @example
+     * // Update many PlatformPayments
+     * const platformPayment = await prisma.platformPayment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformPayments and only return the `id`
+     * const platformPaymentWithIdOnly = await prisma.platformPayment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformPaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformPaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformPayment.
+     * @param {PlatformPaymentUpsertArgs} args - Arguments to update or create a PlatformPayment.
+     * @example
+     * // Update or create a PlatformPayment
+     * const platformPayment = await prisma.platformPayment.upsert({
+     *   create: {
+     *     // ... data to create a PlatformPayment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformPayment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformPaymentUpsertArgs>(args: SelectSubset<T, PlatformPaymentUpsertArgs<ExtArgs>>): Prisma__PlatformPaymentClient<$Result.GetResult<Prisma.$PlatformPaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformPayments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentCountArgs} args - Arguments to filter PlatformPayments to count.
+     * @example
+     * // Count the number of PlatformPayments
+     * const count = await prisma.platformPayment.count({
+     *   where: {
+     *     // ... the filter for the PlatformPayments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformPaymentCountArgs>(
+      args?: Subset<T, PlatformPaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformPaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformPayment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformPaymentAggregateArgs>(args: Subset<T, PlatformPaymentAggregateArgs>): Prisma.PrismaPromise<GetPlatformPaymentAggregateType<T>>
+
+    /**
+     * Group by PlatformPayment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformPaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformPaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformPaymentGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformPaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformPaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformPayment model
+   */
+  readonly fields: PlatformPaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformPayment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformPaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    org<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformPayment model
+   */
+  interface PlatformPaymentFieldRefs {
+    readonly id: FieldRef<"PlatformPayment", 'String'>
+    readonly orgId: FieldRef<"PlatformPayment", 'String'>
+    readonly amount: FieldRef<"PlatformPayment", 'Int'>
+    readonly period: FieldRef<"PlatformPayment", 'String'>
+    readonly note: FieldRef<"PlatformPayment", 'String'>
+    readonly paidAt: FieldRef<"PlatformPayment", 'DateTime'>
+    readonly createdAt: FieldRef<"PlatformPayment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformPayment findUnique
+   */
+  export type PlatformPaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformPayment to fetch.
+     */
+    where: PlatformPaymentWhereUniqueInput
+  }
+
+  /**
+   * PlatformPayment findUniqueOrThrow
+   */
+  export type PlatformPaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformPayment to fetch.
+     */
+    where: PlatformPaymentWhereUniqueInput
+  }
+
+  /**
+   * PlatformPayment findFirst
+   */
+  export type PlatformPaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformPayment to fetch.
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPayments to fetch.
+     */
+    orderBy?: PlatformPaymentOrderByWithRelationInput | PlatformPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformPayments.
+     */
+    cursor?: PlatformPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformPayments.
+     */
+    distinct?: PlatformPaymentScalarFieldEnum | PlatformPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPayment findFirstOrThrow
+   */
+  export type PlatformPaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformPayment to fetch.
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPayments to fetch.
+     */
+    orderBy?: PlatformPaymentOrderByWithRelationInput | PlatformPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformPayments.
+     */
+    cursor?: PlatformPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPayments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformPayments.
+     */
+    distinct?: PlatformPaymentScalarFieldEnum | PlatformPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPayment findMany
+   */
+  export type PlatformPaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformPayments to fetch.
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformPayments to fetch.
+     */
+    orderBy?: PlatformPaymentOrderByWithRelationInput | PlatformPaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformPayments.
+     */
+    cursor?: PlatformPaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformPayments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformPayments.
+     */
+    skip?: number
+    distinct?: PlatformPaymentScalarFieldEnum | PlatformPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformPayment create
+   */
+  export type PlatformPaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformPayment.
+     */
+    data: XOR<PlatformPaymentCreateInput, PlatformPaymentUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformPayment createMany
+   */
+  export type PlatformPaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformPayments.
+     */
+    data: PlatformPaymentCreateManyInput | PlatformPaymentCreateManyInput[]
+  }
+
+  /**
+   * PlatformPayment createManyAndReturn
+   */
+  export type PlatformPaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformPayments.
+     */
+    data: PlatformPaymentCreateManyInput | PlatformPaymentCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformPayment update
+   */
+  export type PlatformPaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformPayment.
+     */
+    data: XOR<PlatformPaymentUpdateInput, PlatformPaymentUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformPayment to update.
+     */
+    where: PlatformPaymentWhereUniqueInput
+  }
+
+  /**
+   * PlatformPayment updateMany
+   */
+  export type PlatformPaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformPayments.
+     */
+    data: XOR<PlatformPaymentUpdateManyMutationInput, PlatformPaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformPayments to update
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * Limit how many PlatformPayments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformPayment updateManyAndReturn
+   */
+  export type PlatformPaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformPayments.
+     */
+    data: XOR<PlatformPaymentUpdateManyMutationInput, PlatformPaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformPayments to update
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * Limit how many PlatformPayments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformPayment upsert
+   */
+  export type PlatformPaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformPayment to update in case it exists.
+     */
+    where: PlatformPaymentWhereUniqueInput
+    /**
+     * In case the PlatformPayment found by the `where` argument doesn't exist, create a new PlatformPayment with this data.
+     */
+    create: XOR<PlatformPaymentCreateInput, PlatformPaymentUncheckedCreateInput>
+    /**
+     * In case the PlatformPayment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformPaymentUpdateInput, PlatformPaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformPayment delete
+   */
+  export type PlatformPaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+    /**
+     * Filter which PlatformPayment to delete.
+     */
+    where: PlatformPaymentWhereUniqueInput
+  }
+
+  /**
+   * PlatformPayment deleteMany
+   */
+  export type PlatformPaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformPayments to delete
+     */
+    where?: PlatformPaymentWhereInput
+    /**
+     * Limit how many PlatformPayments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformPayment without action
+   */
+  export type PlatformPaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformPayment
+     */
+    select?: PlatformPaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformPayment
+     */
+    omit?: PlatformPaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformPaymentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlatformAuditLog
+   */
+
+  export type AggregatePlatformAuditLog = {
+    _count: PlatformAuditLogCountAggregateOutputType | null
+    _min: PlatformAuditLogMinAggregateOutputType | null
+    _max: PlatformAuditLogMaxAggregateOutputType | null
+  }
+
+  export type PlatformAuditLogMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    actorId: string | null
+    actorEmail: string | null
+    action: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type PlatformAuditLogMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    actorId: string | null
+    actorEmail: string | null
+    action: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type PlatformAuditLogCountAggregateOutputType = {
+    id: number
+    orgId: number
+    actorId: number
+    actorEmail: number
+    action: number
+    detail: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PlatformAuditLogMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    actorId?: true
+    actorEmail?: true
+    action?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type PlatformAuditLogMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    actorId?: true
+    actorEmail?: true
+    action?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type PlatformAuditLogCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    actorId?: true
+    actorEmail?: true
+    action?: true
+    detail?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PlatformAuditLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformAuditLog to aggregate.
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAuditLogs to fetch.
+     */
+    orderBy?: PlatformAuditLogOrderByWithRelationInput | PlatformAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformAuditLogs
+    **/
+    _count?: true | PlatformAuditLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformAuditLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformAuditLogMaxAggregateInputType
+  }
+
+  export type GetPlatformAuditLogAggregateType<T extends PlatformAuditLogAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformAuditLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformAuditLog[P]>
+      : GetScalarType<T[P], AggregatePlatformAuditLog[P]>
+  }
+
+
+
+
+  export type PlatformAuditLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAuditLogWhereInput
+    orderBy?: PlatformAuditLogOrderByWithAggregationInput | PlatformAuditLogOrderByWithAggregationInput[]
+    by: PlatformAuditLogScalarFieldEnum[] | PlatformAuditLogScalarFieldEnum
+    having?: PlatformAuditLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformAuditLogCountAggregateInputType | true
+    _min?: PlatformAuditLogMinAggregateInputType
+    _max?: PlatformAuditLogMaxAggregateInputType
+  }
+
+  export type PlatformAuditLogGroupByOutputType = {
+    id: string
+    orgId: string | null
+    actorId: string
+    actorEmail: string
+    action: string
+    detail: string | null
+    createdAt: Date
+    _count: PlatformAuditLogCountAggregateOutputType | null
+    _min: PlatformAuditLogMinAggregateOutputType | null
+    _max: PlatformAuditLogMaxAggregateOutputType | null
+  }
+
+  type GetPlatformAuditLogGroupByPayload<T extends PlatformAuditLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformAuditLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformAuditLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformAuditLogGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformAuditLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformAuditLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    actorId?: boolean
+    actorEmail?: boolean
+    action?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }, ExtArgs["result"]["platformAuditLog"]>
+
+  export type PlatformAuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    actorId?: boolean
+    actorEmail?: boolean
+    action?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }, ExtArgs["result"]["platformAuditLog"]>
+
+  export type PlatformAuditLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    actorId?: boolean
+    actorEmail?: boolean
+    action?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }, ExtArgs["result"]["platformAuditLog"]>
+
+  export type PlatformAuditLogSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    actorId?: boolean
+    actorEmail?: boolean
+    action?: boolean
+    detail?: boolean
+    createdAt?: boolean
+  }
+
+  export type PlatformAuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "actorId" | "actorEmail" | "action" | "detail" | "createdAt", ExtArgs["result"]["platformAuditLog"]>
+  export type PlatformAuditLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }
+  export type PlatformAuditLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }
+  export type PlatformAuditLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    org?: boolean | PlatformAuditLog$orgArgs<ExtArgs>
+  }
+
+  export type $PlatformAuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformAuditLog"
+    objects: {
+      org: Prisma.$OrganizationPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string | null
+      actorId: string
+      actorEmail: string
+      action: string
+      detail: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["platformAuditLog"]>
+    composites: {}
+  }
+
+  type PlatformAuditLogGetPayload<S extends boolean | null | undefined | PlatformAuditLogDefaultArgs> = $Result.GetResult<Prisma.$PlatformAuditLogPayload, S>
+
+  type PlatformAuditLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformAuditLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformAuditLogCountAggregateInputType | true
+    }
+
+  export interface PlatformAuditLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformAuditLog'], meta: { name: 'PlatformAuditLog' } }
+    /**
+     * Find zero or one PlatformAuditLog that matches the filter.
+     * @param {PlatformAuditLogFindUniqueArgs} args - Arguments to find a PlatformAuditLog
+     * @example
+     * // Get one PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformAuditLogFindUniqueArgs>(args: SelectSubset<T, PlatformAuditLogFindUniqueArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformAuditLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformAuditLogFindUniqueOrThrowArgs} args - Arguments to find a PlatformAuditLog
+     * @example
+     * // Get one PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformAuditLogFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformAuditLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformAuditLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogFindFirstArgs} args - Arguments to find a PlatformAuditLog
+     * @example
+     * // Get one PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformAuditLogFindFirstArgs>(args?: SelectSubset<T, PlatformAuditLogFindFirstArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformAuditLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogFindFirstOrThrowArgs} args - Arguments to find a PlatformAuditLog
+     * @example
+     * // Get one PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformAuditLogFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformAuditLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformAuditLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformAuditLogs
+     * const platformAuditLogs = await prisma.platformAuditLog.findMany()
+     * 
+     * // Get first 10 PlatformAuditLogs
+     * const platformAuditLogs = await prisma.platformAuditLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformAuditLogWithIdOnly = await prisma.platformAuditLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformAuditLogFindManyArgs>(args?: SelectSubset<T, PlatformAuditLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformAuditLog.
+     * @param {PlatformAuditLogCreateArgs} args - Arguments to create a PlatformAuditLog.
+     * @example
+     * // Create one PlatformAuditLog
+     * const PlatformAuditLog = await prisma.platformAuditLog.create({
+     *   data: {
+     *     // ... data to create a PlatformAuditLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformAuditLogCreateArgs>(args: SelectSubset<T, PlatformAuditLogCreateArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformAuditLogs.
+     * @param {PlatformAuditLogCreateManyArgs} args - Arguments to create many PlatformAuditLogs.
+     * @example
+     * // Create many PlatformAuditLogs
+     * const platformAuditLog = await prisma.platformAuditLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformAuditLogCreateManyArgs>(args?: SelectSubset<T, PlatformAuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformAuditLogs and returns the data saved in the database.
+     * @param {PlatformAuditLogCreateManyAndReturnArgs} args - Arguments to create many PlatformAuditLogs.
+     * @example
+     * // Create many PlatformAuditLogs
+     * const platformAuditLog = await prisma.platformAuditLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformAuditLogs and only return the `id`
+     * const platformAuditLogWithIdOnly = await prisma.platformAuditLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformAuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformAuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformAuditLog.
+     * @param {PlatformAuditLogDeleteArgs} args - Arguments to delete one PlatformAuditLog.
+     * @example
+     * // Delete one PlatformAuditLog
+     * const PlatformAuditLog = await prisma.platformAuditLog.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformAuditLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformAuditLogDeleteArgs>(args: SelectSubset<T, PlatformAuditLogDeleteArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformAuditLog.
+     * @param {PlatformAuditLogUpdateArgs} args - Arguments to update one PlatformAuditLog.
+     * @example
+     * // Update one PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformAuditLogUpdateArgs>(args: SelectSubset<T, PlatformAuditLogUpdateArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformAuditLogs.
+     * @param {PlatformAuditLogDeleteManyArgs} args - Arguments to filter PlatformAuditLogs to delete.
+     * @example
+     * // Delete a few PlatformAuditLogs
+     * const { count } = await prisma.platformAuditLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformAuditLogDeleteManyArgs>(args?: SelectSubset<T, PlatformAuditLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformAuditLogs
+     * const platformAuditLog = await prisma.platformAuditLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformAuditLogUpdateManyArgs>(args: SelectSubset<T, PlatformAuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformAuditLogs and returns the data updated in the database.
+     * @param {PlatformAuditLogUpdateManyAndReturnArgs} args - Arguments to update many PlatformAuditLogs.
+     * @example
+     * // Update many PlatformAuditLogs
+     * const platformAuditLog = await prisma.platformAuditLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformAuditLogs and only return the `id`
+     * const platformAuditLogWithIdOnly = await prisma.platformAuditLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformAuditLogUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformAuditLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformAuditLog.
+     * @param {PlatformAuditLogUpsertArgs} args - Arguments to update or create a PlatformAuditLog.
+     * @example
+     * // Update or create a PlatformAuditLog
+     * const platformAuditLog = await prisma.platformAuditLog.upsert({
+     *   create: {
+     *     // ... data to create a PlatformAuditLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformAuditLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformAuditLogUpsertArgs>(args: SelectSubset<T, PlatformAuditLogUpsertArgs<ExtArgs>>): Prisma__PlatformAuditLogClient<$Result.GetResult<Prisma.$PlatformAuditLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogCountArgs} args - Arguments to filter PlatformAuditLogs to count.
+     * @example
+     * // Count the number of PlatformAuditLogs
+     * const count = await prisma.platformAuditLog.count({
+     *   where: {
+     *     // ... the filter for the PlatformAuditLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformAuditLogCountArgs>(
+      args?: Subset<T, PlatformAuditLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformAuditLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformAuditLogAggregateArgs>(args: Subset<T, PlatformAuditLogAggregateArgs>): Prisma.PrismaPromise<GetPlatformAuditLogAggregateType<T>>
+
+    /**
+     * Group by PlatformAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAuditLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformAuditLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformAuditLogGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformAuditLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformAuditLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformAuditLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformAuditLog model
+   */
+  readonly fields: PlatformAuditLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformAuditLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformAuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    org<T extends PlatformAuditLog$orgArgs<ExtArgs> = {}>(args?: Subset<T, PlatformAuditLog$orgArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformAuditLog model
+   */
+  interface PlatformAuditLogFieldRefs {
+    readonly id: FieldRef<"PlatformAuditLog", 'String'>
+    readonly orgId: FieldRef<"PlatformAuditLog", 'String'>
+    readonly actorId: FieldRef<"PlatformAuditLog", 'String'>
+    readonly actorEmail: FieldRef<"PlatformAuditLog", 'String'>
+    readonly action: FieldRef<"PlatformAuditLog", 'String'>
+    readonly detail: FieldRef<"PlatformAuditLog", 'String'>
+    readonly createdAt: FieldRef<"PlatformAuditLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformAuditLog findUnique
+   */
+  export type PlatformAuditLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAuditLog to fetch.
+     */
+    where: PlatformAuditLogWhereUniqueInput
+  }
+
+  /**
+   * PlatformAuditLog findUniqueOrThrow
+   */
+  export type PlatformAuditLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAuditLog to fetch.
+     */
+    where: PlatformAuditLogWhereUniqueInput
+  }
+
+  /**
+   * PlatformAuditLog findFirst
+   */
+  export type PlatformAuditLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAuditLog to fetch.
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAuditLogs to fetch.
+     */
+    orderBy?: PlatformAuditLogOrderByWithRelationInput | PlatformAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformAuditLogs.
+     */
+    cursor?: PlatformAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformAuditLogs.
+     */
+    distinct?: PlatformAuditLogScalarFieldEnum | PlatformAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAuditLog findFirstOrThrow
+   */
+  export type PlatformAuditLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAuditLog to fetch.
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAuditLogs to fetch.
+     */
+    orderBy?: PlatformAuditLogOrderByWithRelationInput | PlatformAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformAuditLogs.
+     */
+    cursor?: PlatformAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformAuditLogs.
+     */
+    distinct?: PlatformAuditLogScalarFieldEnum | PlatformAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAuditLog findMany
+   */
+  export type PlatformAuditLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAuditLogs to fetch.
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAuditLogs to fetch.
+     */
+    orderBy?: PlatformAuditLogOrderByWithRelationInput | PlatformAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformAuditLogs.
+     */
+    cursor?: PlatformAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAuditLogs.
+     */
+    skip?: number
+    distinct?: PlatformAuditLogScalarFieldEnum | PlatformAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAuditLog create
+   */
+  export type PlatformAuditLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformAuditLog.
+     */
+    data: XOR<PlatformAuditLogCreateInput, PlatformAuditLogUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformAuditLog createMany
+   */
+  export type PlatformAuditLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformAuditLogs.
+     */
+    data: PlatformAuditLogCreateManyInput | PlatformAuditLogCreateManyInput[]
+  }
+
+  /**
+   * PlatformAuditLog createManyAndReturn
+   */
+  export type PlatformAuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformAuditLogs.
+     */
+    data: PlatformAuditLogCreateManyInput | PlatformAuditLogCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformAuditLog update
+   */
+  export type PlatformAuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformAuditLog.
+     */
+    data: XOR<PlatformAuditLogUpdateInput, PlatformAuditLogUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformAuditLog to update.
+     */
+    where: PlatformAuditLogWhereUniqueInput
+  }
+
+  /**
+   * PlatformAuditLog updateMany
+   */
+  export type PlatformAuditLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformAuditLogs.
+     */
+    data: XOR<PlatformAuditLogUpdateManyMutationInput, PlatformAuditLogUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformAuditLogs to update
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * Limit how many PlatformAuditLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformAuditLog updateManyAndReturn
+   */
+  export type PlatformAuditLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformAuditLogs.
+     */
+    data: XOR<PlatformAuditLogUpdateManyMutationInput, PlatformAuditLogUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformAuditLogs to update
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * Limit how many PlatformAuditLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformAuditLog upsert
+   */
+  export type PlatformAuditLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformAuditLog to update in case it exists.
+     */
+    where: PlatformAuditLogWhereUniqueInput
+    /**
+     * In case the PlatformAuditLog found by the `where` argument doesn't exist, create a new PlatformAuditLog with this data.
+     */
+    create: XOR<PlatformAuditLogCreateInput, PlatformAuditLogUncheckedCreateInput>
+    /**
+     * In case the PlatformAuditLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformAuditLogUpdateInput, PlatformAuditLogUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformAuditLog delete
+   */
+  export type PlatformAuditLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+    /**
+     * Filter which PlatformAuditLog to delete.
+     */
+    where: PlatformAuditLogWhereUniqueInput
+  }
+
+  /**
+   * PlatformAuditLog deleteMany
+   */
+  export type PlatformAuditLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformAuditLogs to delete
+     */
+    where?: PlatformAuditLogWhereInput
+    /**
+     * Limit how many PlatformAuditLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformAuditLog.org
+   */
+  export type PlatformAuditLog$orgArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Organization
+     */
+    select?: OrganizationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Organization
+     */
+    omit?: OrganizationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganizationInclude<ExtArgs> | null
+    where?: OrganizationWhereInput
+  }
+
+  /**
+   * PlatformAuditLog without action
+   */
+  export type PlatformAuditLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAuditLog
+     */
+    select?: PlatformAuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAuditLog
+     */
+    omit?: PlatformAuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAuditLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -24866,7 +32860,8 @@ export namespace Prisma {
     gstin: 'gstin',
     placeOfSupply: 'placeOfSupply',
     defaultHsnSac: 'defaultHsnSac',
-    gstRate: 'gstRate'
+    gstRate: 'gstRate',
+    monthlyFee: 'monthlyFee'
   };
 
   export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
@@ -24883,17 +32878,40 @@ export namespace Prisma {
     city: 'city',
     source: 'source',
     notes: 'notes',
+    gstin: 'gstin',
+    billingAddress: 'billingAddress',
+    state: 'state',
     stage: 'stage',
     status: 'status',
     plan: 'plan',
     quotedPrice: 'quotedPrice',
     dropReason: 'dropReason',
     convertedAt: 'convertedAt',
+    assigneeId: 'assigneeId',
+    nextActionAt: 'nextActionAt',
+    nextActionNote: 'nextActionNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]
+
+
+  export const LeadActivityScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    contactId: 'contactId',
+    type: 'type',
+    title: 'title',
+    dueDate: 'dueDate',
+    done: 'done',
+    outcome: 'outcome',
+    assigneeId: 'assigneeId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LeadActivityScalarFieldEnum = (typeof LeadActivityScalarFieldEnum)[keyof typeof LeadActivityScalarFieldEnum]
 
 
   export const ProjectScalarFieldEnum: {
@@ -25063,7 +33081,8 @@ export namespace Prisma {
     active: 'active',
     avatarColor: 'avatarColor',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    team: 'team'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -25095,6 +33114,41 @@ export namespace Prisma {
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+  export const MeetingScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    contactId: 'contactId',
+    projectId: 'projectId',
+    summary: 'summary',
+    transcriptUrl: 'transcriptUrl',
+    externalId: 'externalId',
+    hostId: 'hostId',
+    title: 'title',
+    startAt: 'startAt',
+    endAt: 'endAt',
+    location: 'location',
+    link: 'link',
+    status: 'status',
+    outcome: 'outcome',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MeetingScalarFieldEnum = (typeof MeetingScalarFieldEnum)[keyof typeof MeetingScalarFieldEnum]
+
+
+  export const MeetingNoteScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    meetingId: 'meetingId',
+    authorId: 'authorId',
+    body: 'body',
+    createdAt: 'createdAt'
+  };
+
+  export type MeetingNoteScalarFieldEnum = (typeof MeetingNoteScalarFieldEnum)[keyof typeof MeetingNoteScalarFieldEnum]
 
 
   export const TaskScalarFieldEnum: {
@@ -25159,6 +33213,44 @@ export namespace Prisma {
   };
 
   export type TimeLogScalarFieldEnum = (typeof TimeLogScalarFieldEnum)[keyof typeof TimeLogScalarFieldEnum]
+
+
+  export const PlatformPlanScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    monthlyPrice: 'monthlyPrice',
+    active: 'active',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt'
+  };
+
+  export type PlatformPlanScalarFieldEnum = (typeof PlatformPlanScalarFieldEnum)[keyof typeof PlatformPlanScalarFieldEnum]
+
+
+  export const PlatformPaymentScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    amount: 'amount',
+    period: 'period',
+    note: 'note',
+    paidAt: 'paidAt',
+    createdAt: 'createdAt'
+  };
+
+  export type PlatformPaymentScalarFieldEnum = (typeof PlatformPaymentScalarFieldEnum)[keyof typeof PlatformPaymentScalarFieldEnum]
+
+
+  export const PlatformAuditLogScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    actorId: 'actorId',
+    actorEmail: 'actorEmail',
+    action: 'action',
+    detail: 'detail',
+    createdAt: 'createdAt'
+  };
+
+  export type PlatformAuditLogScalarFieldEnum = (typeof PlatformAuditLogScalarFieldEnum)[keyof typeof PlatformAuditLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -25243,6 +33335,7 @@ export namespace Prisma {
     placeOfSupply?: StringNullableFilter<"Organization"> | string | null
     defaultHsnSac?: StringNullableFilter<"Organization"> | string | null
     gstRate?: FloatFilter<"Organization"> | number
+    monthlyFee?: IntNullableFilter<"Organization"> | number | null
     users?: UserListRelationFilter
     contacts?: ContactListRelationFilter
     projects?: ProjectListRelationFilter
@@ -25258,6 +33351,11 @@ export namespace Prisma {
     timeLogs?: TimeLogListRelationFilter
     categories?: CategoryListRelationFilter
     loginSessions?: LoginSessionListRelationFilter
+    platformPayments?: PlatformPaymentListRelationFilter
+    platformAuditLogs?: PlatformAuditLogListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    meetings?: MeetingListRelationFilter
+    meetingNotes?: MeetingNoteListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -25280,6 +33378,7 @@ export namespace Prisma {
     placeOfSupply?: SortOrderInput | SortOrder
     defaultHsnSac?: SortOrderInput | SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrderInput | SortOrder
     users?: UserOrderByRelationAggregateInput
     contacts?: ContactOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
@@ -25295,6 +33394,11 @@ export namespace Prisma {
     timeLogs?: TimeLogOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     loginSessions?: LoginSessionOrderByRelationAggregateInput
+    platformPayments?: PlatformPaymentOrderByRelationAggregateInput
+    platformAuditLogs?: PlatformAuditLogOrderByRelationAggregateInput
+    leadActivities?: LeadActivityOrderByRelationAggregateInput
+    meetings?: MeetingOrderByRelationAggregateInput
+    meetingNotes?: MeetingNoteOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -25320,6 +33424,7 @@ export namespace Prisma {
     placeOfSupply?: StringNullableFilter<"Organization"> | string | null
     defaultHsnSac?: StringNullableFilter<"Organization"> | string | null
     gstRate?: FloatFilter<"Organization"> | number
+    monthlyFee?: IntNullableFilter<"Organization"> | number | null
     users?: UserListRelationFilter
     contacts?: ContactListRelationFilter
     projects?: ProjectListRelationFilter
@@ -25335,6 +33440,11 @@ export namespace Prisma {
     timeLogs?: TimeLogListRelationFilter
     categories?: CategoryListRelationFilter
     loginSessions?: LoginSessionListRelationFilter
+    platformPayments?: PlatformPaymentListRelationFilter
+    platformAuditLogs?: PlatformAuditLogListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    meetings?: MeetingListRelationFilter
+    meetingNotes?: MeetingNoteListRelationFilter
   }, "id" | "slug">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -25357,6 +33467,7 @@ export namespace Prisma {
     placeOfSupply?: SortOrderInput | SortOrder
     defaultHsnSac?: SortOrderInput | SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrderInput | SortOrder
     _count?: OrganizationCountOrderByAggregateInput
     _avg?: OrganizationAvgOrderByAggregateInput
     _max?: OrganizationMaxOrderByAggregateInput
@@ -25387,6 +33498,7 @@ export namespace Prisma {
     placeOfSupply?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     defaultHsnSac?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     gstRate?: FloatWithAggregatesFilter<"Organization"> | number
+    monthlyFee?: IntNullableWithAggregatesFilter<"Organization"> | number | null
   }
 
   export type ContactWhereInput = {
@@ -25403,18 +33515,27 @@ export namespace Prisma {
     city?: StringNullableFilter<"Contact"> | string | null
     source?: StringNullableFilter<"Contact"> | string | null
     notes?: StringNullableFilter<"Contact"> | string | null
+    gstin?: StringNullableFilter<"Contact"> | string | null
+    billingAddress?: StringNullableFilter<"Contact"> | string | null
+    state?: StringNullableFilter<"Contact"> | string | null
     stage?: StringFilter<"Contact"> | string
     status?: StringFilter<"Contact"> | string
     plan?: StringNullableFilter<"Contact"> | string | null
     quotedPrice?: IntNullableFilter<"Contact"> | number | null
     dropReason?: StringNullableFilter<"Contact"> | string | null
     convertedAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    assigneeId?: StringNullableFilter<"Contact"> | string | null
+    nextActionAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    nextActionNote?: StringNullableFilter<"Contact"> | string | null
     createdAt?: DateTimeFilter<"Contact"> | Date | string
     updatedAt?: DateTimeFilter<"Contact"> | Date | string
     org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     projects?: ProjectListRelationFilter
     followUps?: FollowUpListRelationFilter
     interactions?: InteractionListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    meetings?: MeetingListRelationFilter
   }
 
   export type ContactOrderByWithRelationInput = {
@@ -25428,18 +33549,27 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     source?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    gstin?: SortOrderInput | SortOrder
+    billingAddress?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
     stage?: SortOrder
     status?: SortOrder
     plan?: SortOrderInput | SortOrder
     quotedPrice?: SortOrderInput | SortOrder
     dropReason?: SortOrderInput | SortOrder
     convertedAt?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    nextActionAt?: SortOrderInput | SortOrder
+    nextActionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     org?: OrganizationOrderByWithRelationInput
+    assignee?: UserOrderByWithRelationInput
     projects?: ProjectOrderByRelationAggregateInput
     followUps?: FollowUpOrderByRelationAggregateInput
     interactions?: InteractionOrderByRelationAggregateInput
+    leadActivities?: LeadActivityOrderByRelationAggregateInput
+    meetings?: MeetingOrderByRelationAggregateInput
   }
 
   export type ContactWhereUniqueInput = Prisma.AtLeast<{
@@ -25456,18 +33586,27 @@ export namespace Prisma {
     city?: StringNullableFilter<"Contact"> | string | null
     source?: StringNullableFilter<"Contact"> | string | null
     notes?: StringNullableFilter<"Contact"> | string | null
+    gstin?: StringNullableFilter<"Contact"> | string | null
+    billingAddress?: StringNullableFilter<"Contact"> | string | null
+    state?: StringNullableFilter<"Contact"> | string | null
     stage?: StringFilter<"Contact"> | string
     status?: StringFilter<"Contact"> | string
     plan?: StringNullableFilter<"Contact"> | string | null
     quotedPrice?: IntNullableFilter<"Contact"> | number | null
     dropReason?: StringNullableFilter<"Contact"> | string | null
     convertedAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    assigneeId?: StringNullableFilter<"Contact"> | string | null
+    nextActionAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    nextActionNote?: StringNullableFilter<"Contact"> | string | null
     createdAt?: DateTimeFilter<"Contact"> | Date | string
     updatedAt?: DateTimeFilter<"Contact"> | Date | string
     org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     projects?: ProjectListRelationFilter
     followUps?: FollowUpListRelationFilter
     interactions?: InteractionListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    meetings?: MeetingListRelationFilter
   }, "id">
 
   export type ContactOrderByWithAggregationInput = {
@@ -25481,12 +33620,18 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     source?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    gstin?: SortOrderInput | SortOrder
+    billingAddress?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
     stage?: SortOrder
     status?: SortOrder
     plan?: SortOrderInput | SortOrder
     quotedPrice?: SortOrderInput | SortOrder
     dropReason?: SortOrderInput | SortOrder
     convertedAt?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    nextActionAt?: SortOrderInput | SortOrder
+    nextActionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ContactCountOrderByAggregateInput
@@ -25510,14 +33655,111 @@ export namespace Prisma {
     city?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     source?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     notes?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    gstin?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    billingAddress?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    state?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     stage?: StringWithAggregatesFilter<"Contact"> | string
     status?: StringWithAggregatesFilter<"Contact"> | string
     plan?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     quotedPrice?: IntNullableWithAggregatesFilter<"Contact"> | number | null
     dropReason?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     convertedAt?: DateTimeNullableWithAggregatesFilter<"Contact"> | Date | string | null
+    assigneeId?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    nextActionAt?: DateTimeNullableWithAggregatesFilter<"Contact"> | Date | string | null
+    nextActionNote?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Contact"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Contact"> | Date | string
+  }
+
+  export type LeadActivityWhereInput = {
+    AND?: LeadActivityWhereInput | LeadActivityWhereInput[]
+    OR?: LeadActivityWhereInput[]
+    NOT?: LeadActivityWhereInput | LeadActivityWhereInput[]
+    id?: StringFilter<"LeadActivity"> | string
+    orgId?: StringFilter<"LeadActivity"> | string
+    contactId?: StringFilter<"LeadActivity"> | string
+    type?: StringFilter<"LeadActivity"> | string
+    title?: StringNullableFilter<"LeadActivity"> | string | null
+    dueDate?: DateTimeNullableFilter<"LeadActivity"> | Date | string | null
+    done?: BoolFilter<"LeadActivity"> | boolean
+    outcome?: StringNullableFilter<"LeadActivity"> | string | null
+    assigneeId?: StringNullableFilter<"LeadActivity"> | string | null
+    createdAt?: DateTimeFilter<"LeadActivity"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadActivity"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    contact?: XOR<ContactScalarRelationFilter, ContactWhereInput>
+    assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type LeadActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    type?: SortOrder
+    title?: SortOrderInput | SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    done?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    org?: OrganizationOrderByWithRelationInput
+    contact?: ContactOrderByWithRelationInput
+    assignee?: UserOrderByWithRelationInput
+  }
+
+  export type LeadActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LeadActivityWhereInput | LeadActivityWhereInput[]
+    OR?: LeadActivityWhereInput[]
+    NOT?: LeadActivityWhereInput | LeadActivityWhereInput[]
+    orgId?: StringFilter<"LeadActivity"> | string
+    contactId?: StringFilter<"LeadActivity"> | string
+    type?: StringFilter<"LeadActivity"> | string
+    title?: StringNullableFilter<"LeadActivity"> | string | null
+    dueDate?: DateTimeNullableFilter<"LeadActivity"> | Date | string | null
+    done?: BoolFilter<"LeadActivity"> | boolean
+    outcome?: StringNullableFilter<"LeadActivity"> | string | null
+    assigneeId?: StringNullableFilter<"LeadActivity"> | string | null
+    createdAt?: DateTimeFilter<"LeadActivity"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadActivity"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    contact?: XOR<ContactScalarRelationFilter, ContactWhereInput>
+    assignee?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type LeadActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    type?: SortOrder
+    title?: SortOrderInput | SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    done?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    assigneeId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LeadActivityCountOrderByAggregateInput
+    _max?: LeadActivityMaxOrderByAggregateInput
+    _min?: LeadActivityMinOrderByAggregateInput
+  }
+
+  export type LeadActivityScalarWhereWithAggregatesInput = {
+    AND?: LeadActivityScalarWhereWithAggregatesInput | LeadActivityScalarWhereWithAggregatesInput[]
+    OR?: LeadActivityScalarWhereWithAggregatesInput[]
+    NOT?: LeadActivityScalarWhereWithAggregatesInput | LeadActivityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeadActivity"> | string
+    orgId?: StringWithAggregatesFilter<"LeadActivity"> | string
+    contactId?: StringWithAggregatesFilter<"LeadActivity"> | string
+    type?: StringWithAggregatesFilter<"LeadActivity"> | string
+    title?: StringNullableWithAggregatesFilter<"LeadActivity"> | string | null
+    dueDate?: DateTimeNullableWithAggregatesFilter<"LeadActivity"> | Date | string | null
+    done?: BoolWithAggregatesFilter<"LeadActivity"> | boolean
+    outcome?: StringNullableWithAggregatesFilter<"LeadActivity"> | string | null
+    assigneeId?: StringNullableWithAggregatesFilter<"LeadActivity"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LeadActivity"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LeadActivity"> | Date | string
   }
 
   export type ProjectWhereInput = {
@@ -25549,6 +33791,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     invoices?: InvoiceListRelationFilter
     tasks?: TaskListRelationFilter
+    meetings?: MeetingListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -25577,6 +33820,7 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
     tasks?: TaskOrderByRelationAggregateInput
+    meetings?: MeetingOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -25608,6 +33852,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     invoices?: InvoiceListRelationFilter
     tasks?: TaskListRelationFilter
+    meetings?: MeetingListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -26359,15 +34604,20 @@ export namespace Prisma {
     avatarColor?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    team?: StringFilter<"User"> | string
     org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     assignedTasks?: TaskListRelationFilter
     reportedTasks?: TaskListRelationFilter
     activities?: TaskActivityListRelationFilter
+    assignedContacts?: ContactListRelationFilter
     comments?: TaskCommentListRelationFilter
     timeLogs?: TimeLogListRelationFilter
     loginSessions?: LoginSessionListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    hostedMeetings?: MeetingListRelationFilter
+    meetingNotes?: MeetingNoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26382,15 +34632,20 @@ export namespace Prisma {
     avatarColor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    team?: SortOrder
     org?: OrganizationOrderByWithRelationInput
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     assignedTasks?: TaskOrderByRelationAggregateInput
     reportedTasks?: TaskOrderByRelationAggregateInput
     activities?: TaskActivityOrderByRelationAggregateInput
+    assignedContacts?: ContactOrderByRelationAggregateInput
     comments?: TaskCommentOrderByRelationAggregateInput
     timeLogs?: TimeLogOrderByRelationAggregateInput
     loginSessions?: LoginSessionOrderByRelationAggregateInput
+    leadActivities?: LeadActivityOrderByRelationAggregateInput
+    hostedMeetings?: MeetingOrderByRelationAggregateInput
+    meetingNotes?: MeetingNoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26409,15 +34664,20 @@ export namespace Prisma {
     avatarColor?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    team?: StringFilter<"User"> | string
     org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     assignedTasks?: TaskListRelationFilter
     reportedTasks?: TaskListRelationFilter
     activities?: TaskActivityListRelationFilter
+    assignedContacts?: ContactListRelationFilter
     comments?: TaskCommentListRelationFilter
     timeLogs?: TimeLogListRelationFilter
     loginSessions?: LoginSessionListRelationFilter
+    leadActivities?: LeadActivityListRelationFilter
+    hostedMeetings?: MeetingListRelationFilter
+    meetingNotes?: MeetingNoteListRelationFilter
   }, "id" | "orgId_email">
 
   export type UserOrderByWithAggregationInput = {
@@ -26432,6 +34692,7 @@ export namespace Prisma {
     avatarColor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    team?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -26452,6 +34713,7 @@ export namespace Prisma {
     avatarColor?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    team?: StringWithAggregatesFilter<"User"> | string
   }
 
   export type AccountWhereInput = {
@@ -26595,6 +34857,199 @@ export namespace Prisma {
     sessionToken?: StringWithAggregatesFilter<"Session"> | string
     userId?: StringWithAggregatesFilter<"Session"> | string
     expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+  }
+
+  export type MeetingWhereInput = {
+    AND?: MeetingWhereInput | MeetingWhereInput[]
+    OR?: MeetingWhereInput[]
+    NOT?: MeetingWhereInput | MeetingWhereInput[]
+    id?: StringFilter<"Meeting"> | string
+    orgId?: StringFilter<"Meeting"> | string
+    contactId?: StringFilter<"Meeting"> | string
+    projectId?: StringNullableFilter<"Meeting"> | string | null
+    summary?: StringNullableFilter<"Meeting"> | string | null
+    transcriptUrl?: StringNullableFilter<"Meeting"> | string | null
+    externalId?: StringNullableFilter<"Meeting"> | string | null
+    hostId?: StringNullableFilter<"Meeting"> | string | null
+    title?: StringFilter<"Meeting"> | string
+    startAt?: DateTimeFilter<"Meeting"> | Date | string
+    endAt?: DateTimeNullableFilter<"Meeting"> | Date | string | null
+    location?: StringNullableFilter<"Meeting"> | string | null
+    link?: StringNullableFilter<"Meeting"> | string | null
+    status?: StringFilter<"Meeting"> | string
+    outcome?: StringNullableFilter<"Meeting"> | string | null
+    createdAt?: DateTimeFilter<"Meeting"> | Date | string
+    updatedAt?: DateTimeFilter<"Meeting"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    contact?: XOR<ContactScalarRelationFilter, ContactWhereInput>
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    host?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    notes?: MeetingNoteListRelationFilter
+  }
+
+  export type MeetingOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    summary?: SortOrderInput | SortOrder
+    transcriptUrl?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    hostId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    startAt?: SortOrder
+    endAt?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    status?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    org?: OrganizationOrderByWithRelationInput
+    contact?: ContactOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+    host?: UserOrderByWithRelationInput
+    notes?: MeetingNoteOrderByRelationAggregateInput
+  }
+
+  export type MeetingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MeetingWhereInput | MeetingWhereInput[]
+    OR?: MeetingWhereInput[]
+    NOT?: MeetingWhereInput | MeetingWhereInput[]
+    orgId?: StringFilter<"Meeting"> | string
+    contactId?: StringFilter<"Meeting"> | string
+    projectId?: StringNullableFilter<"Meeting"> | string | null
+    summary?: StringNullableFilter<"Meeting"> | string | null
+    transcriptUrl?: StringNullableFilter<"Meeting"> | string | null
+    externalId?: StringNullableFilter<"Meeting"> | string | null
+    hostId?: StringNullableFilter<"Meeting"> | string | null
+    title?: StringFilter<"Meeting"> | string
+    startAt?: DateTimeFilter<"Meeting"> | Date | string
+    endAt?: DateTimeNullableFilter<"Meeting"> | Date | string | null
+    location?: StringNullableFilter<"Meeting"> | string | null
+    link?: StringNullableFilter<"Meeting"> | string | null
+    status?: StringFilter<"Meeting"> | string
+    outcome?: StringNullableFilter<"Meeting"> | string | null
+    createdAt?: DateTimeFilter<"Meeting"> | Date | string
+    updatedAt?: DateTimeFilter<"Meeting"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    contact?: XOR<ContactScalarRelationFilter, ContactWhereInput>
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    host?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    notes?: MeetingNoteListRelationFilter
+  }, "id">
+
+  export type MeetingOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    summary?: SortOrderInput | SortOrder
+    transcriptUrl?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    hostId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    startAt?: SortOrder
+    endAt?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    status?: SortOrder
+    outcome?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MeetingCountOrderByAggregateInput
+    _max?: MeetingMaxOrderByAggregateInput
+    _min?: MeetingMinOrderByAggregateInput
+  }
+
+  export type MeetingScalarWhereWithAggregatesInput = {
+    AND?: MeetingScalarWhereWithAggregatesInput | MeetingScalarWhereWithAggregatesInput[]
+    OR?: MeetingScalarWhereWithAggregatesInput[]
+    NOT?: MeetingScalarWhereWithAggregatesInput | MeetingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Meeting"> | string
+    orgId?: StringWithAggregatesFilter<"Meeting"> | string
+    contactId?: StringWithAggregatesFilter<"Meeting"> | string
+    projectId?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    summary?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    transcriptUrl?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    externalId?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    hostId?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    title?: StringWithAggregatesFilter<"Meeting"> | string
+    startAt?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
+    endAt?: DateTimeNullableWithAggregatesFilter<"Meeting"> | Date | string | null
+    location?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    link?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    status?: StringWithAggregatesFilter<"Meeting"> | string
+    outcome?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
+  }
+
+  export type MeetingNoteWhereInput = {
+    AND?: MeetingNoteWhereInput | MeetingNoteWhereInput[]
+    OR?: MeetingNoteWhereInput[]
+    NOT?: MeetingNoteWhereInput | MeetingNoteWhereInput[]
+    id?: StringFilter<"MeetingNote"> | string
+    orgId?: StringFilter<"MeetingNote"> | string
+    meetingId?: StringFilter<"MeetingNote"> | string
+    authorId?: StringNullableFilter<"MeetingNote"> | string | null
+    body?: StringFilter<"MeetingNote"> | string
+    createdAt?: DateTimeFilter<"MeetingNote"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    meeting?: XOR<MeetingScalarRelationFilter, MeetingWhereInput>
+    author?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type MeetingNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    meetingId?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    createdAt?: SortOrder
+    org?: OrganizationOrderByWithRelationInput
+    meeting?: MeetingOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type MeetingNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MeetingNoteWhereInput | MeetingNoteWhereInput[]
+    OR?: MeetingNoteWhereInput[]
+    NOT?: MeetingNoteWhereInput | MeetingNoteWhereInput[]
+    orgId?: StringFilter<"MeetingNote"> | string
+    meetingId?: StringFilter<"MeetingNote"> | string
+    authorId?: StringNullableFilter<"MeetingNote"> | string | null
+    body?: StringFilter<"MeetingNote"> | string
+    createdAt?: DateTimeFilter<"MeetingNote"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    meeting?: XOR<MeetingScalarRelationFilter, MeetingWhereInput>
+    author?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type MeetingNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    meetingId?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    createdAt?: SortOrder
+    _count?: MeetingNoteCountOrderByAggregateInput
+    _max?: MeetingNoteMaxOrderByAggregateInput
+    _min?: MeetingNoteMinOrderByAggregateInput
+  }
+
+  export type MeetingNoteScalarWhereWithAggregatesInput = {
+    AND?: MeetingNoteScalarWhereWithAggregatesInput | MeetingNoteScalarWhereWithAggregatesInput[]
+    OR?: MeetingNoteScalarWhereWithAggregatesInput[]
+    NOT?: MeetingNoteScalarWhereWithAggregatesInput | MeetingNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MeetingNote"> | string
+    orgId?: StringWithAggregatesFilter<"MeetingNote"> | string
+    meetingId?: StringWithAggregatesFilter<"MeetingNote"> | string
+    authorId?: StringNullableWithAggregatesFilter<"MeetingNote"> | string | null
+    body?: StringWithAggregatesFilter<"MeetingNote"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"MeetingNote"> | Date | string
   }
 
   export type TaskWhereInput = {
@@ -26957,6 +35412,197 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"TimeLog"> | Date | string
   }
 
+  export type PlatformPlanWhereInput = {
+    AND?: PlatformPlanWhereInput | PlatformPlanWhereInput[]
+    OR?: PlatformPlanWhereInput[]
+    NOT?: PlatformPlanWhereInput | PlatformPlanWhereInput[]
+    id?: StringFilter<"PlatformPlan"> | string
+    name?: StringFilter<"PlatformPlan"> | string
+    monthlyPrice?: IntFilter<"PlatformPlan"> | number
+    active?: BoolFilter<"PlatformPlan"> | boolean
+    sortOrder?: IntFilter<"PlatformPlan"> | number
+    createdAt?: DateTimeFilter<"PlatformPlan"> | Date | string
+  }
+
+  export type PlatformPlanOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    monthlyPrice?: SortOrder
+    active?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: PlatformPlanWhereInput | PlatformPlanWhereInput[]
+    OR?: PlatformPlanWhereInput[]
+    NOT?: PlatformPlanWhereInput | PlatformPlanWhereInput[]
+    monthlyPrice?: IntFilter<"PlatformPlan"> | number
+    active?: BoolFilter<"PlatformPlan"> | boolean
+    sortOrder?: IntFilter<"PlatformPlan"> | number
+    createdAt?: DateTimeFilter<"PlatformPlan"> | Date | string
+  }, "id" | "name">
+
+  export type PlatformPlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    monthlyPrice?: SortOrder
+    active?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    _count?: PlatformPlanCountOrderByAggregateInput
+    _avg?: PlatformPlanAvgOrderByAggregateInput
+    _max?: PlatformPlanMaxOrderByAggregateInput
+    _min?: PlatformPlanMinOrderByAggregateInput
+    _sum?: PlatformPlanSumOrderByAggregateInput
+  }
+
+  export type PlatformPlanScalarWhereWithAggregatesInput = {
+    AND?: PlatformPlanScalarWhereWithAggregatesInput | PlatformPlanScalarWhereWithAggregatesInput[]
+    OR?: PlatformPlanScalarWhereWithAggregatesInput[]
+    NOT?: PlatformPlanScalarWhereWithAggregatesInput | PlatformPlanScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformPlan"> | string
+    name?: StringWithAggregatesFilter<"PlatformPlan"> | string
+    monthlyPrice?: IntWithAggregatesFilter<"PlatformPlan"> | number
+    active?: BoolWithAggregatesFilter<"PlatformPlan"> | boolean
+    sortOrder?: IntWithAggregatesFilter<"PlatformPlan"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PlatformPlan"> | Date | string
+  }
+
+  export type PlatformPaymentWhereInput = {
+    AND?: PlatformPaymentWhereInput | PlatformPaymentWhereInput[]
+    OR?: PlatformPaymentWhereInput[]
+    NOT?: PlatformPaymentWhereInput | PlatformPaymentWhereInput[]
+    id?: StringFilter<"PlatformPayment"> | string
+    orgId?: StringFilter<"PlatformPayment"> | string
+    amount?: IntFilter<"PlatformPayment"> | number
+    period?: StringNullableFilter<"PlatformPayment"> | string | null
+    note?: StringNullableFilter<"PlatformPayment"> | string | null
+    paidAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+    createdAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }
+
+  export type PlatformPaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    amount?: SortOrder
+    period?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    org?: OrganizationOrderByWithRelationInput
+  }
+
+  export type PlatformPaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PlatformPaymentWhereInput | PlatformPaymentWhereInput[]
+    OR?: PlatformPaymentWhereInput[]
+    NOT?: PlatformPaymentWhereInput | PlatformPaymentWhereInput[]
+    orgId?: StringFilter<"PlatformPayment"> | string
+    amount?: IntFilter<"PlatformPayment"> | number
+    period?: StringNullableFilter<"PlatformPayment"> | string | null
+    note?: StringNullableFilter<"PlatformPayment"> | string | null
+    paidAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+    createdAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+    org?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type PlatformPaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    amount?: SortOrder
+    period?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: PlatformPaymentCountOrderByAggregateInput
+    _avg?: PlatformPaymentAvgOrderByAggregateInput
+    _max?: PlatformPaymentMaxOrderByAggregateInput
+    _min?: PlatformPaymentMinOrderByAggregateInput
+    _sum?: PlatformPaymentSumOrderByAggregateInput
+  }
+
+  export type PlatformPaymentScalarWhereWithAggregatesInput = {
+    AND?: PlatformPaymentScalarWhereWithAggregatesInput | PlatformPaymentScalarWhereWithAggregatesInput[]
+    OR?: PlatformPaymentScalarWhereWithAggregatesInput[]
+    NOT?: PlatformPaymentScalarWhereWithAggregatesInput | PlatformPaymentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformPayment"> | string
+    orgId?: StringWithAggregatesFilter<"PlatformPayment"> | string
+    amount?: IntWithAggregatesFilter<"PlatformPayment"> | number
+    period?: StringNullableWithAggregatesFilter<"PlatformPayment"> | string | null
+    note?: StringNullableWithAggregatesFilter<"PlatformPayment"> | string | null
+    paidAt?: DateTimeWithAggregatesFilter<"PlatformPayment"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"PlatformPayment"> | Date | string
+  }
+
+  export type PlatformAuditLogWhereInput = {
+    AND?: PlatformAuditLogWhereInput | PlatformAuditLogWhereInput[]
+    OR?: PlatformAuditLogWhereInput[]
+    NOT?: PlatformAuditLogWhereInput | PlatformAuditLogWhereInput[]
+    id?: StringFilter<"PlatformAuditLog"> | string
+    orgId?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    actorId?: StringFilter<"PlatformAuditLog"> | string
+    actorEmail?: StringFilter<"PlatformAuditLog"> | string
+    action?: StringFilter<"PlatformAuditLog"> | string
+    detail?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    createdAt?: DateTimeFilter<"PlatformAuditLog"> | Date | string
+    org?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
+  }
+
+  export type PlatformAuditLogOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrderInput | SortOrder
+    actorId?: SortOrder
+    actorEmail?: SortOrder
+    action?: SortOrder
+    detail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    org?: OrganizationOrderByWithRelationInput
+  }
+
+  export type PlatformAuditLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PlatformAuditLogWhereInput | PlatformAuditLogWhereInput[]
+    OR?: PlatformAuditLogWhereInput[]
+    NOT?: PlatformAuditLogWhereInput | PlatformAuditLogWhereInput[]
+    orgId?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    actorId?: StringFilter<"PlatformAuditLog"> | string
+    actorEmail?: StringFilter<"PlatformAuditLog"> | string
+    action?: StringFilter<"PlatformAuditLog"> | string
+    detail?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    createdAt?: DateTimeFilter<"PlatformAuditLog"> | Date | string
+    org?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
+  }, "id">
+
+  export type PlatformAuditLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrderInput | SortOrder
+    actorId?: SortOrder
+    actorEmail?: SortOrder
+    action?: SortOrder
+    detail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: PlatformAuditLogCountOrderByAggregateInput
+    _max?: PlatformAuditLogMaxOrderByAggregateInput
+    _min?: PlatformAuditLogMinOrderByAggregateInput
+  }
+
+  export type PlatformAuditLogScalarWhereWithAggregatesInput = {
+    AND?: PlatformAuditLogScalarWhereWithAggregatesInput | PlatformAuditLogScalarWhereWithAggregatesInput[]
+    OR?: PlatformAuditLogScalarWhereWithAggregatesInput[]
+    NOT?: PlatformAuditLogScalarWhereWithAggregatesInput | PlatformAuditLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformAuditLog"> | string
+    orgId?: StringNullableWithAggregatesFilter<"PlatformAuditLog"> | string | null
+    actorId?: StringWithAggregatesFilter<"PlatformAuditLog"> | string
+    actorEmail?: StringWithAggregatesFilter<"PlatformAuditLog"> | string
+    action?: StringWithAggregatesFilter<"PlatformAuditLog"> | string
+    detail?: StringNullableWithAggregatesFilter<"PlatformAuditLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PlatformAuditLog"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -26977,6 +35623,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -26992,6 +35639,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -27014,6 +35666,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -27029,6 +35682,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUpdateInput = {
@@ -27051,6 +35709,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -27066,6 +35725,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -27088,6 +35752,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -27103,6 +35768,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -27125,6 +35795,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
   }
 
   export type OrganizationUpdateManyMutationInput = {
@@ -27147,6 +35818,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type OrganizationUncheckedUpdateManyInput = {
@@ -27169,6 +35841,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ContactCreateInput = {
@@ -27181,18 +35854,26 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
     projects?: ProjectCreateNestedManyWithoutContactInput
     followUps?: FollowUpCreateNestedManyWithoutContactInput
     interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateInput = {
@@ -27206,17 +35887,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
     followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
     interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactUpdateInput = {
@@ -27229,18 +35918,26 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
     projects?: ProjectUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUpdateManyWithoutContactNestedInput
     interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateInput = {
@@ -27254,17 +35951,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
     interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactCreateManyInput = {
@@ -27278,12 +35983,18 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27298,12 +36009,17 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27319,12 +36035,113 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityCreateInput = {
+    id?: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutLeadActivitiesInput
+    contact: ContactCreateNestedOneWithoutLeadActivitiesInput
+    assignee?: UserCreateNestedOneWithoutLeadActivitiesInput
+  }
+
+  export type LeadActivityUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadActivityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutLeadActivitiesNestedInput
+    contact?: ContactUpdateOneRequiredWithoutLeadActivitiesNestedInput
+    assignee?: UserUpdateOneWithoutLeadActivitiesNestedInput
+  }
+
+  export type LeadActivityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityCreateManyInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadActivityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27353,6 +36170,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -27379,6 +36197,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -27405,6 +36224,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -27431,6 +36251,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -28243,15 +37064,20 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28266,14 +37092,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -28287,15 +37118,20 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28310,14 +37146,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -28332,6 +37173,7 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -28345,6 +37187,7 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -28359,6 +37202,7 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
   }
 
   export type AccountCreateInput = {
@@ -28511,6 +37355,206 @@ export namespace Prisma {
     sessionToken?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingCreateInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingsInput
+    contact: ContactCreateNestedOneWithoutMeetingsInput
+    project?: ProjectCreateNestedOneWithoutMeetingsInput
+    host?: UserCreateNestedOneWithoutHostedMeetingsInput
+    notes?: MeetingNoteCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingsNestedInput
+    contact?: ContactUpdateOneRequiredWithoutMeetingsNestedInput
+    project?: ProjectUpdateOneWithoutMeetingsNestedInput
+    host?: UserUpdateOneWithoutHostedMeetingsNestedInput
+    notes?: MeetingNoteUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingCreateManyInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteCreateInput = {
+    id?: string
+    body: string
+    createdAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingNotesInput
+    meeting: MeetingCreateNestedOneWithoutNotesInput
+    author?: UserCreateNestedOneWithoutMeetingNotesInput
+  }
+
+  export type MeetingNoteUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    meetingId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingNotesNestedInput
+    meeting?: MeetingUpdateOneRequiredWithoutNotesNestedInput
+    author?: UserUpdateOneWithoutMeetingNotesNestedInput
+  }
+
+  export type MeetingNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteCreateManyInput = {
+    id?: string
+    orgId: string
+    meetingId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskCreateInput = {
@@ -28876,6 +37920,207 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlatformPlanCreateInput = {
+    id?: string
+    name: string
+    monthlyPrice?: number
+    active?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+  }
+
+  export type PlatformPlanUncheckedCreateInput = {
+    id?: string
+    name: string
+    monthlyPrice?: number
+    active?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+  }
+
+  export type PlatformPlanUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    monthlyPrice?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPlanUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    monthlyPrice?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPlanCreateManyInput = {
+    id?: string
+    name: string
+    monthlyPrice?: number
+    active?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+  }
+
+  export type PlatformPlanUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    monthlyPrice?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPlanUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    monthlyPrice?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPaymentCreateInput = {
+    id?: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutPlatformPaymentsInput
+  }
+
+  export type PlatformPaymentUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PlatformPaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutPlatformPaymentsNestedInput
+  }
+
+  export type PlatformPaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPaymentCreateManyInput = {
+    id?: string
+    orgId: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PlatformPaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogCreateInput = {
+    id?: string
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+    org?: OrganizationCreateNestedOneWithoutPlatformAuditLogsInput
+  }
+
+  export type PlatformAuditLogUncheckedCreateInput = {
+    id?: string
+    orgId?: string | null
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAuditLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneWithoutPlatformAuditLogsNestedInput
+  }
+
+  export type PlatformAuditLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogCreateManyInput = {
+    id?: string
+    orgId?: string | null
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAuditLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -28951,6 +38196,17 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type UserListRelationFilter = {
@@ -29043,6 +38299,36 @@ export namespace Prisma {
     none?: LoginSessionWhereInput
   }
 
+  export type PlatformPaymentListRelationFilter = {
+    every?: PlatformPaymentWhereInput
+    some?: PlatformPaymentWhereInput
+    none?: PlatformPaymentWhereInput
+  }
+
+  export type PlatformAuditLogListRelationFilter = {
+    every?: PlatformAuditLogWhereInput
+    some?: PlatformAuditLogWhereInput
+    none?: PlatformAuditLogWhereInput
+  }
+
+  export type LeadActivityListRelationFilter = {
+    every?: LeadActivityWhereInput
+    some?: LeadActivityWhereInput
+    none?: LeadActivityWhereInput
+  }
+
+  export type MeetingListRelationFilter = {
+    every?: MeetingWhereInput
+    some?: MeetingWhereInput
+    none?: MeetingWhereInput
+  }
+
+  export type MeetingNoteListRelationFilter = {
+    every?: MeetingNoteWhereInput
+    some?: MeetingNoteWhereInput
+    none?: MeetingNoteWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -29108,6 +38394,26 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PlatformPaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlatformAuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeadActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MeetingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MeetingNoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type OrganizationCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -29128,11 +38434,13 @@ export namespace Prisma {
     placeOfSupply?: SortOrder
     defaultHsnSac?: SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrder
   }
 
   export type OrganizationAvgOrderByAggregateInput = {
     invoiceSeq?: SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrder
   }
 
   export type OrganizationMaxOrderByAggregateInput = {
@@ -29155,6 +38463,7 @@ export namespace Prisma {
     placeOfSupply?: SortOrder
     defaultHsnSac?: SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrder
   }
 
   export type OrganizationMinOrderByAggregateInput = {
@@ -29177,11 +38486,13 @@ export namespace Prisma {
     placeOfSupply?: SortOrder
     defaultHsnSac?: SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrder
   }
 
   export type OrganizationSumOrderByAggregateInput = {
     invoiceSeq?: SortOrder
     gstRate?: SortOrder
+    monthlyFee?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -29286,7 +38597,7 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
     notIn?: number[] | null
@@ -29294,12 +38605,22 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type OrganizationScalarRelationFilter = {
     is?: OrganizationWhereInput
     isNot?: OrganizationWhereInput
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type ContactCountOrderByAggregateInput = {
@@ -29313,12 +38634,18 @@ export namespace Prisma {
     city?: SortOrder
     source?: SortOrder
     notes?: SortOrder
+    gstin?: SortOrder
+    billingAddress?: SortOrder
+    state?: SortOrder
     stage?: SortOrder
     status?: SortOrder
     plan?: SortOrder
     quotedPrice?: SortOrder
     dropReason?: SortOrder
     convertedAt?: SortOrder
+    assigneeId?: SortOrder
+    nextActionAt?: SortOrder
+    nextActionNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29338,12 +38665,18 @@ export namespace Prisma {
     city?: SortOrder
     source?: SortOrder
     notes?: SortOrder
+    gstin?: SortOrder
+    billingAddress?: SortOrder
+    state?: SortOrder
     stage?: SortOrder
     status?: SortOrder
     plan?: SortOrder
     quotedPrice?: SortOrder
     dropReason?: SortOrder
     convertedAt?: SortOrder
+    assigneeId?: SortOrder
+    nextActionAt?: SortOrder
+    nextActionNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29359,12 +38692,18 @@ export namespace Prisma {
     city?: SortOrder
     source?: SortOrder
     notes?: SortOrder
+    gstin?: SortOrder
+    billingAddress?: SortOrder
+    state?: SortOrder
     stage?: SortOrder
     status?: SortOrder
     plan?: SortOrder
     quotedPrice?: SortOrder
     dropReason?: SortOrder
     convertedAt?: SortOrder
+    assigneeId?: SortOrder
+    nextActionAt?: SortOrder
+    nextActionNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29373,20 +38712,51 @@ export namespace Prisma {
     quotedPrice?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type ContactScalarRelationFilter = {
+    is?: ContactWhereInput
+    isNot?: ContactWhereInput
+  }
+
+  export type LeadActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    dueDate?: SortOrder
+    done?: SortOrder
+    outcome?: SortOrder
+    assigneeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeadActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    dueDate?: SortOrder
+    done?: SortOrder
+    outcome?: SortOrder
+    assigneeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeadActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    dueDate?: SortOrder
+    done?: SortOrder
+    outcome?: SortOrder
+    assigneeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -29398,11 +38768,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type ContactScalarRelationFilter = {
-    is?: ContactWhereInput
-    isNot?: ContactWhereInput
   }
 
   export type ProjectCountOrderByAggregateInput = {
@@ -29931,6 +39296,7 @@ export namespace Prisma {
     avatarColor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    team?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -29945,6 +39311,7 @@ export namespace Prisma {
     avatarColor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    team?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -29959,6 +39326,7 @@ export namespace Prisma {
     avatarColor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    team?: SortOrder
   }
 
   export type AccountProviderProviderAccountIdCompoundUniqueInput = {
@@ -30040,9 +39408,101 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+  export type ProjectNullableScalarRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
+  }
+
+  export type MeetingCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    projectId?: SortOrder
+    summary?: SortOrder
+    transcriptUrl?: SortOrder
+    externalId?: SortOrder
+    hostId?: SortOrder
+    title?: SortOrder
+    startAt?: SortOrder
+    endAt?: SortOrder
+    location?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    outcome?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MeetingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    projectId?: SortOrder
+    summary?: SortOrder
+    transcriptUrl?: SortOrder
+    externalId?: SortOrder
+    hostId?: SortOrder
+    title?: SortOrder
+    startAt?: SortOrder
+    endAt?: SortOrder
+    location?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    outcome?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MeetingMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    contactId?: SortOrder
+    projectId?: SortOrder
+    summary?: SortOrder
+    transcriptUrl?: SortOrder
+    externalId?: SortOrder
+    hostId?: SortOrder
+    title?: SortOrder
+    startAt?: SortOrder
+    endAt?: SortOrder
+    location?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    outcome?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MeetingScalarRelationFilter = {
+    is?: MeetingWhereInput
+    isNot?: MeetingWhereInput
+  }
+
+  export type MeetingNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    meetingId?: SortOrder
+    authorId?: SortOrder
+    body?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MeetingNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    meetingId?: SortOrder
+    authorId?: SortOrder
+    body?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MeetingNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    meetingId?: SortOrder
+    authorId?: SortOrder
+    body?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type TaskCountOrderByAggregateInput = {
@@ -30224,6 +39684,116 @@ export namespace Prisma {
     hours?: SortOrder
   }
 
+  export type PlatformPlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    monthlyPrice?: SortOrder
+    active?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPlanAvgOrderByAggregateInput = {
+    monthlyPrice?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type PlatformPlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    monthlyPrice?: SortOrder
+    active?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    monthlyPrice?: SortOrder
+    active?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPlanSumOrderByAggregateInput = {
+    monthlyPrice?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type PlatformPaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    amount?: SortOrder
+    period?: SortOrder
+    note?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPaymentAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PlatformPaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    amount?: SortOrder
+    period?: SortOrder
+    note?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    amount?: SortOrder
+    period?: SortOrder
+    note?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformPaymentSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type OrganizationNullableScalarRelationFilter = {
+    is?: OrganizationWhereInput | null
+    isNot?: OrganizationWhereInput | null
+  }
+
+  export type PlatformAuditLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    actorId?: SortOrder
+    actorEmail?: SortOrder
+    action?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformAuditLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    actorId?: SortOrder
+    actorEmail?: SortOrder
+    action?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlatformAuditLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    actorId?: SortOrder
+    actorEmail?: SortOrder
+    action?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutOrgInput = {
     create?: XOR<UserCreateWithoutOrgInput, UserUncheckedCreateWithoutOrgInput> | UserCreateWithoutOrgInput[] | UserUncheckedCreateWithoutOrgInput[]
     connectOrCreate?: UserCreateOrConnectWithoutOrgInput | UserCreateOrConnectWithoutOrgInput[]
@@ -30327,6 +39897,41 @@ export namespace Prisma {
     connectOrCreate?: LoginSessionCreateOrConnectWithoutOrgInput | LoginSessionCreateOrConnectWithoutOrgInput[]
     createMany?: LoginSessionCreateManyOrgInputEnvelope
     connect?: LoginSessionWhereUniqueInput | LoginSessionWhereUniqueInput[]
+  }
+
+  export type PlatformPaymentCreateNestedManyWithoutOrgInput = {
+    create?: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput> | PlatformPaymentCreateWithoutOrgInput[] | PlatformPaymentUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformPaymentCreateOrConnectWithoutOrgInput | PlatformPaymentCreateOrConnectWithoutOrgInput[]
+    createMany?: PlatformPaymentCreateManyOrgInputEnvelope
+    connect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+  }
+
+  export type PlatformAuditLogCreateNestedManyWithoutOrgInput = {
+    create?: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput> | PlatformAuditLogCreateWithoutOrgInput[] | PlatformAuditLogUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformAuditLogCreateOrConnectWithoutOrgInput | PlatformAuditLogCreateOrConnectWithoutOrgInput[]
+    createMany?: PlatformAuditLogCreateManyOrgInputEnvelope
+    connect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+  }
+
+  export type LeadActivityCreateNestedManyWithoutOrgInput = {
+    create?: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput> | LeadActivityCreateWithoutOrgInput[] | LeadActivityUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutOrgInput | LeadActivityCreateOrConnectWithoutOrgInput[]
+    createMany?: LeadActivityCreateManyOrgInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingCreateNestedManyWithoutOrgInput = {
+    create?: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput> | MeetingCreateWithoutOrgInput[] | MeetingUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutOrgInput | MeetingCreateOrConnectWithoutOrgInput[]
+    createMany?: MeetingCreateManyOrgInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
+  export type MeetingNoteCreateNestedManyWithoutOrgInput = {
+    create?: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput> | MeetingNoteCreateWithoutOrgInput[] | MeetingNoteUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutOrgInput | MeetingNoteCreateOrConnectWithoutOrgInput[]
+    createMany?: MeetingNoteCreateManyOrgInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutOrgInput = {
@@ -30434,6 +40039,41 @@ export namespace Prisma {
     connect?: LoginSessionWhereUniqueInput | LoginSessionWhereUniqueInput[]
   }
 
+  export type PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput = {
+    create?: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput> | PlatformPaymentCreateWithoutOrgInput[] | PlatformPaymentUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformPaymentCreateOrConnectWithoutOrgInput | PlatformPaymentCreateOrConnectWithoutOrgInput[]
+    createMany?: PlatformPaymentCreateManyOrgInputEnvelope
+    connect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+  }
+
+  export type PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput = {
+    create?: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput> | PlatformAuditLogCreateWithoutOrgInput[] | PlatformAuditLogUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformAuditLogCreateOrConnectWithoutOrgInput | PlatformAuditLogCreateOrConnectWithoutOrgInput[]
+    createMany?: PlatformAuditLogCreateManyOrgInputEnvelope
+    connect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+  }
+
+  export type LeadActivityUncheckedCreateNestedManyWithoutOrgInput = {
+    create?: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput> | LeadActivityCreateWithoutOrgInput[] | LeadActivityUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutOrgInput | LeadActivityCreateOrConnectWithoutOrgInput[]
+    createMany?: LeadActivityCreateManyOrgInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingUncheckedCreateNestedManyWithoutOrgInput = {
+    create?: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput> | MeetingCreateWithoutOrgInput[] | MeetingUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutOrgInput | MeetingCreateOrConnectWithoutOrgInput[]
+    createMany?: MeetingCreateManyOrgInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
+  export type MeetingNoteUncheckedCreateNestedManyWithoutOrgInput = {
+    create?: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput> | MeetingNoteCreateWithoutOrgInput[] | MeetingNoteUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutOrgInput | MeetingNoteCreateOrConnectWithoutOrgInput[]
+    createMany?: MeetingNoteCreateManyOrgInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -30464,6 +40104,14 @@ export namespace Prisma {
 
   export type FloatFieldUpdateOperationsInput = {
     set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -30680,6 +40328,76 @@ export namespace Prisma {
     deleteMany?: LoginSessionScalarWhereInput | LoginSessionScalarWhereInput[]
   }
 
+  export type PlatformPaymentUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput> | PlatformPaymentCreateWithoutOrgInput[] | PlatformPaymentUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformPaymentCreateOrConnectWithoutOrgInput | PlatformPaymentCreateOrConnectWithoutOrgInput[]
+    upsert?: PlatformPaymentUpsertWithWhereUniqueWithoutOrgInput | PlatformPaymentUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: PlatformPaymentCreateManyOrgInputEnvelope
+    set?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    disconnect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    delete?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    connect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    update?: PlatformPaymentUpdateWithWhereUniqueWithoutOrgInput | PlatformPaymentUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: PlatformPaymentUpdateManyWithWhereWithoutOrgInput | PlatformPaymentUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: PlatformPaymentScalarWhereInput | PlatformPaymentScalarWhereInput[]
+  }
+
+  export type PlatformAuditLogUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput> | PlatformAuditLogCreateWithoutOrgInput[] | PlatformAuditLogUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformAuditLogCreateOrConnectWithoutOrgInput | PlatformAuditLogCreateOrConnectWithoutOrgInput[]
+    upsert?: PlatformAuditLogUpsertWithWhereUniqueWithoutOrgInput | PlatformAuditLogUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: PlatformAuditLogCreateManyOrgInputEnvelope
+    set?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    disconnect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    delete?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    connect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    update?: PlatformAuditLogUpdateWithWhereUniqueWithoutOrgInput | PlatformAuditLogUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: PlatformAuditLogUpdateManyWithWhereWithoutOrgInput | PlatformAuditLogUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: PlatformAuditLogScalarWhereInput | PlatformAuditLogScalarWhereInput[]
+  }
+
+  export type LeadActivityUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput> | LeadActivityCreateWithoutOrgInput[] | LeadActivityUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutOrgInput | LeadActivityCreateOrConnectWithoutOrgInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutOrgInput | LeadActivityUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: LeadActivityCreateManyOrgInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutOrgInput | LeadActivityUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutOrgInput | LeadActivityUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput> | MeetingCreateWithoutOrgInput[] | MeetingUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutOrgInput | MeetingCreateOrConnectWithoutOrgInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutOrgInput | MeetingUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: MeetingCreateManyOrgInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutOrgInput | MeetingUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutOrgInput | MeetingUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type MeetingNoteUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput> | MeetingNoteCreateWithoutOrgInput[] | MeetingNoteUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutOrgInput | MeetingNoteCreateOrConnectWithoutOrgInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutOrgInput | MeetingNoteUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: MeetingNoteCreateManyOrgInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutOrgInput | MeetingNoteUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutOrgInput | MeetingNoteUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutOrgNestedInput = {
     create?: XOR<UserCreateWithoutOrgInput, UserUncheckedCreateWithoutOrgInput> | UserCreateWithoutOrgInput[] | UserUncheckedCreateWithoutOrgInput[]
     connectOrCreate?: UserCreateOrConnectWithoutOrgInput | UserCreateOrConnectWithoutOrgInput[]
@@ -30890,10 +40608,86 @@ export namespace Prisma {
     deleteMany?: LoginSessionScalarWhereInput | LoginSessionScalarWhereInput[]
   }
 
+  export type PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput> | PlatformPaymentCreateWithoutOrgInput[] | PlatformPaymentUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformPaymentCreateOrConnectWithoutOrgInput | PlatformPaymentCreateOrConnectWithoutOrgInput[]
+    upsert?: PlatformPaymentUpsertWithWhereUniqueWithoutOrgInput | PlatformPaymentUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: PlatformPaymentCreateManyOrgInputEnvelope
+    set?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    disconnect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    delete?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    connect?: PlatformPaymentWhereUniqueInput | PlatformPaymentWhereUniqueInput[]
+    update?: PlatformPaymentUpdateWithWhereUniqueWithoutOrgInput | PlatformPaymentUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: PlatformPaymentUpdateManyWithWhereWithoutOrgInput | PlatformPaymentUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: PlatformPaymentScalarWhereInput | PlatformPaymentScalarWhereInput[]
+  }
+
+  export type PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput> | PlatformAuditLogCreateWithoutOrgInput[] | PlatformAuditLogUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: PlatformAuditLogCreateOrConnectWithoutOrgInput | PlatformAuditLogCreateOrConnectWithoutOrgInput[]
+    upsert?: PlatformAuditLogUpsertWithWhereUniqueWithoutOrgInput | PlatformAuditLogUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: PlatformAuditLogCreateManyOrgInputEnvelope
+    set?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    disconnect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    delete?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    connect?: PlatformAuditLogWhereUniqueInput | PlatformAuditLogWhereUniqueInput[]
+    update?: PlatformAuditLogUpdateWithWhereUniqueWithoutOrgInput | PlatformAuditLogUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: PlatformAuditLogUpdateManyWithWhereWithoutOrgInput | PlatformAuditLogUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: PlatformAuditLogScalarWhereInput | PlatformAuditLogScalarWhereInput[]
+  }
+
+  export type LeadActivityUncheckedUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput> | LeadActivityCreateWithoutOrgInput[] | LeadActivityUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutOrgInput | LeadActivityCreateOrConnectWithoutOrgInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutOrgInput | LeadActivityUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: LeadActivityCreateManyOrgInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutOrgInput | LeadActivityUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutOrgInput | LeadActivityUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput> | MeetingCreateWithoutOrgInput[] | MeetingUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutOrgInput | MeetingCreateOrConnectWithoutOrgInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutOrgInput | MeetingUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: MeetingCreateManyOrgInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutOrgInput | MeetingUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutOrgInput | MeetingUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput> | MeetingNoteCreateWithoutOrgInput[] | MeetingNoteUncheckedCreateWithoutOrgInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutOrgInput | MeetingNoteCreateOrConnectWithoutOrgInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutOrgInput | MeetingNoteUpsertWithWhereUniqueWithoutOrgInput[]
+    createMany?: MeetingNoteCreateManyOrgInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutOrgInput | MeetingNoteUpdateWithWhereUniqueWithoutOrgInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutOrgInput | MeetingNoteUpdateManyWithWhereWithoutOrgInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+  }
+
   export type OrganizationCreateNestedOneWithoutContactsInput = {
     create?: XOR<OrganizationCreateWithoutContactsInput, OrganizationUncheckedCreateWithoutContactsInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutContactsInput
     connect?: OrganizationWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAssignedContactsInput = {
+    create?: XOR<UserCreateWithoutAssignedContactsInput, UserUncheckedCreateWithoutAssignedContactsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignedContactsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type ProjectCreateNestedManyWithoutContactInput = {
@@ -30917,6 +40711,20 @@ export namespace Prisma {
     connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
   }
 
+  export type LeadActivityCreateNestedManyWithoutContactInput = {
+    create?: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput> | LeadActivityCreateWithoutContactInput[] | LeadActivityUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutContactInput | LeadActivityCreateOrConnectWithoutContactInput[]
+    createMany?: LeadActivityCreateManyContactInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingCreateNestedManyWithoutContactInput = {
+    create?: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput> | MeetingCreateWithoutContactInput[] | MeetingUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutContactInput | MeetingCreateOrConnectWithoutContactInput[]
+    createMany?: MeetingCreateManyContactInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutContactInput = {
     create?: XOR<ProjectCreateWithoutContactInput, ProjectUncheckedCreateWithoutContactInput> | ProjectCreateWithoutContactInput[] | ProjectUncheckedCreateWithoutContactInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutContactInput | ProjectCreateOrConnectWithoutContactInput[]
@@ -30938,12 +40746,18 @@ export namespace Prisma {
     connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type LeadActivityUncheckedCreateNestedManyWithoutContactInput = {
+    create?: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput> | LeadActivityCreateWithoutContactInput[] | LeadActivityUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutContactInput | LeadActivityCreateOrConnectWithoutContactInput[]
+    createMany?: LeadActivityCreateManyContactInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingUncheckedCreateNestedManyWithoutContactInput = {
+    create?: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput> | MeetingCreateWithoutContactInput[] | MeetingUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutContactInput | MeetingCreateOrConnectWithoutContactInput[]
+    createMany?: MeetingCreateManyContactInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutContactsNestedInput = {
@@ -30952,6 +40766,16 @@ export namespace Prisma {
     upsert?: OrganizationUpsertWithoutContactsInput
     connect?: OrganizationWhereUniqueInput
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutContactsInput, OrganizationUpdateWithoutContactsInput>, OrganizationUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type UserUpdateOneWithoutAssignedContactsNestedInput = {
+    create?: XOR<UserCreateWithoutAssignedContactsInput, UserUncheckedCreateWithoutAssignedContactsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignedContactsInput
+    upsert?: UserUpsertWithoutAssignedContactsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssignedContactsInput, UserUpdateWithoutAssignedContactsInput>, UserUncheckedUpdateWithoutAssignedContactsInput>
   }
 
   export type ProjectUpdateManyWithoutContactNestedInput = {
@@ -30996,6 +40820,34 @@ export namespace Prisma {
     deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
   }
 
+  export type LeadActivityUpdateManyWithoutContactNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput> | LeadActivityCreateWithoutContactInput[] | LeadActivityUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutContactInput | LeadActivityCreateOrConnectWithoutContactInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutContactInput | LeadActivityUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: LeadActivityCreateManyContactInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutContactInput | LeadActivityUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutContactInput | LeadActivityUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUpdateManyWithoutContactNestedInput = {
+    create?: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput> | MeetingCreateWithoutContactInput[] | MeetingUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutContactInput | MeetingCreateOrConnectWithoutContactInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutContactInput | MeetingUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: MeetingCreateManyContactInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutContactInput | MeetingUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutContactInput | MeetingUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutContactNestedInput = {
     create?: XOR<ProjectCreateWithoutContactInput, ProjectUncheckedCreateWithoutContactInput> | ProjectCreateWithoutContactInput[] | ProjectUncheckedCreateWithoutContactInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutContactInput | ProjectCreateOrConnectWithoutContactInput[]
@@ -31038,6 +40890,78 @@ export namespace Prisma {
     deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
   }
 
+  export type LeadActivityUncheckedUpdateManyWithoutContactNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput> | LeadActivityCreateWithoutContactInput[] | LeadActivityUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutContactInput | LeadActivityCreateOrConnectWithoutContactInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutContactInput | LeadActivityUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: LeadActivityCreateManyContactInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutContactInput | LeadActivityUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutContactInput | LeadActivityUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutContactNestedInput = {
+    create?: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput> | MeetingCreateWithoutContactInput[] | MeetingUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutContactInput | MeetingCreateOrConnectWithoutContactInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutContactInput | MeetingUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: MeetingCreateManyContactInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutContactInput | MeetingUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutContactInput | MeetingUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type OrganizationCreateNestedOneWithoutLeadActivitiesInput = {
+    create?: XOR<OrganizationCreateWithoutLeadActivitiesInput, OrganizationUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadActivitiesInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type ContactCreateNestedOneWithoutLeadActivitiesInput = {
+    create?: XOR<ContactCreateWithoutLeadActivitiesInput, ContactUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutLeadActivitiesInput
+    connect?: ContactWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutLeadActivitiesInput = {
+    create?: XOR<UserCreateWithoutLeadActivitiesInput, UserUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLeadActivitiesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutLeadActivitiesNestedInput = {
+    create?: XOR<OrganizationCreateWithoutLeadActivitiesInput, OrganizationUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadActivitiesInput
+    upsert?: OrganizationUpsertWithoutLeadActivitiesInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutLeadActivitiesInput, OrganizationUpdateWithoutLeadActivitiesInput>, OrganizationUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
+  export type ContactUpdateOneRequiredWithoutLeadActivitiesNestedInput = {
+    create?: XOR<ContactCreateWithoutLeadActivitiesInput, ContactUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutLeadActivitiesInput
+    upsert?: ContactUpsertWithoutLeadActivitiesInput
+    connect?: ContactWhereUniqueInput
+    update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutLeadActivitiesInput, ContactUpdateWithoutLeadActivitiesInput>, ContactUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
+  export type UserUpdateOneWithoutLeadActivitiesNestedInput = {
+    create?: XOR<UserCreateWithoutLeadActivitiesInput, UserUncheckedCreateWithoutLeadActivitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLeadActivitiesInput
+    upsert?: UserUpsertWithoutLeadActivitiesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLeadActivitiesInput, UserUpdateWithoutLeadActivitiesInput>, UserUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
   export type OrganizationCreateNestedOneWithoutProjectsInput = {
     create?: XOR<OrganizationCreateWithoutProjectsInput, OrganizationUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutProjectsInput
@@ -31071,6 +40995,13 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
+  export type MeetingCreateNestedManyWithoutProjectInput = {
+    create?: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput> | MeetingCreateWithoutProjectInput[] | MeetingUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutProjectInput | MeetingCreateOrConnectWithoutProjectInput[]
+    createMany?: MeetingCreateManyProjectInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
   export type PaymentUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<PaymentCreateWithoutProjectInput, PaymentUncheckedCreateWithoutProjectInput> | PaymentCreateWithoutProjectInput[] | PaymentUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutProjectInput | PaymentCreateOrConnectWithoutProjectInput[]
@@ -31090,6 +41021,13 @@ export namespace Prisma {
     connectOrCreate?: TaskCreateOrConnectWithoutProjectInput | TaskCreateOrConnectWithoutProjectInput[]
     createMany?: TaskCreateManyProjectInputEnvelope
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type MeetingUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput> | MeetingCreateWithoutProjectInput[] | MeetingUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutProjectInput | MeetingCreateOrConnectWithoutProjectInput[]
+    createMany?: MeetingCreateManyProjectInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -31158,6 +41096,20 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
+  export type MeetingUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput> | MeetingCreateWithoutProjectInput[] | MeetingUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutProjectInput | MeetingCreateOrConnectWithoutProjectInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutProjectInput | MeetingUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: MeetingCreateManyProjectInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutProjectInput | MeetingUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutProjectInput | MeetingUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
   export type PaymentUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<PaymentCreateWithoutProjectInput, PaymentUncheckedCreateWithoutProjectInput> | PaymentCreateWithoutProjectInput[] | PaymentUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutProjectInput | PaymentCreateOrConnectWithoutProjectInput[]
@@ -31198,6 +41150,20 @@ export namespace Prisma {
     update?: TaskUpdateWithWhereUniqueWithoutProjectInput | TaskUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: TaskUpdateManyWithWhereWithoutProjectInput | TaskUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput> | MeetingCreateWithoutProjectInput[] | MeetingUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutProjectInput | MeetingCreateOrConnectWithoutProjectInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutProjectInput | MeetingUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: MeetingCreateManyProjectInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutProjectInput | MeetingUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutProjectInput | MeetingUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
   }
 
   export type OrganizationCreateNestedOneWithoutInvoicesInput = {
@@ -31481,6 +41447,13 @@ export namespace Prisma {
     connect?: TaskActivityWhereUniqueInput | TaskActivityWhereUniqueInput[]
   }
 
+  export type ContactCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput> | ContactCreateWithoutAssigneeInput[] | ContactUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ContactCreateOrConnectWithoutAssigneeInput | ContactCreateOrConnectWithoutAssigneeInput[]
+    createMany?: ContactCreateManyAssigneeInputEnvelope
+    connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+  }
+
   export type TaskCommentCreateNestedManyWithoutUserInput = {
     create?: XOR<TaskCommentCreateWithoutUserInput, TaskCommentUncheckedCreateWithoutUserInput> | TaskCommentCreateWithoutUserInput[] | TaskCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TaskCommentCreateOrConnectWithoutUserInput | TaskCommentCreateOrConnectWithoutUserInput[]
@@ -31500,6 +41473,27 @@ export namespace Prisma {
     connectOrCreate?: LoginSessionCreateOrConnectWithoutUserInput | LoginSessionCreateOrConnectWithoutUserInput[]
     createMany?: LoginSessionCreateManyUserInputEnvelope
     connect?: LoginSessionWhereUniqueInput | LoginSessionWhereUniqueInput[]
+  }
+
+  export type LeadActivityCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput> | LeadActivityCreateWithoutAssigneeInput[] | LeadActivityUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutAssigneeInput | LeadActivityCreateOrConnectWithoutAssigneeInput[]
+    createMany?: LeadActivityCreateManyAssigneeInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingCreateNestedManyWithoutHostInput = {
+    create?: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput> | MeetingCreateWithoutHostInput[] | MeetingUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutHostInput | MeetingCreateOrConnectWithoutHostInput[]
+    createMany?: MeetingCreateManyHostInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
+  export type MeetingNoteCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput> | MeetingNoteCreateWithoutAuthorInput[] | MeetingNoteUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutAuthorInput | MeetingNoteCreateOrConnectWithoutAuthorInput[]
+    createMany?: MeetingNoteCreateManyAuthorInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -31537,6 +41531,13 @@ export namespace Prisma {
     connect?: TaskActivityWhereUniqueInput | TaskActivityWhereUniqueInput[]
   }
 
+  export type ContactUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput> | ContactCreateWithoutAssigneeInput[] | ContactUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ContactCreateOrConnectWithoutAssigneeInput | ContactCreateOrConnectWithoutAssigneeInput[]
+    createMany?: ContactCreateManyAssigneeInputEnvelope
+    connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+  }
+
   export type TaskCommentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TaskCommentCreateWithoutUserInput, TaskCommentUncheckedCreateWithoutUserInput> | TaskCommentCreateWithoutUserInput[] | TaskCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TaskCommentCreateOrConnectWithoutUserInput | TaskCommentCreateOrConnectWithoutUserInput[]
@@ -31556,6 +41557,27 @@ export namespace Prisma {
     connectOrCreate?: LoginSessionCreateOrConnectWithoutUserInput | LoginSessionCreateOrConnectWithoutUserInput[]
     createMany?: LoginSessionCreateManyUserInputEnvelope
     connect?: LoginSessionWhereUniqueInput | LoginSessionWhereUniqueInput[]
+  }
+
+  export type LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput> | LeadActivityCreateWithoutAssigneeInput[] | LeadActivityUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutAssigneeInput | LeadActivityCreateOrConnectWithoutAssigneeInput[]
+    createMany?: LeadActivityCreateManyAssigneeInputEnvelope
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type MeetingUncheckedCreateNestedManyWithoutHostInput = {
+    create?: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput> | MeetingCreateWithoutHostInput[] | MeetingUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutHostInput | MeetingCreateOrConnectWithoutHostInput[]
+    createMany?: MeetingCreateManyHostInputEnvelope
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
+  export type MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput> | MeetingNoteCreateWithoutAuthorInput[] | MeetingNoteUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutAuthorInput | MeetingNoteCreateOrConnectWithoutAuthorInput[]
+    createMany?: MeetingNoteCreateManyAuthorInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutUsersNestedInput = {
@@ -31636,6 +41658,20 @@ export namespace Prisma {
     deleteMany?: TaskActivityScalarWhereInput | TaskActivityScalarWhereInput[]
   }
 
+  export type ContactUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput> | ContactCreateWithoutAssigneeInput[] | ContactUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ContactCreateOrConnectWithoutAssigneeInput | ContactCreateOrConnectWithoutAssigneeInput[]
+    upsert?: ContactUpsertWithWhereUniqueWithoutAssigneeInput | ContactUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: ContactCreateManyAssigneeInputEnvelope
+    set?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    disconnect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    delete?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    update?: ContactUpdateWithWhereUniqueWithoutAssigneeInput | ContactUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: ContactUpdateManyWithWhereWithoutAssigneeInput | ContactUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
+  }
+
   export type TaskCommentUpdateManyWithoutUserNestedInput = {
     create?: XOR<TaskCommentCreateWithoutUserInput, TaskCommentUncheckedCreateWithoutUserInput> | TaskCommentCreateWithoutUserInput[] | TaskCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TaskCommentCreateOrConnectWithoutUserInput | TaskCommentCreateOrConnectWithoutUserInput[]
@@ -31676,6 +41712,48 @@ export namespace Prisma {
     update?: LoginSessionUpdateWithWhereUniqueWithoutUserInput | LoginSessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LoginSessionUpdateManyWithWhereWithoutUserInput | LoginSessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LoginSessionScalarWhereInput | LoginSessionScalarWhereInput[]
+  }
+
+  export type LeadActivityUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput> | LeadActivityCreateWithoutAssigneeInput[] | LeadActivityUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutAssigneeInput | LeadActivityCreateOrConnectWithoutAssigneeInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutAssigneeInput | LeadActivityUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: LeadActivityCreateManyAssigneeInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutAssigneeInput | LeadActivityUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutAssigneeInput | LeadActivityUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUpdateManyWithoutHostNestedInput = {
+    create?: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput> | MeetingCreateWithoutHostInput[] | MeetingUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutHostInput | MeetingCreateOrConnectWithoutHostInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutHostInput | MeetingUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: MeetingCreateManyHostInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutHostInput | MeetingUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutHostInput | MeetingUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type MeetingNoteUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput> | MeetingNoteCreateWithoutAuthorInput[] | MeetingNoteUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutAuthorInput | MeetingNoteCreateOrConnectWithoutAuthorInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutAuthorInput | MeetingNoteUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: MeetingNoteCreateManyAuthorInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutAuthorInput | MeetingNoteUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutAuthorInput | MeetingNoteUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -31748,6 +41826,20 @@ export namespace Prisma {
     deleteMany?: TaskActivityScalarWhereInput | TaskActivityScalarWhereInput[]
   }
 
+  export type ContactUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput> | ContactCreateWithoutAssigneeInput[] | ContactUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: ContactCreateOrConnectWithoutAssigneeInput | ContactCreateOrConnectWithoutAssigneeInput[]
+    upsert?: ContactUpsertWithWhereUniqueWithoutAssigneeInput | ContactUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: ContactCreateManyAssigneeInputEnvelope
+    set?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    disconnect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    delete?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+    update?: ContactUpdateWithWhereUniqueWithoutAssigneeInput | ContactUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: ContactUpdateManyWithWhereWithoutAssigneeInput | ContactUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
+  }
+
   export type TaskCommentUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TaskCommentCreateWithoutUserInput, TaskCommentUncheckedCreateWithoutUserInput> | TaskCommentCreateWithoutUserInput[] | TaskCommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TaskCommentCreateOrConnectWithoutUserInput | TaskCommentCreateOrConnectWithoutUserInput[]
@@ -31790,6 +41882,48 @@ export namespace Prisma {
     deleteMany?: LoginSessionScalarWhereInput | LoginSessionScalarWhereInput[]
   }
 
+  export type LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput> | LeadActivityCreateWithoutAssigneeInput[] | LeadActivityUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: LeadActivityCreateOrConnectWithoutAssigneeInput | LeadActivityCreateOrConnectWithoutAssigneeInput[]
+    upsert?: LeadActivityUpsertWithWhereUniqueWithoutAssigneeInput | LeadActivityUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: LeadActivityCreateManyAssigneeInputEnvelope
+    set?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    disconnect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    delete?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+    update?: LeadActivityUpdateWithWhereUniqueWithoutAssigneeInput | LeadActivityUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: LeadActivityUpdateManyWithWhereWithoutAssigneeInput | LeadActivityUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutHostNestedInput = {
+    create?: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput> | MeetingCreateWithoutHostInput[] | MeetingUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: MeetingCreateOrConnectWithoutHostInput | MeetingCreateOrConnectWithoutHostInput[]
+    upsert?: MeetingUpsertWithWhereUniqueWithoutHostInput | MeetingUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: MeetingCreateManyHostInputEnvelope
+    set?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    disconnect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    delete?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+    update?: MeetingUpdateWithWhereUniqueWithoutHostInput | MeetingUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: MeetingUpdateManyWithWhereWithoutHostInput | MeetingUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput> | MeetingNoteCreateWithoutAuthorInput[] | MeetingNoteUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutAuthorInput | MeetingNoteCreateOrConnectWithoutAuthorInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutAuthorInput | MeetingNoteUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: MeetingNoteCreateManyAuthorInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutAuthorInput | MeetingNoteUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutAuthorInput | MeetingNoteUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -31816,6 +41950,152 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type OrganizationCreateNestedOneWithoutMeetingsInput = {
+    create?: XOR<OrganizationCreateWithoutMeetingsInput, OrganizationUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMeetingsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type ContactCreateNestedOneWithoutMeetingsInput = {
+    create?: XOR<ContactCreateWithoutMeetingsInput, ContactUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutMeetingsInput
+    connect?: ContactWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutMeetingsInput = {
+    create?: XOR<ProjectCreateWithoutMeetingsInput, ProjectUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutMeetingsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutHostedMeetingsInput = {
+    create?: XOR<UserCreateWithoutHostedMeetingsInput, UserUncheckedCreateWithoutHostedMeetingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedMeetingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MeetingNoteCreateNestedManyWithoutMeetingInput = {
+    create?: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput> | MeetingNoteCreateWithoutMeetingInput[] | MeetingNoteUncheckedCreateWithoutMeetingInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutMeetingInput | MeetingNoteCreateOrConnectWithoutMeetingInput[]
+    createMany?: MeetingNoteCreateManyMeetingInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+  }
+
+  export type MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput = {
+    create?: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput> | MeetingNoteCreateWithoutMeetingInput[] | MeetingNoteUncheckedCreateWithoutMeetingInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutMeetingInput | MeetingNoteCreateOrConnectWithoutMeetingInput[]
+    createMany?: MeetingNoteCreateManyMeetingInputEnvelope
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutMeetingsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutMeetingsInput, OrganizationUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMeetingsInput
+    upsert?: OrganizationUpsertWithoutMeetingsInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMeetingsInput, OrganizationUpdateWithoutMeetingsInput>, OrganizationUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type ContactUpdateOneRequiredWithoutMeetingsNestedInput = {
+    create?: XOR<ContactCreateWithoutMeetingsInput, ContactUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutMeetingsInput
+    upsert?: ContactUpsertWithoutMeetingsInput
+    connect?: ContactWhereUniqueInput
+    update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutMeetingsInput, ContactUpdateWithoutMeetingsInput>, ContactUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type ProjectUpdateOneWithoutMeetingsNestedInput = {
+    create?: XOR<ProjectCreateWithoutMeetingsInput, ProjectUncheckedCreateWithoutMeetingsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutMeetingsInput
+    upsert?: ProjectUpsertWithoutMeetingsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutMeetingsInput, ProjectUpdateWithoutMeetingsInput>, ProjectUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type UserUpdateOneWithoutHostedMeetingsNestedInput = {
+    create?: XOR<UserCreateWithoutHostedMeetingsInput, UserUncheckedCreateWithoutHostedMeetingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedMeetingsInput
+    upsert?: UserUpsertWithoutHostedMeetingsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHostedMeetingsInput, UserUpdateWithoutHostedMeetingsInput>, UserUncheckedUpdateWithoutHostedMeetingsInput>
+  }
+
+  export type MeetingNoteUpdateManyWithoutMeetingNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput> | MeetingNoteCreateWithoutMeetingInput[] | MeetingNoteUncheckedCreateWithoutMeetingInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutMeetingInput | MeetingNoteCreateOrConnectWithoutMeetingInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutMeetingInput | MeetingNoteUpsertWithWhereUniqueWithoutMeetingInput[]
+    createMany?: MeetingNoteCreateManyMeetingInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutMeetingInput | MeetingNoteUpdateWithWhereUniqueWithoutMeetingInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutMeetingInput | MeetingNoteUpdateManyWithWhereWithoutMeetingInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput = {
+    create?: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput> | MeetingNoteCreateWithoutMeetingInput[] | MeetingNoteUncheckedCreateWithoutMeetingInput[]
+    connectOrCreate?: MeetingNoteCreateOrConnectWithoutMeetingInput | MeetingNoteCreateOrConnectWithoutMeetingInput[]
+    upsert?: MeetingNoteUpsertWithWhereUniqueWithoutMeetingInput | MeetingNoteUpsertWithWhereUniqueWithoutMeetingInput[]
+    createMany?: MeetingNoteCreateManyMeetingInputEnvelope
+    set?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    disconnect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    delete?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    connect?: MeetingNoteWhereUniqueInput | MeetingNoteWhereUniqueInput[]
+    update?: MeetingNoteUpdateWithWhereUniqueWithoutMeetingInput | MeetingNoteUpdateWithWhereUniqueWithoutMeetingInput[]
+    updateMany?: MeetingNoteUpdateManyWithWhereWithoutMeetingInput | MeetingNoteUpdateManyWithWhereWithoutMeetingInput[]
+    deleteMany?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+  }
+
+  export type OrganizationCreateNestedOneWithoutMeetingNotesInput = {
+    create?: XOR<OrganizationCreateWithoutMeetingNotesInput, OrganizationUncheckedCreateWithoutMeetingNotesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMeetingNotesInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type MeetingCreateNestedOneWithoutNotesInput = {
+    create?: XOR<MeetingCreateWithoutNotesInput, MeetingUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: MeetingCreateOrConnectWithoutNotesInput
+    connect?: MeetingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutMeetingNotesInput = {
+    create?: XOR<UserCreateWithoutMeetingNotesInput, UserUncheckedCreateWithoutMeetingNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMeetingNotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutMeetingNotesNestedInput = {
+    create?: XOR<OrganizationCreateWithoutMeetingNotesInput, OrganizationUncheckedCreateWithoutMeetingNotesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMeetingNotesInput
+    upsert?: OrganizationUpsertWithoutMeetingNotesInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMeetingNotesInput, OrganizationUpdateWithoutMeetingNotesInput>, OrganizationUncheckedUpdateWithoutMeetingNotesInput>
+  }
+
+  export type MeetingUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<MeetingCreateWithoutNotesInput, MeetingUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: MeetingCreateOrConnectWithoutNotesInput
+    upsert?: MeetingUpsertWithoutNotesInput
+    connect?: MeetingWhereUniqueInput
+    update?: XOR<XOR<MeetingUpdateToOneWithWhereWithoutNotesInput, MeetingUpdateWithoutNotesInput>, MeetingUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type UserUpdateOneWithoutMeetingNotesNestedInput = {
+    create?: XOR<UserCreateWithoutMeetingNotesInput, UserUncheckedCreateWithoutMeetingNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMeetingNotesInput
+    upsert?: UserUpsertWithoutMeetingNotesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMeetingNotesInput, UserUpdateWithoutMeetingNotesInput>, UserUncheckedUpdateWithoutMeetingNotesInput>
   }
 
   export type OrganizationCreateNestedOneWithoutTasksInput = {
@@ -32128,6 +42408,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTimeLogsInput, UserUpdateWithoutTimeLogsInput>, UserUncheckedUpdateWithoutTimeLogsInput>
   }
 
+  export type OrganizationCreateNestedOneWithoutPlatformPaymentsInput = {
+    create?: XOR<OrganizationCreateWithoutPlatformPaymentsInput, OrganizationUncheckedCreateWithoutPlatformPaymentsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutPlatformPaymentsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutPlatformPaymentsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutPlatformPaymentsInput, OrganizationUncheckedCreateWithoutPlatformPaymentsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutPlatformPaymentsInput
+    upsert?: OrganizationUpsertWithoutPlatformPaymentsInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutPlatformPaymentsInput, OrganizationUpdateWithoutPlatformPaymentsInput>, OrganizationUncheckedUpdateWithoutPlatformPaymentsInput>
+  }
+
+  export type OrganizationCreateNestedOneWithoutPlatformAuditLogsInput = {
+    create?: XOR<OrganizationCreateWithoutPlatformAuditLogsInput, OrganizationUncheckedCreateWithoutPlatformAuditLogsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutPlatformAuditLogsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneWithoutPlatformAuditLogsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutPlatformAuditLogsInput, OrganizationUncheckedCreateWithoutPlatformAuditLogsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutPlatformAuditLogsInput
+    upsert?: OrganizationUpsertWithoutPlatformAuditLogsInput
+    disconnect?: OrganizationWhereInput | boolean
+    delete?: OrganizationWhereInput | boolean
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutPlatformAuditLogsInput, OrganizationUpdateWithoutPlatformAuditLogsInput>, OrganizationUncheckedUpdateWithoutPlatformAuditLogsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -32205,6 +42515,17 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -32275,17 +42596,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -32372,14 +42682,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutOrgInput = {
@@ -32393,14 +42708,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutOrgInput = {
@@ -32422,17 +42742,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
     projects?: ProjectCreateNestedManyWithoutContactInput
     followUps?: FollowUpCreateNestedManyWithoutContactInput
     interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutOrgInput = {
@@ -32445,17 +42773,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
     followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
     interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutOrgInput = {
@@ -32490,6 +42826,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOrgInput = {
@@ -32515,6 +42852,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutOrgInput = {
@@ -32934,6 +43272,169 @@ export namespace Prisma {
     data: LoginSessionCreateManyOrgInput | LoginSessionCreateManyOrgInput[]
   }
 
+  export type PlatformPaymentCreateWithoutOrgInput = {
+    id?: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PlatformPaymentUncheckedCreateWithoutOrgInput = {
+    id?: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PlatformPaymentCreateOrConnectWithoutOrgInput = {
+    where: PlatformPaymentWhereUniqueInput
+    create: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput>
+  }
+
+  export type PlatformPaymentCreateManyOrgInputEnvelope = {
+    data: PlatformPaymentCreateManyOrgInput | PlatformPaymentCreateManyOrgInput[]
+  }
+
+  export type PlatformAuditLogCreateWithoutOrgInput = {
+    id?: string
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAuditLogUncheckedCreateWithoutOrgInput = {
+    id?: string
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAuditLogCreateOrConnectWithoutOrgInput = {
+    where: PlatformAuditLogWhereUniqueInput
+    create: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput>
+  }
+
+  export type PlatformAuditLogCreateManyOrgInputEnvelope = {
+    data: PlatformAuditLogCreateManyOrgInput | PlatformAuditLogCreateManyOrgInput[]
+  }
+
+  export type LeadActivityCreateWithoutOrgInput = {
+    id?: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contact: ContactCreateNestedOneWithoutLeadActivitiesInput
+    assignee?: UserCreateNestedOneWithoutLeadActivitiesInput
+  }
+
+  export type LeadActivityUncheckedCreateWithoutOrgInput = {
+    id?: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadActivityCreateOrConnectWithoutOrgInput = {
+    where: LeadActivityWhereUniqueInput
+    create: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput>
+  }
+
+  export type LeadActivityCreateManyOrgInputEnvelope = {
+    data: LeadActivityCreateManyOrgInput | LeadActivityCreateManyOrgInput[]
+  }
+
+  export type MeetingCreateWithoutOrgInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contact: ContactCreateNestedOneWithoutMeetingsInput
+    project?: ProjectCreateNestedOneWithoutMeetingsInput
+    host?: UserCreateNestedOneWithoutHostedMeetingsInput
+    notes?: MeetingNoteCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUncheckedCreateWithoutOrgInput = {
+    id?: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingCreateOrConnectWithoutOrgInput = {
+    where: MeetingWhereUniqueInput
+    create: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput>
+  }
+
+  export type MeetingCreateManyOrgInputEnvelope = {
+    data: MeetingCreateManyOrgInput | MeetingCreateManyOrgInput[]
+  }
+
+  export type MeetingNoteCreateWithoutOrgInput = {
+    id?: string
+    body: string
+    createdAt?: Date | string
+    meeting: MeetingCreateNestedOneWithoutNotesInput
+    author?: UserCreateNestedOneWithoutMeetingNotesInput
+  }
+
+  export type MeetingNoteUncheckedCreateWithoutOrgInput = {
+    id?: string
+    meetingId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteCreateOrConnectWithoutOrgInput = {
+    where: MeetingNoteWhereUniqueInput
+    create: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput>
+  }
+
+  export type MeetingNoteCreateManyOrgInputEnvelope = {
+    data: MeetingNoteCreateManyOrgInput | MeetingNoteCreateManyOrgInput[]
+  }
+
   export type UserUpsertWithWhereUniqueWithoutOrgInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutOrgInput, UserUncheckedUpdateWithoutOrgInput>
@@ -32965,6 +43466,7 @@ export namespace Prisma {
     avatarColor?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    team?: StringFilter<"User"> | string
   }
 
   export type ContactUpsertWithWhereUniqueWithoutOrgInput = {
@@ -32997,12 +43499,18 @@ export namespace Prisma {
     city?: StringNullableFilter<"Contact"> | string | null
     source?: StringNullableFilter<"Contact"> | string | null
     notes?: StringNullableFilter<"Contact"> | string | null
+    gstin?: StringNullableFilter<"Contact"> | string | null
+    billingAddress?: StringNullableFilter<"Contact"> | string | null
+    state?: StringNullableFilter<"Contact"> | string | null
     stage?: StringFilter<"Contact"> | string
     status?: StringFilter<"Contact"> | string
     plan?: StringNullableFilter<"Contact"> | string | null
     quotedPrice?: IntNullableFilter<"Contact"> | number | null
     dropReason?: StringNullableFilter<"Contact"> | string | null
     convertedAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    assigneeId?: StringNullableFilter<"Contact"> | string | null
+    nextActionAt?: DateTimeNullableFilter<"Contact"> | Date | string | null
+    nextActionNote?: StringNullableFilter<"Contact"> | string | null
     createdAt?: DateTimeFilter<"Contact"> | Date | string
     updatedAt?: DateTimeFilter<"Contact"> | Date | string
   }
@@ -33435,6 +43943,164 @@ export namespace Prisma {
     logoutAt?: DateTimeNullableFilter<"LoginSession"> | Date | string | null
   }
 
+  export type PlatformPaymentUpsertWithWhereUniqueWithoutOrgInput = {
+    where: PlatformPaymentWhereUniqueInput
+    update: XOR<PlatformPaymentUpdateWithoutOrgInput, PlatformPaymentUncheckedUpdateWithoutOrgInput>
+    create: XOR<PlatformPaymentCreateWithoutOrgInput, PlatformPaymentUncheckedCreateWithoutOrgInput>
+  }
+
+  export type PlatformPaymentUpdateWithWhereUniqueWithoutOrgInput = {
+    where: PlatformPaymentWhereUniqueInput
+    data: XOR<PlatformPaymentUpdateWithoutOrgInput, PlatformPaymentUncheckedUpdateWithoutOrgInput>
+  }
+
+  export type PlatformPaymentUpdateManyWithWhereWithoutOrgInput = {
+    where: PlatformPaymentScalarWhereInput
+    data: XOR<PlatformPaymentUpdateManyMutationInput, PlatformPaymentUncheckedUpdateManyWithoutOrgInput>
+  }
+
+  export type PlatformPaymentScalarWhereInput = {
+    AND?: PlatformPaymentScalarWhereInput | PlatformPaymentScalarWhereInput[]
+    OR?: PlatformPaymentScalarWhereInput[]
+    NOT?: PlatformPaymentScalarWhereInput | PlatformPaymentScalarWhereInput[]
+    id?: StringFilter<"PlatformPayment"> | string
+    orgId?: StringFilter<"PlatformPayment"> | string
+    amount?: IntFilter<"PlatformPayment"> | number
+    period?: StringNullableFilter<"PlatformPayment"> | string | null
+    note?: StringNullableFilter<"PlatformPayment"> | string | null
+    paidAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+    createdAt?: DateTimeFilter<"PlatformPayment"> | Date | string
+  }
+
+  export type PlatformAuditLogUpsertWithWhereUniqueWithoutOrgInput = {
+    where: PlatformAuditLogWhereUniqueInput
+    update: XOR<PlatformAuditLogUpdateWithoutOrgInput, PlatformAuditLogUncheckedUpdateWithoutOrgInput>
+    create: XOR<PlatformAuditLogCreateWithoutOrgInput, PlatformAuditLogUncheckedCreateWithoutOrgInput>
+  }
+
+  export type PlatformAuditLogUpdateWithWhereUniqueWithoutOrgInput = {
+    where: PlatformAuditLogWhereUniqueInput
+    data: XOR<PlatformAuditLogUpdateWithoutOrgInput, PlatformAuditLogUncheckedUpdateWithoutOrgInput>
+  }
+
+  export type PlatformAuditLogUpdateManyWithWhereWithoutOrgInput = {
+    where: PlatformAuditLogScalarWhereInput
+    data: XOR<PlatformAuditLogUpdateManyMutationInput, PlatformAuditLogUncheckedUpdateManyWithoutOrgInput>
+  }
+
+  export type PlatformAuditLogScalarWhereInput = {
+    AND?: PlatformAuditLogScalarWhereInput | PlatformAuditLogScalarWhereInput[]
+    OR?: PlatformAuditLogScalarWhereInput[]
+    NOT?: PlatformAuditLogScalarWhereInput | PlatformAuditLogScalarWhereInput[]
+    id?: StringFilter<"PlatformAuditLog"> | string
+    orgId?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    actorId?: StringFilter<"PlatformAuditLog"> | string
+    actorEmail?: StringFilter<"PlatformAuditLog"> | string
+    action?: StringFilter<"PlatformAuditLog"> | string
+    detail?: StringNullableFilter<"PlatformAuditLog"> | string | null
+    createdAt?: DateTimeFilter<"PlatformAuditLog"> | Date | string
+  }
+
+  export type LeadActivityUpsertWithWhereUniqueWithoutOrgInput = {
+    where: LeadActivityWhereUniqueInput
+    update: XOR<LeadActivityUpdateWithoutOrgInput, LeadActivityUncheckedUpdateWithoutOrgInput>
+    create: XOR<LeadActivityCreateWithoutOrgInput, LeadActivityUncheckedCreateWithoutOrgInput>
+  }
+
+  export type LeadActivityUpdateWithWhereUniqueWithoutOrgInput = {
+    where: LeadActivityWhereUniqueInput
+    data: XOR<LeadActivityUpdateWithoutOrgInput, LeadActivityUncheckedUpdateWithoutOrgInput>
+  }
+
+  export type LeadActivityUpdateManyWithWhereWithoutOrgInput = {
+    where: LeadActivityScalarWhereInput
+    data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyWithoutOrgInput>
+  }
+
+  export type LeadActivityScalarWhereInput = {
+    AND?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+    OR?: LeadActivityScalarWhereInput[]
+    NOT?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+    id?: StringFilter<"LeadActivity"> | string
+    orgId?: StringFilter<"LeadActivity"> | string
+    contactId?: StringFilter<"LeadActivity"> | string
+    type?: StringFilter<"LeadActivity"> | string
+    title?: StringNullableFilter<"LeadActivity"> | string | null
+    dueDate?: DateTimeNullableFilter<"LeadActivity"> | Date | string | null
+    done?: BoolFilter<"LeadActivity"> | boolean
+    outcome?: StringNullableFilter<"LeadActivity"> | string | null
+    assigneeId?: StringNullableFilter<"LeadActivity"> | string | null
+    createdAt?: DateTimeFilter<"LeadActivity"> | Date | string
+    updatedAt?: DateTimeFilter<"LeadActivity"> | Date | string
+  }
+
+  export type MeetingUpsertWithWhereUniqueWithoutOrgInput = {
+    where: MeetingWhereUniqueInput
+    update: XOR<MeetingUpdateWithoutOrgInput, MeetingUncheckedUpdateWithoutOrgInput>
+    create: XOR<MeetingCreateWithoutOrgInput, MeetingUncheckedCreateWithoutOrgInput>
+  }
+
+  export type MeetingUpdateWithWhereUniqueWithoutOrgInput = {
+    where: MeetingWhereUniqueInput
+    data: XOR<MeetingUpdateWithoutOrgInput, MeetingUncheckedUpdateWithoutOrgInput>
+  }
+
+  export type MeetingUpdateManyWithWhereWithoutOrgInput = {
+    where: MeetingScalarWhereInput
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyWithoutOrgInput>
+  }
+
+  export type MeetingScalarWhereInput = {
+    AND?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+    OR?: MeetingScalarWhereInput[]
+    NOT?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+    id?: StringFilter<"Meeting"> | string
+    orgId?: StringFilter<"Meeting"> | string
+    contactId?: StringFilter<"Meeting"> | string
+    projectId?: StringNullableFilter<"Meeting"> | string | null
+    summary?: StringNullableFilter<"Meeting"> | string | null
+    transcriptUrl?: StringNullableFilter<"Meeting"> | string | null
+    externalId?: StringNullableFilter<"Meeting"> | string | null
+    hostId?: StringNullableFilter<"Meeting"> | string | null
+    title?: StringFilter<"Meeting"> | string
+    startAt?: DateTimeFilter<"Meeting"> | Date | string
+    endAt?: DateTimeNullableFilter<"Meeting"> | Date | string | null
+    location?: StringNullableFilter<"Meeting"> | string | null
+    link?: StringNullableFilter<"Meeting"> | string | null
+    status?: StringFilter<"Meeting"> | string
+    outcome?: StringNullableFilter<"Meeting"> | string | null
+    createdAt?: DateTimeFilter<"Meeting"> | Date | string
+    updatedAt?: DateTimeFilter<"Meeting"> | Date | string
+  }
+
+  export type MeetingNoteUpsertWithWhereUniqueWithoutOrgInput = {
+    where: MeetingNoteWhereUniqueInput
+    update: XOR<MeetingNoteUpdateWithoutOrgInput, MeetingNoteUncheckedUpdateWithoutOrgInput>
+    create: XOR<MeetingNoteCreateWithoutOrgInput, MeetingNoteUncheckedCreateWithoutOrgInput>
+  }
+
+  export type MeetingNoteUpdateWithWhereUniqueWithoutOrgInput = {
+    where: MeetingNoteWhereUniqueInput
+    data: XOR<MeetingNoteUpdateWithoutOrgInput, MeetingNoteUncheckedUpdateWithoutOrgInput>
+  }
+
+  export type MeetingNoteUpdateManyWithWhereWithoutOrgInput = {
+    where: MeetingNoteScalarWhereInput
+    data: XOR<MeetingNoteUpdateManyMutationInput, MeetingNoteUncheckedUpdateManyWithoutOrgInput>
+  }
+
+  export type MeetingNoteScalarWhereInput = {
+    AND?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+    OR?: MeetingNoteScalarWhereInput[]
+    NOT?: MeetingNoteScalarWhereInput | MeetingNoteScalarWhereInput[]
+    id?: StringFilter<"MeetingNote"> | string
+    orgId?: StringFilter<"MeetingNote"> | string
+    meetingId?: StringFilter<"MeetingNote"> | string
+    authorId?: StringNullableFilter<"MeetingNote"> | string | null
+    body?: StringFilter<"MeetingNote"> | string
+    createdAt?: DateTimeFilter<"MeetingNote"> | Date | string
+  }
+
   export type OrganizationCreateWithoutContactsInput = {
     id?: string
     name: string
@@ -33455,6 +44121,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
     payments?: PaymentCreateNestedManyWithoutOrgInput
@@ -33469,6 +44136,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutContactsInput = {
@@ -33491,6 +44163,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
@@ -33505,11 +44178,73 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutContactsInput = {
     where: OrganizationWhereUniqueInput
     create: XOR<OrganizationCreateWithoutContactsInput, OrganizationUncheckedCreateWithoutContactsInput>
+  }
+
+  export type UserCreateWithoutAssignedContactsInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    org: OrganizationCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityCreateNestedManyWithoutUserInput
+    comments?: TaskCommentCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutAssignedContactsInput = {
+    id?: string
+    orgId: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutAssignedContactsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssignedContactsInput, UserUncheckedCreateWithoutAssignedContactsInput>
   }
 
   export type ProjectCreateWithoutContactInput = {
@@ -33535,6 +44270,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutContactInput = {
@@ -33560,6 +44296,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutContactInput = {
@@ -33623,6 +44360,90 @@ export namespace Prisma {
     data: InteractionCreateManyContactInput | InteractionCreateManyContactInput[]
   }
 
+  export type LeadActivityCreateWithoutContactInput = {
+    id?: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutLeadActivitiesInput
+    assignee?: UserCreateNestedOneWithoutLeadActivitiesInput
+  }
+
+  export type LeadActivityUncheckedCreateWithoutContactInput = {
+    id?: string
+    orgId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadActivityCreateOrConnectWithoutContactInput = {
+    where: LeadActivityWhereUniqueInput
+    create: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput>
+  }
+
+  export type LeadActivityCreateManyContactInputEnvelope = {
+    data: LeadActivityCreateManyContactInput | LeadActivityCreateManyContactInput[]
+  }
+
+  export type MeetingCreateWithoutContactInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingsInput
+    project?: ProjectCreateNestedOneWithoutMeetingsInput
+    host?: UserCreateNestedOneWithoutHostedMeetingsInput
+    notes?: MeetingNoteCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUncheckedCreateWithoutContactInput = {
+    id?: string
+    orgId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingCreateOrConnectWithoutContactInput = {
+    where: MeetingWhereUniqueInput
+    create: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput>
+  }
+
+  export type MeetingCreateManyContactInputEnvelope = {
+    data: MeetingCreateManyContactInput | MeetingCreateManyContactInput[]
+  }
+
   export type OrganizationUpsertWithoutContactsInput = {
     update: XOR<OrganizationUpdateWithoutContactsInput, OrganizationUncheckedUpdateWithoutContactsInput>
     create: XOR<OrganizationCreateWithoutContactsInput, OrganizationUncheckedCreateWithoutContactsInput>
@@ -33654,6 +44475,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
     payments?: PaymentUpdateManyWithoutOrgNestedInput
@@ -33668,6 +44490,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContactsInput = {
@@ -33690,6 +44517,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
@@ -33704,6 +44532,74 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
+  }
+
+  export type UserUpsertWithoutAssignedContactsInput = {
+    update: XOR<UserUpdateWithoutAssignedContactsInput, UserUncheckedUpdateWithoutAssignedContactsInput>
+    create: XOR<UserCreateWithoutAssignedContactsInput, UserUncheckedCreateWithoutAssignedContactsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssignedContactsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssignedContactsInput, UserUncheckedUpdateWithoutAssignedContactsInput>
+  }
+
+  export type UserUpdateWithoutAssignedContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    comments?: TaskCommentUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssignedContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ProjectUpsertWithWhereUniqueWithoutContactInput = {
@@ -33754,6 +44650,482 @@ export namespace Prisma {
     data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyWithoutContactInput>
   }
 
+  export type LeadActivityUpsertWithWhereUniqueWithoutContactInput = {
+    where: LeadActivityWhereUniqueInput
+    update: XOR<LeadActivityUpdateWithoutContactInput, LeadActivityUncheckedUpdateWithoutContactInput>
+    create: XOR<LeadActivityCreateWithoutContactInput, LeadActivityUncheckedCreateWithoutContactInput>
+  }
+
+  export type LeadActivityUpdateWithWhereUniqueWithoutContactInput = {
+    where: LeadActivityWhereUniqueInput
+    data: XOR<LeadActivityUpdateWithoutContactInput, LeadActivityUncheckedUpdateWithoutContactInput>
+  }
+
+  export type LeadActivityUpdateManyWithWhereWithoutContactInput = {
+    where: LeadActivityScalarWhereInput
+    data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyWithoutContactInput>
+  }
+
+  export type MeetingUpsertWithWhereUniqueWithoutContactInput = {
+    where: MeetingWhereUniqueInput
+    update: XOR<MeetingUpdateWithoutContactInput, MeetingUncheckedUpdateWithoutContactInput>
+    create: XOR<MeetingCreateWithoutContactInput, MeetingUncheckedCreateWithoutContactInput>
+  }
+
+  export type MeetingUpdateWithWhereUniqueWithoutContactInput = {
+    where: MeetingWhereUniqueInput
+    data: XOR<MeetingUpdateWithoutContactInput, MeetingUncheckedUpdateWithoutContactInput>
+  }
+
+  export type MeetingUpdateManyWithWhereWithoutContactInput = {
+    where: MeetingScalarWhereInput
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyWithoutContactInput>
+  }
+
+  export type OrganizationCreateWithoutLeadActivitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserCreateNestedManyWithoutOrgInput
+    contacts?: ContactCreateNestedManyWithoutOrgInput
+    projects?: ProjectCreateNestedManyWithoutOrgInput
+    payments?: PaymentCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpCreateNestedManyWithoutOrgInput
+    interactions?: InteractionCreateNestedManyWithoutOrgInput
+    plans?: PlanCreateNestedManyWithoutOrgInput
+    sources?: SourceCreateNestedManyWithoutOrgInput
+    tasks?: TaskCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
+    categories?: CategoryCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutLeadActivitiesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserUncheckedCreateNestedManyWithoutOrgInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutOrgInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutOrgInput
+    plans?: PlanUncheckedCreateNestedManyWithoutOrgInput
+    sources?: SourceUncheckedCreateNestedManyWithoutOrgInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutLeadActivitiesInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutLeadActivitiesInput, OrganizationUncheckedCreateWithoutLeadActivitiesInput>
+  }
+
+  export type ContactCreateWithoutLeadActivitiesInput = {
+    id?: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
+    projects?: ProjectCreateNestedManyWithoutContactInput
+    followUps?: FollowUpCreateNestedManyWithoutContactInput
+    interactions?: InteractionCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactUncheckedCreateWithoutLeadActivitiesInput = {
+    id?: string
+    orgId: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactCreateOrConnectWithoutLeadActivitiesInput = {
+    where: ContactWhereUniqueInput
+    create: XOR<ContactCreateWithoutLeadActivitiesInput, ContactUncheckedCreateWithoutLeadActivitiesInput>
+  }
+
+  export type UserCreateWithoutLeadActivitiesInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    org: OrganizationCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutLeadActivitiesInput = {
+    id?: string
+    orgId: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutLeadActivitiesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLeadActivitiesInput, UserUncheckedCreateWithoutLeadActivitiesInput>
+  }
+
+  export type OrganizationUpsertWithoutLeadActivitiesInput = {
+    update: XOR<OrganizationUpdateWithoutLeadActivitiesInput, OrganizationUncheckedUpdateWithoutLeadActivitiesInput>
+    create: XOR<OrganizationCreateWithoutLeadActivitiesInput, OrganizationUncheckedCreateWithoutLeadActivitiesInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutLeadActivitiesInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutLeadActivitiesInput, OrganizationUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
+  export type OrganizationUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUpdateManyWithoutOrgNestedInput
+    plans?: PlanUpdateManyWithoutOrgNestedInput
+    sources?: SourceUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUncheckedUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutOrgNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutOrgNestedInput
+    sources?: SourceUncheckedUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
+  }
+
+  export type ContactUpsertWithoutLeadActivitiesInput = {
+    update: XOR<ContactUpdateWithoutLeadActivitiesInput, ContactUncheckedUpdateWithoutLeadActivitiesInput>
+    create: XOR<ContactCreateWithoutLeadActivitiesInput, ContactUncheckedCreateWithoutLeadActivitiesInput>
+    where?: ContactWhereInput
+  }
+
+  export type ContactUpdateToOneWithWhereWithoutLeadActivitiesInput = {
+    where?: ContactWhereInput
+    data: XOR<ContactUpdateWithoutLeadActivitiesInput, ContactUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
+  export type ContactUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
+    projects?: ProjectUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
+  }
+
+  export type ContactUncheckedUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
+  }
+
+  export type UserUpsertWithoutLeadActivitiesInput = {
+    update: XOR<UserUpdateWithoutLeadActivitiesInput, UserUncheckedUpdateWithoutLeadActivitiesInput>
+    create: XOR<UserCreateWithoutLeadActivitiesInput, UserUncheckedCreateWithoutLeadActivitiesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLeadActivitiesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLeadActivitiesInput, UserUncheckedUpdateWithoutLeadActivitiesInput>
+  }
+
+  export type UserUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLeadActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
   export type OrganizationCreateWithoutProjectsInput = {
     id?: string
     name: string
@@ -33774,6 +45146,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     payments?: PaymentCreateNestedManyWithoutOrgInput
@@ -33788,6 +45161,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutProjectsInput = {
@@ -33810,6 +45188,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
@@ -33824,6 +45203,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutProjectsInput = {
@@ -33841,17 +45225,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
     followUps?: FollowUpCreateNestedManyWithoutContactInput
     interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutProjectsInput = {
@@ -33865,16 +45257,24 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
     interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutProjectsInput = {
@@ -34017,6 +45417,55 @@ export namespace Prisma {
     data: TaskCreateManyProjectInput | TaskCreateManyProjectInput[]
   }
 
+  export type MeetingCreateWithoutProjectInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingsInput
+    contact: ContactCreateNestedOneWithoutMeetingsInput
+    host?: UserCreateNestedOneWithoutHostedMeetingsInput
+    notes?: MeetingNoteCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUncheckedCreateWithoutProjectInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingCreateOrConnectWithoutProjectInput = {
+    where: MeetingWhereUniqueInput
+    create: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput>
+  }
+
+  export type MeetingCreateManyProjectInputEnvelope = {
+    data: MeetingCreateManyProjectInput | MeetingCreateManyProjectInput[]
+  }
+
   export type OrganizationUpsertWithoutProjectsInput = {
     update: XOR<OrganizationUpdateWithoutProjectsInput, OrganizationUncheckedUpdateWithoutProjectsInput>
     create: XOR<OrganizationCreateWithoutProjectsInput, OrganizationUncheckedCreateWithoutProjectsInput>
@@ -34048,6 +45497,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     payments?: PaymentUpdateManyWithoutOrgNestedInput
@@ -34062,6 +45512,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutProjectsInput = {
@@ -34084,6 +45539,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
@@ -34098,6 +45554,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ContactUpsertWithoutProjectsInput = {
@@ -34121,17 +45582,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
     followUps?: FollowUpUpdateManyWithoutContactNestedInput
     interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutProjectsInput = {
@@ -34145,16 +45614,24 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
     interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutProjectInput = {
@@ -34205,6 +45682,22 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type MeetingUpsertWithWhereUniqueWithoutProjectInput = {
+    where: MeetingWhereUniqueInput
+    update: XOR<MeetingUpdateWithoutProjectInput, MeetingUncheckedUpdateWithoutProjectInput>
+    create: XOR<MeetingCreateWithoutProjectInput, MeetingUncheckedCreateWithoutProjectInput>
+  }
+
+  export type MeetingUpdateWithWhereUniqueWithoutProjectInput = {
+    where: MeetingWhereUniqueInput
+    data: XOR<MeetingUpdateWithoutProjectInput, MeetingUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type MeetingUpdateManyWithWhereWithoutProjectInput = {
+    where: MeetingScalarWhereInput
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type OrganizationCreateWithoutInvoicesInput = {
     id?: string
     name: string
@@ -34225,6 +45718,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -34239,6 +45733,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvoicesInput = {
@@ -34261,6 +45760,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -34275,6 +45775,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvoicesInput = {
@@ -34305,6 +45810,7 @@ export namespace Prisma {
     contact: ContactCreateNestedOneWithoutProjectsInput
     payments?: PaymentCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutInvoicesInput = {
@@ -34330,6 +45836,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutInvoicesInput = {
@@ -34401,6 +45908,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -34415,6 +45923,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
@@ -34437,6 +45950,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -34451,6 +45965,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ProjectUpsertWithoutInvoicesInput = {
@@ -34487,6 +46006,7 @@ export namespace Prisma {
     contact?: ContactUpdateOneRequiredWithoutProjectsNestedInput
     payments?: PaymentUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutInvoicesInput = {
@@ -34512,6 +46032,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -34550,6 +46071,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -34564,6 +46086,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutPaymentsInput = {
@@ -34586,6 +46113,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -34600,6 +46128,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutPaymentsInput = {
@@ -34630,6 +46163,7 @@ export namespace Prisma {
     contact: ContactCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutPaymentsInput = {
@@ -34655,6 +46189,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutPaymentsInput = {
@@ -34740,6 +46275,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -34754,6 +46290,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
@@ -34776,6 +46317,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -34790,6 +46332,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ProjectUpsertWithoutPaymentsInput = {
@@ -34826,6 +46373,7 @@ export namespace Prisma {
     contact?: ContactUpdateOneRequiredWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutPaymentsInput = {
@@ -34851,6 +46399,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -34926,6 +46475,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -34940,6 +46490,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutFollowUpsInput = {
@@ -34962,6 +46517,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -34976,6 +46532,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutFollowUpsInput = {
@@ -34993,17 +46554,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
     projects?: ProjectCreateNestedManyWithoutContactInput
     interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutFollowUpsInput = {
@@ -35017,16 +46586,24 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
     interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutFollowUpsInput = {
@@ -35065,6 +46642,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -35079,6 +46657,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutFollowUpsInput = {
@@ -35101,6 +46684,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -35115,6 +46699,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ContactUpsertWithoutFollowUpsInput = {
@@ -35138,17 +46727,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
     projects?: ProjectUpdateManyWithoutContactNestedInput
     interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutFollowUpsInput = {
@@ -35162,16 +46759,24 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
     interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type OrganizationCreateWithoutInteractionsInput = {
@@ -35194,6 +46799,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -35208,6 +46814,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutInteractionsInput = {
@@ -35230,6 +46841,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -35244,6 +46856,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutInteractionsInput = {
@@ -35261,17 +46878,25 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
     projects?: ProjectCreateNestedManyWithoutContactInput
     followUps?: FollowUpCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutInteractionsInput = {
@@ -35285,16 +46910,24 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
     followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutInteractionsInput = {
@@ -35333,6 +46966,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -35347,6 +46981,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInteractionsInput = {
@@ -35369,6 +47008,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -35383,6 +47023,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ContactUpsertWithoutInteractionsInput = {
@@ -35406,17 +47051,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
     projects?: ProjectUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutInteractionsInput = {
@@ -35430,16 +47083,24 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type OrganizationCreateWithoutCategoriesInput = {
@@ -35462,6 +47123,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -35476,6 +47138,11 @@ export namespace Prisma {
     comments?: TaskCommentCreateNestedManyWithoutOrgInput
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutCategoriesInput = {
@@ -35498,6 +47165,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -35512,6 +47180,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutCategoriesInput = {
@@ -35550,6 +47223,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -35564,6 +47238,11 @@ export namespace Prisma {
     comments?: TaskCommentUpdateManyWithoutOrgNestedInput
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCategoriesInput = {
@@ -35586,6 +47265,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -35600,6 +47280,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationCreateWithoutLoginSessionsInput = {
@@ -35622,6 +47307,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -35636,6 +47322,11 @@ export namespace Prisma {
     comments?: TaskCommentCreateNestedManyWithoutOrgInput
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutLoginSessionsInput = {
@@ -35658,6 +47349,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -35672,6 +47364,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutLoginSessionsInput = {
@@ -35690,14 +47387,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutLoginSessionsInput = {
@@ -35712,13 +47414,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutLoginSessionsInput = {
@@ -35757,6 +47464,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -35771,6 +47479,11 @@ export namespace Prisma {
     comments?: TaskCommentUpdateManyWithoutOrgNestedInput
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLoginSessionsInput = {
@@ -35793,6 +47506,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -35807,6 +47521,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type UserUpsertWithoutLoginSessionsInput = {
@@ -35831,14 +47550,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoginSessionsInput = {
@@ -35853,13 +47577,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type OrganizationCreateWithoutPlansInput = {
@@ -35882,6 +47611,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -35896,6 +47626,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutPlansInput = {
@@ -35918,6 +47653,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -35932,6 +47668,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutPlansInput = {
@@ -35970,6 +47711,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -35984,6 +47726,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPlansInput = {
@@ -36006,6 +47753,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -36020,6 +47768,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationCreateWithoutSourcesInput = {
@@ -36042,6 +47795,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -36056,6 +47810,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutSourcesInput = {
@@ -36078,6 +47837,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -36092,6 +47852,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutSourcesInput = {
@@ -36130,6 +47895,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -36144,6 +47910,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutSourcesInput = {
@@ -36166,6 +47937,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -36180,6 +47952,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationCreateWithoutUsersInput = {
@@ -36202,6 +47979,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
     payments?: PaymentCreateNestedManyWithoutOrgInput
@@ -36216,6 +47994,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutUsersInput = {
@@ -36238,6 +48021,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
@@ -36252,6 +48036,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutUsersInput = {
@@ -36450,6 +48239,77 @@ export namespace Prisma {
     data: TaskActivityCreateManyUserInput | TaskActivityCreateManyUserInput[]
   }
 
+  export type ContactCreateWithoutAssigneeInput = {
+    id?: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutContactsInput
+    projects?: ProjectCreateNestedManyWithoutContactInput
+    followUps?: FollowUpCreateNestedManyWithoutContactInput
+    interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+    meetings?: MeetingCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    orgId: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactCreateOrConnectWithoutAssigneeInput = {
+    where: ContactWhereUniqueInput
+    create: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type ContactCreateManyAssigneeInputEnvelope = {
+    data: ContactCreateManyAssigneeInput | ContactCreateManyAssigneeInput[]
+  }
+
   export type TaskCommentCreateWithoutUserInput = {
     id?: string
     body: string
@@ -36529,6 +48389,115 @@ export namespace Prisma {
     data: LoginSessionCreateManyUserInput | LoginSessionCreateManyUserInput[]
   }
 
+  export type LeadActivityCreateWithoutAssigneeInput = {
+    id?: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutLeadActivitiesInput
+    contact: ContactCreateNestedOneWithoutLeadActivitiesInput
+  }
+
+  export type LeadActivityUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeadActivityCreateOrConnectWithoutAssigneeInput = {
+    where: LeadActivityWhereUniqueInput
+    create: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type LeadActivityCreateManyAssigneeInputEnvelope = {
+    data: LeadActivityCreateManyAssigneeInput | LeadActivityCreateManyAssigneeInput[]
+  }
+
+  export type MeetingCreateWithoutHostInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingsInput
+    contact: ContactCreateNestedOneWithoutMeetingsInput
+    project?: ProjectCreateNestedOneWithoutMeetingsInput
+    notes?: MeetingNoteCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingUncheckedCreateWithoutHostInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: MeetingNoteUncheckedCreateNestedManyWithoutMeetingInput
+  }
+
+  export type MeetingCreateOrConnectWithoutHostInput = {
+    where: MeetingWhereUniqueInput
+    create: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput>
+  }
+
+  export type MeetingCreateManyHostInputEnvelope = {
+    data: MeetingCreateManyHostInput | MeetingCreateManyHostInput[]
+  }
+
+  export type MeetingNoteCreateWithoutAuthorInput = {
+    id?: string
+    body: string
+    createdAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingNotesInput
+    meeting: MeetingCreateNestedOneWithoutNotesInput
+  }
+
+  export type MeetingNoteUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    orgId: string
+    meetingId: string
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteCreateOrConnectWithoutAuthorInput = {
+    where: MeetingNoteWhereUniqueInput
+    create: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type MeetingNoteCreateManyAuthorInputEnvelope = {
+    data: MeetingNoteCreateManyAuthorInput | MeetingNoteCreateManyAuthorInput[]
+  }
+
   export type OrganizationUpsertWithoutUsersInput = {
     update: XOR<OrganizationUpdateWithoutUsersInput, OrganizationUncheckedUpdateWithoutUsersInput>
     create: XOR<OrganizationCreateWithoutUsersInput, OrganizationUncheckedCreateWithoutUsersInput>
@@ -36560,6 +48529,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
     payments?: PaymentUpdateManyWithoutOrgNestedInput
@@ -36574,6 +48544,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutUsersInput = {
@@ -36596,6 +48571,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
@@ -36610,6 +48586,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -36720,6 +48701,22 @@ export namespace Prisma {
     data: XOR<TaskActivityUpdateManyMutationInput, TaskActivityUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type ContactUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: ContactWhereUniqueInput
+    update: XOR<ContactUpdateWithoutAssigneeInput, ContactUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<ContactCreateWithoutAssigneeInput, ContactUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type ContactUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: ContactWhereUniqueInput
+    data: XOR<ContactUpdateWithoutAssigneeInput, ContactUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type ContactUpdateManyWithWhereWithoutAssigneeInput = {
+    where: ContactScalarWhereInput
+    data: XOR<ContactUpdateManyMutationInput, ContactUncheckedUpdateManyWithoutAssigneeInput>
+  }
+
   export type TaskCommentUpsertWithWhereUniqueWithoutUserInput = {
     where: TaskCommentWhereUniqueInput
     update: XOR<TaskCommentUpdateWithoutUserInput, TaskCommentUncheckedUpdateWithoutUserInput>
@@ -36768,6 +48765,54 @@ export namespace Prisma {
     data: XOR<LoginSessionUpdateManyMutationInput, LoginSessionUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type LeadActivityUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: LeadActivityWhereUniqueInput
+    update: XOR<LeadActivityUpdateWithoutAssigneeInput, LeadActivityUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<LeadActivityCreateWithoutAssigneeInput, LeadActivityUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type LeadActivityUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: LeadActivityWhereUniqueInput
+    data: XOR<LeadActivityUpdateWithoutAssigneeInput, LeadActivityUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type LeadActivityUpdateManyWithWhereWithoutAssigneeInput = {
+    where: LeadActivityScalarWhereInput
+    data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyWithoutAssigneeInput>
+  }
+
+  export type MeetingUpsertWithWhereUniqueWithoutHostInput = {
+    where: MeetingWhereUniqueInput
+    update: XOR<MeetingUpdateWithoutHostInput, MeetingUncheckedUpdateWithoutHostInput>
+    create: XOR<MeetingCreateWithoutHostInput, MeetingUncheckedCreateWithoutHostInput>
+  }
+
+  export type MeetingUpdateWithWhereUniqueWithoutHostInput = {
+    where: MeetingWhereUniqueInput
+    data: XOR<MeetingUpdateWithoutHostInput, MeetingUncheckedUpdateWithoutHostInput>
+  }
+
+  export type MeetingUpdateManyWithWhereWithoutHostInput = {
+    where: MeetingScalarWhereInput
+    data: XOR<MeetingUpdateManyMutationInput, MeetingUncheckedUpdateManyWithoutHostInput>
+  }
+
+  export type MeetingNoteUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: MeetingNoteWhereUniqueInput
+    update: XOR<MeetingNoteUpdateWithoutAuthorInput, MeetingNoteUncheckedUpdateWithoutAuthorInput>
+    create: XOR<MeetingNoteCreateWithoutAuthorInput, MeetingNoteUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type MeetingNoteUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: MeetingNoteWhereUniqueInput
+    data: XOR<MeetingNoteUpdateWithoutAuthorInput, MeetingNoteUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type MeetingNoteUpdateManyWithWhereWithoutAuthorInput = {
+    where: MeetingNoteScalarWhereInput
+    data: XOR<MeetingNoteUpdateManyMutationInput, MeetingNoteUncheckedUpdateManyWithoutAuthorInput>
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -36779,14 +48824,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -36801,13 +48851,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -36837,14 +48892,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -36859,13 +48919,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -36879,14 +48944,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -36901,13 +48971,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -36937,14 +49012,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -36959,13 +49039,1023 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type OrganizationCreateWithoutMeetingsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserCreateNestedManyWithoutOrgInput
+    contacts?: ContactCreateNestedManyWithoutOrgInput
+    projects?: ProjectCreateNestedManyWithoutOrgInput
+    payments?: PaymentCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpCreateNestedManyWithoutOrgInput
+    interactions?: InteractionCreateNestedManyWithoutOrgInput
+    plans?: PlanCreateNestedManyWithoutOrgInput
+    sources?: SourceCreateNestedManyWithoutOrgInput
+    tasks?: TaskCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
+    categories?: CategoryCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutMeetingsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserUncheckedCreateNestedManyWithoutOrgInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutOrgInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutOrgInput
+    plans?: PlanUncheckedCreateNestedManyWithoutOrgInput
+    sources?: SourceUncheckedCreateNestedManyWithoutOrgInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutMeetingsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutMeetingsInput, OrganizationUncheckedCreateWithoutMeetingsInput>
+  }
+
+  export type ContactCreateWithoutMeetingsInput = {
+    id?: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutContactsInput
+    assignee?: UserCreateNestedOneWithoutAssignedContactsInput
+    projects?: ProjectCreateNestedManyWithoutContactInput
+    followUps?: FollowUpCreateNestedManyWithoutContactInput
+    interactions?: InteractionCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactUncheckedCreateWithoutMeetingsInput = {
+    id?: string
+    orgId: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutContactInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutContactInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutContactInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactCreateOrConnectWithoutMeetingsInput = {
+    where: ContactWhereUniqueInput
+    create: XOR<ContactCreateWithoutMeetingsInput, ContactUncheckedCreateWithoutMeetingsInput>
+  }
+
+  export type ProjectCreateWithoutMeetingsInput = {
+    id?: string
+    name: string
+    status?: string
+    price?: number | null
+    dueDate?: Date | string | null
+    liveUrl?: string | null
+    notes?: string | null
+    gstRate?: number | null
+    hsnSac?: string | null
+    taxMode?: string
+    billingType?: string
+    monthlyAmount?: number | null
+    splitBilling?: boolean
+    billingActive?: boolean
+    billingStart?: Date | string | null
+    billingDay?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutProjectsInput
+    contact: ContactCreateNestedOneWithoutProjectsInput
+    payments?: PaymentCreateNestedManyWithoutProjectInput
+    invoices?: InvoiceCreateNestedManyWithoutProjectInput
+    tasks?: TaskCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutMeetingsInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    name: string
+    status?: string
+    price?: number | null
+    dueDate?: Date | string | null
+    liveUrl?: string | null
+    notes?: string | null
+    gstRate?: number | null
+    hsnSac?: string | null
+    taxMode?: string
+    billingType?: string
+    monthlyAmount?: number | null
+    splitBilling?: boolean
+    billingActive?: boolean
+    billingStart?: Date | string | null
+    billingDay?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutMeetingsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutMeetingsInput, ProjectUncheckedCreateWithoutMeetingsInput>
+  }
+
+  export type UserCreateWithoutHostedMeetingsInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    org: OrganizationCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutHostedMeetingsInput = {
+    id?: string
+    orgId: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutHostedMeetingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHostedMeetingsInput, UserUncheckedCreateWithoutHostedMeetingsInput>
+  }
+
+  export type MeetingNoteCreateWithoutMeetingInput = {
+    id?: string
+    body: string
+    createdAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingNotesInput
+    author?: UserCreateNestedOneWithoutMeetingNotesInput
+  }
+
+  export type MeetingNoteUncheckedCreateWithoutMeetingInput = {
+    id?: string
+    orgId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteCreateOrConnectWithoutMeetingInput = {
+    where: MeetingNoteWhereUniqueInput
+    create: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput>
+  }
+
+  export type MeetingNoteCreateManyMeetingInputEnvelope = {
+    data: MeetingNoteCreateManyMeetingInput | MeetingNoteCreateManyMeetingInput[]
+  }
+
+  export type OrganizationUpsertWithoutMeetingsInput = {
+    update: XOR<OrganizationUpdateWithoutMeetingsInput, OrganizationUncheckedUpdateWithoutMeetingsInput>
+    create: XOR<OrganizationCreateWithoutMeetingsInput, OrganizationUncheckedCreateWithoutMeetingsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutMeetingsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutMeetingsInput, OrganizationUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type OrganizationUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUpdateManyWithoutOrgNestedInput
+    plans?: PlanUpdateManyWithoutOrgNestedInput
+    sources?: SourceUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUncheckedUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutOrgNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutOrgNestedInput
+    sources?: SourceUncheckedUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
+  }
+
+  export type ContactUpsertWithoutMeetingsInput = {
+    update: XOR<ContactUpdateWithoutMeetingsInput, ContactUncheckedUpdateWithoutMeetingsInput>
+    create: XOR<ContactCreateWithoutMeetingsInput, ContactUncheckedCreateWithoutMeetingsInput>
+    where?: ContactWhereInput
+  }
+
+  export type ContactUpdateToOneWithWhereWithoutMeetingsInput = {
+    where?: ContactWhereInput
+    data: XOR<ContactUpdateWithoutMeetingsInput, ContactUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type ContactUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
+    projects?: ProjectUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+  }
+
+  export type ContactUncheckedUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+  }
+
+  export type ProjectUpsertWithoutMeetingsInput = {
+    update: XOR<ProjectUpdateWithoutMeetingsInput, ProjectUncheckedUpdateWithoutMeetingsInput>
+    create: XOR<ProjectCreateWithoutMeetingsInput, ProjectUncheckedCreateWithoutMeetingsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutMeetingsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutMeetingsInput, ProjectUncheckedUpdateWithoutMeetingsInput>
+  }
+
+  export type ProjectUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    hsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    taxMode?: StringFieldUpdateOperationsInput | string
+    billingType?: StringFieldUpdateOperationsInput | string
+    monthlyAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    splitBilling?: BoolFieldUpdateOperationsInput | boolean
+    billingActive?: BoolFieldUpdateOperationsInput | boolean
+    billingStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingDay?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+    contact?: ContactUpdateOneRequiredWithoutProjectsNestedInput
+    payments?: PaymentUpdateManyWithoutProjectNestedInput
+    invoices?: InvoiceUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    hsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    taxMode?: StringFieldUpdateOperationsInput | string
+    billingType?: StringFieldUpdateOperationsInput | string
+    monthlyAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    splitBilling?: BoolFieldUpdateOperationsInput | boolean
+    billingActive?: BoolFieldUpdateOperationsInput | boolean
+    billingStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingDay?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type UserUpsertWithoutHostedMeetingsInput = {
+    update: XOR<UserUpdateWithoutHostedMeetingsInput, UserUncheckedUpdateWithoutHostedMeetingsInput>
+    create: XOR<UserCreateWithoutHostedMeetingsInput, UserUncheckedCreateWithoutHostedMeetingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHostedMeetingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHostedMeetingsInput, UserUncheckedUpdateWithoutHostedMeetingsInput>
+  }
+
+  export type UserUpdateWithoutHostedMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHostedMeetingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type MeetingNoteUpsertWithWhereUniqueWithoutMeetingInput = {
+    where: MeetingNoteWhereUniqueInput
+    update: XOR<MeetingNoteUpdateWithoutMeetingInput, MeetingNoteUncheckedUpdateWithoutMeetingInput>
+    create: XOR<MeetingNoteCreateWithoutMeetingInput, MeetingNoteUncheckedCreateWithoutMeetingInput>
+  }
+
+  export type MeetingNoteUpdateWithWhereUniqueWithoutMeetingInput = {
+    where: MeetingNoteWhereUniqueInput
+    data: XOR<MeetingNoteUpdateWithoutMeetingInput, MeetingNoteUncheckedUpdateWithoutMeetingInput>
+  }
+
+  export type MeetingNoteUpdateManyWithWhereWithoutMeetingInput = {
+    where: MeetingNoteScalarWhereInput
+    data: XOR<MeetingNoteUpdateManyMutationInput, MeetingNoteUncheckedUpdateManyWithoutMeetingInput>
+  }
+
+  export type OrganizationCreateWithoutMeetingNotesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserCreateNestedManyWithoutOrgInput
+    contacts?: ContactCreateNestedManyWithoutOrgInput
+    projects?: ProjectCreateNestedManyWithoutOrgInput
+    payments?: PaymentCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpCreateNestedManyWithoutOrgInput
+    interactions?: InteractionCreateNestedManyWithoutOrgInput
+    plans?: PlanCreateNestedManyWithoutOrgInput
+    sources?: SourceCreateNestedManyWithoutOrgInput
+    tasks?: TaskCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
+    categories?: CategoryCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutMeetingNotesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserUncheckedCreateNestedManyWithoutOrgInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutOrgInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutOrgInput
+    plans?: PlanUncheckedCreateNestedManyWithoutOrgInput
+    sources?: SourceUncheckedCreateNestedManyWithoutOrgInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutMeetingNotesInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutMeetingNotesInput, OrganizationUncheckedCreateWithoutMeetingNotesInput>
+  }
+
+  export type MeetingCreateWithoutNotesInput = {
+    id?: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    org: OrganizationCreateNestedOneWithoutMeetingsInput
+    contact: ContactCreateNestedOneWithoutMeetingsInput
+    project?: ProjectCreateNestedOneWithoutMeetingsInput
+    host?: UserCreateNestedOneWithoutHostedMeetingsInput
+  }
+
+  export type MeetingUncheckedCreateWithoutNotesInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingCreateOrConnectWithoutNotesInput = {
+    where: MeetingWhereUniqueInput
+    create: XOR<MeetingCreateWithoutNotesInput, MeetingUncheckedCreateWithoutNotesInput>
+  }
+
+  export type UserCreateWithoutMeetingNotesInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    org: OrganizationCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+  }
+
+  export type UserUncheckedCreateWithoutMeetingNotesInput = {
+    id?: string
+    orgId: string
+    name: string
+    email: string
+    passwordHash: string
+    role?: string
+    isSuperAdmin?: boolean
+    active?: boolean
+    avatarColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team?: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+  }
+
+  export type UserCreateOrConnectWithoutMeetingNotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMeetingNotesInput, UserUncheckedCreateWithoutMeetingNotesInput>
+  }
+
+  export type OrganizationUpsertWithoutMeetingNotesInput = {
+    update: XOR<OrganizationUpdateWithoutMeetingNotesInput, OrganizationUncheckedUpdateWithoutMeetingNotesInput>
+    create: XOR<OrganizationCreateWithoutMeetingNotesInput, OrganizationUncheckedCreateWithoutMeetingNotesInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutMeetingNotesInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutMeetingNotesInput, OrganizationUncheckedUpdateWithoutMeetingNotesInput>
+  }
+
+  export type OrganizationUpdateWithoutMeetingNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUpdateManyWithoutOrgNestedInput
+    plans?: PlanUpdateManyWithoutOrgNestedInput
+    sources?: SourceUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutMeetingNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUncheckedUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutOrgNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutOrgNestedInput
+    sources?: SourceUncheckedUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+  }
+
+  export type MeetingUpsertWithoutNotesInput = {
+    update: XOR<MeetingUpdateWithoutNotesInput, MeetingUncheckedUpdateWithoutNotesInput>
+    create: XOR<MeetingCreateWithoutNotesInput, MeetingUncheckedCreateWithoutNotesInput>
+    where?: MeetingWhereInput
+  }
+
+  export type MeetingUpdateToOneWithWhereWithoutNotesInput = {
+    where?: MeetingWhereInput
+    data: XOR<MeetingUpdateWithoutNotesInput, MeetingUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type MeetingUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingsNestedInput
+    contact?: ContactUpdateOneRequiredWithoutMeetingsNestedInput
+    project?: ProjectUpdateOneWithoutMeetingsNestedInput
+    host?: UserUpdateOneWithoutHostedMeetingsNestedInput
+  }
+
+  export type MeetingUncheckedUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutMeetingNotesInput = {
+    update: XOR<UserUpdateWithoutMeetingNotesInput, UserUncheckedUpdateWithoutMeetingNotesInput>
+    create: XOR<UserCreateWithoutMeetingNotesInput, UserUncheckedCreateWithoutMeetingNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMeetingNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMeetingNotesInput, UserUncheckedUpdateWithoutMeetingNotesInput>
+  }
+
+  export type UserUpdateWithoutMeetingNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMeetingNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    avatarColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
   }
 
   export type OrganizationCreateWithoutTasksInput = {
@@ -36988,6 +50078,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -37002,6 +50093,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutTasksInput = {
@@ -37024,6 +50120,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -37038,6 +50135,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutTasksInput = {
@@ -37068,6 +50170,7 @@ export namespace Prisma {
     contact: ContactCreateNestedOneWithoutProjectsInput
     payments?: PaymentCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
+    meetings?: MeetingCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTasksInput = {
@@ -37093,6 +50196,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTasksInput = {
@@ -37111,14 +50215,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTasksInput = {
@@ -37133,13 +50242,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTasksInput = {
@@ -37158,14 +50272,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutReportedTasksInput = {
@@ -37180,13 +50299,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutReportedTasksInput = {
@@ -37312,6 +50436,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -37326,6 +50451,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutTasksInput = {
@@ -37348,6 +50478,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -37362,6 +50493,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type ProjectUpsertWithoutTasksInput = {
@@ -37398,6 +50534,7 @@ export namespace Prisma {
     contact?: ContactUpdateOneRequiredWithoutProjectsNestedInput
     payments?: PaymentUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTasksInput = {
@@ -37423,6 +50560,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutAssignedTasksInput = {
@@ -37447,14 +50585,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTasksInput = {
@@ -37469,13 +50612,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUpsertWithoutReportedTasksInput = {
@@ -37500,14 +50648,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportedTasksInput = {
@@ -37522,13 +50675,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type TaskActivityUpsertWithWhereUniqueWithoutTaskInput = {
@@ -37599,6 +50757,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -37613,6 +50772,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutActivitiesInput = {
@@ -37635,6 +50799,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -37649,6 +50814,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutActivitiesInput = {
@@ -37714,14 +50884,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -37736,13 +50911,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -37781,6 +50961,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -37795,6 +50976,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutActivitiesInput = {
@@ -37817,6 +51003,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -37831,6 +51018,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type TaskUpsertWithoutActivitiesInput = {
@@ -37908,14 +51100,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -37930,13 +51127,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type OrganizationCreateWithoutCommentsInput = {
@@ -37959,6 +51161,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -37973,6 +51176,11 @@ export namespace Prisma {
     timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutCommentsInput = {
@@ -37995,6 +51203,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -38009,6 +51218,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutCommentsInput = {
@@ -38074,14 +51288,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     timeLogs?: TimeLogCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -38096,13 +51315,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     timeLogs?: TimeLogUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -38141,6 +51365,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -38155,6 +51380,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCommentsInput = {
@@ -38177,6 +51407,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -38191,6 +51422,11 @@ export namespace Prisma {
     timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type TaskUpsertWithoutCommentsInput = {
@@ -38268,14 +51504,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -38290,13 +51531,18 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type OrganizationCreateWithoutTimeLogsInput = {
@@ -38319,6 +51565,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserCreateNestedManyWithoutOrgInput
     contacts?: ContactCreateNestedManyWithoutOrgInput
     projects?: ProjectCreateNestedManyWithoutOrgInput
@@ -38333,6 +51580,11 @@ export namespace Prisma {
     comments?: TaskCommentCreateNestedManyWithoutOrgInput
     categories?: CategoryCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationUncheckedCreateWithoutTimeLogsInput = {
@@ -38355,6 +51607,7 @@ export namespace Prisma {
     placeOfSupply?: string | null
     defaultHsnSac?: string | null
     gstRate?: number
+    monthlyFee?: number | null
     users?: UserUncheckedCreateNestedManyWithoutOrgInput
     contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
@@ -38369,6 +51622,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
     categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
   }
 
   export type OrganizationCreateOrConnectWithoutTimeLogsInput = {
@@ -38434,14 +51692,19 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     org: OrganizationCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskCreateNestedManyWithoutReporterInput
     activities?: TaskActivityCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutTimeLogsInput = {
@@ -38456,13 +51719,18 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     reportedTasks?: TaskUncheckedCreateNestedManyWithoutReporterInput
     activities?: TaskActivityUncheckedCreateNestedManyWithoutUserInput
+    assignedContacts?: ContactUncheckedCreateNestedManyWithoutAssigneeInput
     comments?: TaskCommentUncheckedCreateNestedManyWithoutUserInput
     loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutUserInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutAssigneeInput
+    hostedMeetings?: MeetingUncheckedCreateNestedManyWithoutHostInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutTimeLogsInput = {
@@ -38501,6 +51769,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUpdateManyWithoutOrgNestedInput
     contacts?: ContactUpdateManyWithoutOrgNestedInput
     projects?: ProjectUpdateManyWithoutOrgNestedInput
@@ -38515,6 +51784,11 @@ export namespace Prisma {
     comments?: TaskCommentUpdateManyWithoutOrgNestedInput
     categories?: CategoryUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutTimeLogsInput = {
@@ -38537,6 +51811,7 @@ export namespace Prisma {
     placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
     defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
     gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
     users?: UserUncheckedUpdateManyWithoutOrgNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
@@ -38551,6 +51826,11 @@ export namespace Prisma {
     comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type TaskUpsertWithoutTimeLogsInput = {
@@ -38628,14 +51908,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     org?: OrganizationUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeLogsInput = {
@@ -38650,13 +51935,386 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type OrganizationCreateWithoutPlatformPaymentsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserCreateNestedManyWithoutOrgInput
+    contacts?: ContactCreateNestedManyWithoutOrgInput
+    projects?: ProjectCreateNestedManyWithoutOrgInput
+    payments?: PaymentCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpCreateNestedManyWithoutOrgInput
+    interactions?: InteractionCreateNestedManyWithoutOrgInput
+    plans?: PlanCreateNestedManyWithoutOrgInput
+    sources?: SourceCreateNestedManyWithoutOrgInput
+    tasks?: TaskCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
+    categories?: CategoryCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutPlatformPaymentsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserUncheckedCreateNestedManyWithoutOrgInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutOrgInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutOrgInput
+    plans?: PlanUncheckedCreateNestedManyWithoutOrgInput
+    sources?: SourceUncheckedCreateNestedManyWithoutOrgInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformAuditLogs?: PlatformAuditLogUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutPlatformPaymentsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutPlatformPaymentsInput, OrganizationUncheckedCreateWithoutPlatformPaymentsInput>
+  }
+
+  export type OrganizationUpsertWithoutPlatformPaymentsInput = {
+    update: XOR<OrganizationUpdateWithoutPlatformPaymentsInput, OrganizationUncheckedUpdateWithoutPlatformPaymentsInput>
+    create: XOR<OrganizationCreateWithoutPlatformPaymentsInput, OrganizationUncheckedCreateWithoutPlatformPaymentsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutPlatformPaymentsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutPlatformPaymentsInput, OrganizationUncheckedUpdateWithoutPlatformPaymentsInput>
+  }
+
+  export type OrganizationUpdateWithoutPlatformPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUpdateManyWithoutOrgNestedInput
+    plans?: PlanUpdateManyWithoutOrgNestedInput
+    sources?: SourceUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutPlatformPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUncheckedUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutOrgNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutOrgNestedInput
+    sources?: SourceUncheckedUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformAuditLogs?: PlatformAuditLogUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationCreateWithoutPlatformAuditLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserCreateNestedManyWithoutOrgInput
+    contacts?: ContactCreateNestedManyWithoutOrgInput
+    projects?: ProjectCreateNestedManyWithoutOrgInput
+    payments?: PaymentCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpCreateNestedManyWithoutOrgInput
+    interactions?: InteractionCreateNestedManyWithoutOrgInput
+    plans?: PlanCreateNestedManyWithoutOrgInput
+    sources?: SourceCreateNestedManyWithoutOrgInput
+    tasks?: TaskCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogCreateNestedManyWithoutOrgInput
+    categories?: CategoryCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutOrgInput
+    meetings?: MeetingCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutPlatformAuditLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: string
+    active?: boolean
+    invoiceSeq?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    billingAddress?: string | null
+    billingPhone?: string | null
+    status?: string
+    subscribedUntil?: Date | string | null
+    blockedReason?: string | null
+    billingEmail?: string | null
+    billingWebsite?: string | null
+    gstin?: string | null
+    placeOfSupply?: string | null
+    defaultHsnSac?: string | null
+    gstRate?: number
+    monthlyFee?: number | null
+    users?: UserUncheckedCreateNestedManyWithoutOrgInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutOrgInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutOrgInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrgInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrgInput
+    followUps?: FollowUpUncheckedCreateNestedManyWithoutOrgInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutOrgInput
+    plans?: PlanUncheckedCreateNestedManyWithoutOrgInput
+    sources?: SourceUncheckedCreateNestedManyWithoutOrgInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutOrgInput
+    activities?: TaskActivityUncheckedCreateNestedManyWithoutOrgInput
+    comments?: TaskCommentUncheckedCreateNestedManyWithoutOrgInput
+    timeLogs?: TimeLogUncheckedCreateNestedManyWithoutOrgInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutOrgInput
+    loginSessions?: LoginSessionUncheckedCreateNestedManyWithoutOrgInput
+    platformPayments?: PlatformPaymentUncheckedCreateNestedManyWithoutOrgInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutOrgInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrgInput
+    meetingNotes?: MeetingNoteUncheckedCreateNestedManyWithoutOrgInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutPlatformAuditLogsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutPlatformAuditLogsInput, OrganizationUncheckedCreateWithoutPlatformAuditLogsInput>
+  }
+
+  export type OrganizationUpsertWithoutPlatformAuditLogsInput = {
+    update: XOR<OrganizationUpdateWithoutPlatformAuditLogsInput, OrganizationUncheckedUpdateWithoutPlatformAuditLogsInput>
+    create: XOR<OrganizationCreateWithoutPlatformAuditLogsInput, OrganizationUncheckedCreateWithoutPlatformAuditLogsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutPlatformAuditLogsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutPlatformAuditLogsInput, OrganizationUncheckedUpdateWithoutPlatformAuditLogsInput>
+  }
+
+  export type OrganizationUpdateWithoutPlatformAuditLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUpdateManyWithoutOrgNestedInput
+    plans?: PlanUpdateManyWithoutOrgNestedInput
+    sources?: SourceUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutOrgNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutPlatformAuditLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    invoiceSeq?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    subscribedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    blockedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingWebsite?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    placeOfSupply?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultHsnSac?: NullableStringFieldUpdateOperationsInput | string | null
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    monthlyFee?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: UserUncheckedUpdateManyWithoutOrgNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutOrgNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutOrgNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrgNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrgNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutOrgNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutOrgNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutOrgNestedInput
+    sources?: SourceUncheckedUpdateManyWithoutOrgNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutOrgNestedInput
+    activities?: TaskActivityUncheckedUpdateManyWithoutOrgNestedInput
+    comments?: TaskCommentUncheckedUpdateManyWithoutOrgNestedInput
+    timeLogs?: TimeLogUncheckedUpdateManyWithoutOrgNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutOrgNestedInput
+    loginSessions?: LoginSessionUncheckedUpdateManyWithoutOrgNestedInput
+    platformPayments?: PlatformPaymentUncheckedUpdateManyWithoutOrgNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutOrgNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrgNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutOrgNestedInput
   }
 
   export type UserCreateManyOrgInput = {
@@ -38670,6 +52328,7 @@ export namespace Prisma {
     avatarColor?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    team?: string
   }
 
   export type ContactCreateManyOrgInput = {
@@ -38682,12 +52341,18 @@ export namespace Prisma {
     city?: string | null
     source?: string | null
     notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
     stage?: string
     status?: string
     plan?: string | null
     quotedPrice?: number | null
     dropReason?: string | null
     convertedAt?: Date | string | null
+    assigneeId?: string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38860,6 +52525,64 @@ export namespace Prisma {
     logoutAt?: Date | string | null
   }
 
+  export type PlatformPaymentCreateManyOrgInput = {
+    id?: string
+    amount: number
+    period?: string | null
+    note?: string | null
+    paidAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PlatformAuditLogCreateManyOrgInput = {
+    id?: string
+    actorId: string
+    actorEmail: string
+    action: string
+    detail?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LeadActivityCreateManyOrgInput = {
+    id?: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingCreateManyOrgInput = {
+    id?: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingNoteCreateManyOrgInput = {
+    id?: string
+    meetingId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
   export type UserUpdateWithoutOrgInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -38871,14 +52594,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrgInput = {
@@ -38892,14 +52620,19 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     reportedTasks?: TaskUncheckedUpdateManyWithoutReporterNestedInput
     activities?: TaskActivityUncheckedUpdateManyWithoutUserNestedInput
+    assignedContacts?: ContactUncheckedUpdateManyWithoutAssigneeNestedInput
     comments?: TaskCommentUncheckedUpdateManyWithoutUserNestedInput
     timeLogs?: TimeLogUncheckedUpdateManyWithoutUserNestedInput
     loginSessions?: LoginSessionUncheckedUpdateManyWithoutUserNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutAssigneeNestedInput
+    hostedMeetings?: MeetingUncheckedUpdateManyWithoutHostNestedInput
+    meetingNotes?: MeetingNoteUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutOrgInput = {
@@ -38913,6 +52646,7 @@ export namespace Prisma {
     avatarColor?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: StringFieldUpdateOperationsInput | string
   }
 
   export type ContactUpdateWithoutOrgInput = {
@@ -38925,17 +52659,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutAssignedContactsNestedInput
     projects?: ProjectUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUpdateManyWithoutContactNestedInput
     interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutOrgInput = {
@@ -38948,17 +52690,25 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
     followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
     interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateManyWithoutOrgInput = {
@@ -38971,12 +52721,18 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     plan?: NullableStringFieldUpdateOperationsInput | string | null
     quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
     dropReason?: NullableStringFieldUpdateOperationsInput | string | null
     convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39004,6 +52760,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOrgInput = {
@@ -39029,6 +52786,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutOrgInput = {
@@ -39499,6 +53257,182 @@ export namespace Prisma {
     logoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PlatformPaymentUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPaymentUncheckedUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformPaymentUncheckedUpdateManyWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    period?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogUncheckedUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAuditLogUncheckedUpdateManyWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorId?: StringFieldUpdateOperationsInput | string
+    actorEmail?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contact?: ContactUpdateOneRequiredWithoutLeadActivitiesNestedInput
+    assignee?: UserUpdateOneWithoutLeadActivitiesNestedInput
+  }
+
+  export type LeadActivityUncheckedUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityUncheckedUpdateManyWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contact?: ContactUpdateOneRequiredWithoutMeetingsNestedInput
+    project?: ProjectUpdateOneWithoutMeetingsNestedInput
+    host?: UserUpdateOneWithoutHostedMeetingsNestedInput
+    notes?: MeetingNoteUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meeting?: MeetingUpdateOneRequiredWithoutNotesNestedInput
+    author?: UserUpdateOneWithoutMeetingNotesNestedInput
+  }
+
+  export type MeetingNoteUncheckedUpdateWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutOrgInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectCreateManyContactInput = {
     id?: string
     orgId: string
@@ -39538,6 +53472,38 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type LeadActivityCreateManyContactInput = {
+    id?: string
+    orgId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingCreateManyContactInput = {
+    id?: string
+    orgId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ProjectUpdateWithoutContactInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -39561,6 +53527,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutContactInput = {
@@ -39586,6 +53553,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutContactInput = {
@@ -39661,6 +53629,104 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LeadActivityUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutLeadActivitiesNestedInput
+    assignee?: UserUpdateOneWithoutLeadActivitiesNestedInput
+  }
+
+  export type LeadActivityUncheckedUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityUncheckedUpdateManyWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingsNestedInput
+    project?: ProjectUpdateOneWithoutMeetingsNestedInput
+    host?: UserUpdateOneWithoutHostedMeetingsNestedInput
+    notes?: MeetingNoteUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentCreateManyProjectInput = {
     id?: string
     orgId: string
@@ -39707,6 +53773,25 @@ export namespace Prisma {
     startedAt?: Date | string | null
     completedAt?: Date | string | null
     order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingCreateManyProjectInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    hostId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -39869,6 +53954,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MeetingUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingsNestedInput
+    contact?: ContactUpdateOneRequiredWithoutMeetingsNestedInput
+    host?: UserUpdateOneWithoutHostedMeetingsNestedInput
+    notes?: MeetingNoteUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentCreateManyInvoiceInput = {
     id?: string
     orgId: string
@@ -39984,6 +54128,32 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ContactCreateManyAssigneeInput = {
+    id?: string
+    orgId: string
+    name: string
+    business?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    email?: string | null
+    city?: string | null
+    source?: string | null
+    notes?: string | null
+    gstin?: string | null
+    billingAddress?: string | null
+    state?: string | null
+    stage?: string
+    status?: string
+    plan?: string | null
+    quotedPrice?: number | null
+    dropReason?: string | null
+    convertedAt?: Date | string | null
+    nextActionAt?: Date | string | null
+    nextActionNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TaskCommentCreateManyUserInput = {
     id?: string
     orgId: string
@@ -40008,6 +54178,46 @@ export namespace Prisma {
     orgId: string
     loginAt?: Date | string
     logoutAt?: Date | string | null
+  }
+
+  export type LeadActivityCreateManyAssigneeInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    type?: string
+    title?: string | null
+    dueDate?: Date | string | null
+    done?: boolean
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingCreateManyHostInput = {
+    id?: string
+    orgId: string
+    contactId: string
+    projectId?: string | null
+    summary?: string | null
+    transcriptUrl?: string | null
+    externalId?: string | null
+    title: string
+    startAt: Date | string
+    endAt?: Date | string | null
+    location?: string | null
+    link?: string | null
+    status?: string
+    outcome?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MeetingNoteCreateManyAuthorInput = {
+    id?: string
+    orgId: string
+    meetingId: string
+    body: string
+    createdAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -40223,6 +54433,94 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContactUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutContactsNestedInput
+    projects?: ProjectUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUpdateManyWithoutContactNestedInput
+  }
+
+  export type ContactUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutContactNestedInput
+    followUps?: FollowUpUncheckedUpdateManyWithoutContactNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutContactNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutContactNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutContactNestedInput
+  }
+
+  export type ContactUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    gstin?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    quotedPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    dropReason?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextActionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TaskCommentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
@@ -40299,6 +54597,160 @@ export namespace Prisma {
     orgId?: StringFieldUpdateOperationsInput | string
     loginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type LeadActivityUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutLeadActivitiesNestedInput
+    contact?: ContactUpdateOneRequiredWithoutLeadActivitiesNestedInput
+  }
+
+  export type LeadActivityUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadActivityUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    done?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingsNestedInput
+    contact?: ContactUpdateOneRequiredWithoutMeetingsNestedInput
+    project?: ProjectUpdateOneWithoutMeetingsNestedInput
+    notes?: MeetingNoteUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: MeetingNoteUncheckedUpdateManyWithoutMeetingNestedInput
+  }
+
+  export type MeetingUncheckedUpdateManyWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    contactId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    startAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    outcome?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingNotesNestedInput
+    meeting?: MeetingUpdateOneRequiredWithoutNotesNestedInput
+  }
+
+  export type MeetingNoteUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    meetingId?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteCreateManyMeetingInput = {
+    id?: string
+    orgId: string
+    authorId?: string | null
+    body: string
+    createdAt?: Date | string
+  }
+
+  export type MeetingNoteUpdateWithoutMeetingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    org?: OrganizationUpdateOneRequiredWithoutMeetingNotesNestedInput
+    author?: UserUpdateOneWithoutMeetingNotesNestedInput
+  }
+
+  export type MeetingNoteUncheckedUpdateWithoutMeetingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MeetingNoteUncheckedUpdateManyWithoutMeetingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskActivityCreateManyTaskInput = {

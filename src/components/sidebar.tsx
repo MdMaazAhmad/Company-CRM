@@ -16,6 +16,10 @@ import {
   ListChecks,
   Clock,
   LogOut,
+  Calendar,
+  UserCheck,
+  BarChart3,
+  Columns3,
 } from "lucide-react";
 import { can } from "@/lib/permissions";
 
@@ -31,15 +35,19 @@ type Me = {
 const nav = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/my-tasks", label: "My Tasks", icon: ListChecks },
+  { href: "/my-leads", label: "My Leads", icon: UserCheck },
   { href: "/clients", label: "Clients", icon: Users },
+  { href: "/leads/board", label: "Lead board", icon: Columns3 },
   { href: "/leads", label: "Leads", icon: Filter },
   { href: "/follow-ups", label: "Follow-ups", icon: CalendarDays },
+  { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/projects", label: "Projects", icon: FolderKanban },
   { href: "/attendance", label: "Attendance", icon: Clock },
   { href: "/invoices", label: "Invoices", icon: Receipt, perm: "manage_users" as const },
   { href: "/manage", label: "Manage", icon: Settings, perm: "manage_pricing" as const },
   { href: "/settings", label: "Settings", icon: Building2, perm: "manage_users" as const },
   { href: "/team", label: "Team", icon: UserCog, perm: "manage_users" as const },
+  { href: "/reports", label: "Reports", icon: BarChart3 },
 ];
 
 function initials(name?: string | null) {

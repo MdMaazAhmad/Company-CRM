@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
+import { assertCan } from "@/lib/permissions";
 
 const str = (fd: FormData, k: string) => String(fd.get(k) || "") || null;
 const intOrNull = (v: FormDataEntryValue | null) =>
@@ -10,27 +11,74 @@ const intOrNull = (v: FormDataEntryValue | null) =>
 const floatOrNull = (v: FormDataEntryValue | null) =>
   v == null || v === "" ? null : parseFloat(String(v));
 
-export async function createContact(formData: FormData) {
+function normPhone(v: string | null) {
+  if (!v) return null;
+  const d = v.replace(/\D/g, "");
+  return d.length >= 7 ? d.slice(-10) : null;
+}
+
+function normEmail(v: string | null) {
+  return v ? v.trim().toLowerCase() : null;
+}
+
+export type CreateContactResult =
+  | { ok: true }
+  | { ok: false; duplicate: { id: string; name: string; stage: string } };
+
+export async function createContact(formData: FormData): Promise<CreateContactResult> {
   const { orgId } = await requireOrg();
+
+  const phone = str(formData, "phone");
+  const email = str(formData, "email");
+  const np = normPhone(phone);
+  const ne = normEmail(email);
+
+  if (np || ne) {
+    const candidates = await prisma.contact.findMany({
+      where: {
+        orgId,
+        OR: [
+          ...(ne ? [{ email: { not: null } }] : []),
+          ...(np ? [{ phone: { not: null } }] : []),
+        ],
+      },
+      select: { id: true, name: true, stage: true, phone: true, email: true },
+    });
+
+    const dup = candidates.find(
+      (c) =>
+        (ne && normEmail(c.email) === ne) ||
+        (np && normPhone(c.phone) === np)
+    );
+
+    if (dup) {
+      return { ok: false, duplicate: { id: dup.id, name: dup.name, stage: dup.stage } };
+    }
+  }
+
   await prisma.contact.create({
     data: {
       orgId,
       name: String(formData.get("name") || "Unnamed"),
       business: str(formData, "business"),
-      phone: str(formData, "phone"),
+      phone,
       whatsapp: str(formData, "whatsapp"),
-      email: str(formData, "email"),
+      email,
       city: str(formData, "city"),
       source: str(formData, "source"),
       notes: str(formData, "notes"),
       plan: str(formData, "plan"),
       quotedPrice: intOrNull(formData.get("quotedPrice")),
+      gstin: str(formData, "gstin"),
+      state: str(formData, "state"),
+      billingAddress: str(formData, "billingAddress"),
       stage: "LEAD",
       status: String(formData.get("status") || "NEW"),
     },
   });
   revalidatePath("/leads");
   revalidatePath("/");
+  return { ok: true };
 }
 
 export async function updateContact(formData: FormData) {
@@ -50,6 +98,9 @@ export async function updateContact(formData: FormData) {
       notes: str(formData, "notes"),
       plan: str(formData, "plan"),
       quotedPrice: intOrNull(formData.get("quotedPrice")),
+      gstin: str(formData, "gstin"),
+      state: str(formData, "state"),
+      billingAddress: str(formData, "billingAddress"),
     },
   });
   revalidatePath("/leads");
@@ -256,44 +307,46 @@ export async function deletePayment(id: string) {
   revalidatePath("/");
 }
 
-export async function createFollowUp(formData: FormData) {
+export async function createLeadActivity(formData: FormData) {
   const { orgId } = await requireOrg();
   const contactId = String(formData.get("contactId") || "");
-  if (!contactId) throw new Error("A follow-up needs a contact.");
+  if (!contactId) throw new Error("An activity needs a contact.");
   const contact = await prisma.contact.findFirst({
     where: { id: contactId, orgId },
     select: { id: true },
   });
   if (!contact) throw new Error("Contact not found.");
   const dueRaw = String(formData.get("dueDate") || "");
-  await prisma.followUp.create({
+  await prisma.leadActivity.create({
     data: {
       orgId,
       contactId,
-      dueDate: dueRaw ? new Date(dueRaw) : new Date(),
-      note: str(formData, "note"),
+      type: String(formData.get("type") || "FOLLOW_UP"),
+      dueDate: dueRaw ? new Date(dueRaw) : null,
+      outcome: str(formData, "outcome"),
     },
   });
   revalidatePath("/follow-ups");
   revalidatePath("/");
 }
 
-export async function toggleFollowUp(id: string, done: boolean) {
+export async function toggleLeadActivity(id: string, done: boolean) {
   const { orgId } = await requireOrg();
-  await prisma.followUp.updateMany({ where: { id, orgId }, data: { done } });
+  await prisma.leadActivity.updateMany({ where: { id, orgId }, data: { done } });
   revalidatePath("/follow-ups");
   revalidatePath("/");
 }
 
-export async function deleteFollowUp(id: string) {
+export async function deleteLeadActivity(id: string) {
   const { orgId } = await requireOrg();
-  await prisma.followUp.deleteMany({ where: { id, orgId } });
+  await prisma.leadActivity.deleteMany({ where: { id, orgId } });
   revalidatePath("/follow-ups");
   revalidatePath("/");
 }
 
 export async function createPlan(formData: FormData) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.plan.create({
     data: {
       orgId,
@@ -312,7 +365,8 @@ export async function createPlan(formData: FormData) {
 }
 
 export async function updatePlan(formData: FormData) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   const id = String(formData.get("id"));
   const featuresRaw = String(formData.get("features") ?? "");
   const features = JSON.stringify(
@@ -349,13 +403,15 @@ export async function updatePlan(formData: FormData) {
 }
 
 export async function deletePlan(id: string) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.plan.deleteMany({ where: { id, orgId } });
   revalidatePath("/manage");
 }
 
 export async function createSource(formData: FormData) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.source.create({
     data: { orgId, label: String(formData.get("label") || "Untitled"), active: true },
   });
@@ -363,13 +419,15 @@ export async function createSource(formData: FormData) {
 }
 
 export async function deleteSource(id: string) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.source.deleteMany({ where: { id, orgId } });
   revalidatePath("/manage");
 }
 
 export async function createCategory(formData: FormData) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.category.create({
     data: {
       orgId,
@@ -380,10 +438,72 @@ export async function createCategory(formData: FormData) {
   });
   revalidatePath("/manage");
 }
- 
+
 export async function deleteCategory(id: string) {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
   await prisma.category.deleteMany({ where: { id, orgId } });
   revalidatePath("/manage");
 }
- 
+
+export async function assignContact(id: string, assigneeId: string | null) {
+  const { orgId } = await requireOrg();
+  if (assigneeId) {
+    const member = await prisma.user.findFirst({
+      where: { id: assigneeId, orgId, active: true, team: { in: ["SALES", "BOTH"] } },
+      select: { id: true },
+    });
+    if (!member) throw new Error("That teammate can't be assigned leads.");
+  }
+  await prisma.contact.updateMany({ where: { id, orgId }, data: { assigneeId } });
+  revalidatePath("/leads");
+  revalidatePath("/my-leads");
+  revalidatePath("/");
+}
+
+export async function setNextAction(formData: FormData) {
+  const { orgId } = await requireOrg();
+  const id = String(formData.get("id") || "");
+  if (!id) throw new Error("Missing contact id.");
+  const atRaw = String(formData.get("nextActionAt") || "");
+  await prisma.contact.updateMany({
+    where: { id, orgId },
+    data: {
+      nextActionAt: atRaw ? new Date(atRaw) : null,
+      nextActionNote: str(formData, "nextActionNote"),
+    },
+  });
+  revalidatePath("/leads");
+  revalidatePath("/my-leads");
+  revalidatePath("/");
+}
+
+export async function clearNextAction(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.contact.updateMany({
+    where: { id, orgId },
+    data: { nextActionAt: null, nextActionNote: null },
+  });
+  revalidatePath("/leads");
+  revalidatePath("/my-leads");
+  revalidatePath("/");
+}
+
+export async function renameCategory(formData: FormData) {
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_pricing");
+  const id = String(formData.get("id") || "");
+  const newLabel = String(formData.get("label") || "").trim();
+  if (!id || !newLabel) throw new Error("Category name required.");
+
+  const cat = await prisma.category.findFirst({ where: { id, orgId }, select: { label: true } });
+  if (!cat) throw new Error("Category not found.");
+  if (cat.label === newLabel) return;
+
+  await prisma.$transaction([
+    prisma.category.updateMany({ where: { id, orgId }, data: { label: newLabel } }),
+    prisma.plan.updateMany({ where: { orgId, category: cat.label }, data: { category: newLabel } }),
+  ]);
+
+  revalidatePath("/manage");
+}

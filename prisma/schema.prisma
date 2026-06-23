@@ -32,22 +32,28 @@ model Organization {
   placeOfSupply   String?
   defaultHsnSac   String?
   gstRate         Float     @default(18)
+  monthlyFee      Int?
 
-  users         User[]
-  contacts      Contact[]
-  projects      Project[]
-  payments      Payment[]
-  invoices      Invoice[]
-  followUps     FollowUp[]
-  interactions  Interaction[]
-  plans         Plan[]
-  sources       Source[]
-  tasks         Task[]
-  activities    TaskActivity[]
-  comments      TaskComment[]
-  timeLogs      TimeLog[]
-  categories    Category[]
-  loginSessions LoginSession[]
+  users             User[]
+  contacts          Contact[]
+  projects          Project[]
+  payments          Payment[]
+  invoices          Invoice[]
+  followUps         FollowUp[]
+  interactions      Interaction[]
+  plans             Plan[]
+  sources           Source[]
+  tasks             Task[]
+  activities        TaskActivity[]
+  comments          TaskComment[]
+  timeLogs          TimeLog[]
+  categories        Category[]
+  loginSessions     LoginSession[]
+  platformPayments  PlatformPayment[]
+  platformAuditLogs PlatformAuditLog[]
+  leadActivities    LeadActivity[]
+  meetings          Meeting[]
+  meetingNotes      MeetingNote[]
 }
 
 // ─────────────────────────────────────────────────────────
@@ -59,31 +65,67 @@ model Contact {
   orgId String
   org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  // identity
-  name        String
-  business    String?
-  phone       String?
-  whatsapp    String?
-  email       String?
-  city        String?
-  source      String? // referral | instagram | ad | walk-in
-  notes       String?
-  // pipeline — one record moves from LEAD to CLIENT
-  stage       String    @default("LEAD") // LEAD | CLIENT
-  status      String    @default("NEW")
-  // NEW | CONTACTED | FOLLOW_UP | QUOTED | NEGOTIATING | CONVERTED | DROPPED
-  plan        String?
-  quotedPrice Int?
-  dropReason  String?
-  convertedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  name           String
+  business       String?
+  phone          String?
+  whatsapp       String?
+  email          String?
+  city           String?
+  source         String?
+  notes          String?
+  gstin          String?
+  billingAddress String?
+  state          String?
+  stage          String    @default("LEAD")
+  status         String    @default("NEW")
+  plan           String?
+  quotedPrice    Int?
+  dropReason     String?
+  convertedAt    DateTime?
 
-  projects     Project[]
-  followUps    FollowUp[]
-  interactions Interaction[]
+  assigneeId     String?
+  assignee       User?     @relation("ContactAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  nextActionAt   DateTime?
+  nextActionNote String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects       Project[]
+  followUps      FollowUp[]
+  interactions   Interaction[]
+  leadActivities LeadActivity[]
+  meetings       Meeting[]
 
   @@index([orgId])
+  @@index([assigneeId])
+  @@index([nextActionAt])
+}
+
+model LeadActivity {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String
+
+  type       String    @default("FOLLOW_UP")
+  // CALL | WHATSAPP | EMAIL | MEETING | QUOTE | FOLLOW_UP | NOTE
+  title      String?
+  dueDate    DateTime?
+  done       Boolean   @default(false)
+  outcome    String?
+  assigneeId String?
+  assignee   User?     @relation("LeadActivityAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([contactId])
+  @@index([assigneeId])
+  @@index([dueDate])
 }
 
 model Project {
@@ -118,6 +160,7 @@ model Project {
   payments Payment[]
   invoices Invoice[]
   tasks    Task[]
+  meetings Meeting[]
 
   @@index([orgId])
   @@index([contactId])
@@ -305,18 +348,23 @@ model User {
   avatarColor  String   @default("#FF6B00")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  team         String   @default("BOTH") // SALES | DELIVERY | BOTH
 
   // NextAuth adapter
   accounts Account[]
   sessions Session[]
 
   // Task relations
-  assignedTasks Task[]         @relation("TaskAssignee")
-  reportedTasks Task[]         @relation("TaskReporter")
-  activities    TaskActivity[]
-  comments      TaskComment[]
-  timeLogs      TimeLog[]
-  loginSessions LoginSession[]
+  assignedTasks    Task[]         @relation("TaskAssignee")
+  reportedTasks    Task[]         @relation("TaskReporter")
+  activities       TaskActivity[]
+  assignedContacts Contact[]      @relation("ContactAssignee")
+  comments         TaskComment[]
+  timeLogs         TimeLog[]
+  loginSessions    LoginSession[]
+  leadActivities   LeadActivity[] @relation("LeadActivityAssignee")
+  hostedMeetings   Meeting[]      @relation("MeetingHost")
+  meetingNotes     MeetingNote[]  @relation("MeetingNoteAuthor")
 
   @@unique([orgId, email]) // email unique per company, not globally
   @@index([orgId])
@@ -348,6 +396,56 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Meeting {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId String
+
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId     String?
+  summary       String?
+  transcriptUrl String?
+  externalId    String?
+  hostId        String?
+  host          User?    @relation("MeetingHost", fields: [hostId], references: [id], onDelete: SetNull)
+
+  title    String
+  startAt  DateTime
+  endAt    DateTime?
+  location String?
+  link     String?
+  status   String    @default("SCHEDULED")
+  outcome  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notes MeetingNote[]
+
+  @@index([orgId])
+  @@index([contactId])
+  @@index([startAt])
+}
+
+model MeetingNote {
+  id    String       @id @default(cuid())
+  orgId String
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  meetingId String
+  author    User?    @relation("MeetingNoteAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  authorId  String?
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+  @@index([meetingId])
 }
 
 // ─────────────────────────────────────────────────────────
@@ -439,4 +537,44 @@ model TimeLog {
 
   @@index([orgId])
   @@index([taskId])
+}
+
+// ─────────────────────────────────────────────────────────
+// PLATFORM (super-admin billing control plane)
+// ─────────────────────────────────────────────────────────
+
+model PlatformPlan {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  monthlyPrice Int      @default(0)
+  active       Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model PlatformPayment {
+  id        String       @id @default(cuid())
+  orgId     String
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  amount    Int
+  period    String?
+  note      String?
+  paidAt    DateTime     @default(now())
+  createdAt DateTime     @default(now())
+
+  @@index([orgId])
+}
+
+model PlatformAuditLog {
+  id         String        @id @default(cuid())
+  orgId      String?
+  org        Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  actorId    String
+  actorEmail String
+  action     String
+  detail     String?
+  createdAt  DateTime      @default(now())
+
+  @@index([orgId])
+  @@index([createdAt])
 }

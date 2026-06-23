@@ -1,6 +1,7 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
+import { can } from "@/lib/permissions";
 import PlanDetailClient from "./PlanDetailClient";
 
 export default async function PlanDetailPage({
@@ -9,7 +10,9 @@ export default async function PlanDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
+
+  if (!can(user, "manage_pricing")) redirect("/");
 
   const [plan, categories] = await Promise.all([
     prisma.plan.findFirst({ where: { id, orgId } }),

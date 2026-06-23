@@ -27,6 +27,7 @@ export function FormDialog({
   submitLabel,
   children,
   hiddenId,
+  hiddenIdName = "id",
 }: {
   trigger: ReactNode;
   title: string;
@@ -34,6 +35,7 @@ export function FormDialog({
   submitLabel: string;
   children: ReactNode;
   hiddenId?: string; // pass for edit forms
+  hiddenIdName?: string; // field name for hiddenId (default "id")
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -49,7 +51,7 @@ export function FormDialog({
             setOpen(false);
           }}
         >
-          {hiddenId && <input type="hidden" name="id" value={hiddenId} />}
+          {hiddenId && <input type="hidden" name={hiddenIdName} value={hiddenId} />}
           {children}
           <DialogFooter>
             <DialogClose asChild>

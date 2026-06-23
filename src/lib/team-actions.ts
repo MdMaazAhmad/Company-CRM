@@ -15,6 +15,8 @@ function pickColor() {
   return PALETTE[Math.floor(Math.random() * PALETTE.length)];
 }
 
+const TEAMS = ["SALES", "DELIVERY", "BOTH"];
+
 function normEmail(v: FormDataEntryValue | null) {
   return String(v ?? "").trim().toLowerCase();
 }
@@ -28,6 +30,8 @@ export async function addTeamMember(formData: FormData) {
   const email = normEmail(formData.get("email"));
   const role = String(formData.get("role") ?? "MEMBER") as Role;
   const password = String(formData.get("password") ?? "");
+  const teamRaw = String(formData.get("team") ?? "BOTH");
+  const team = TEAMS.includes(teamRaw) ? teamRaw : "BOTH";
 
   if (!name || !email || !password) throw new Error("Name, email and password are required.");
   if (!ROLES.includes(role)) throw new Error("Invalid role.");
@@ -47,12 +51,14 @@ export async function addTeamMember(formData: FormData) {
       email,
       passwordHash,
       role,
+      team,
       active: true,
       avatarColor: pickColor(),
     },
   });
 
   revalidatePath("/team");
+  revalidatePath("/leads");
 }
 
 /** Change a member's role. OWNER only; can't demote the last owner. */
@@ -76,6 +82,23 @@ export async function setMemberRole(formData: FormData) {
 
   await prisma.user.update({ where: { id: userId }, data: { role } });
   revalidatePath("/team");
+}
+
+/** Change a member's team (SALES / DELIVERY / BOTH). Drives lead assignability. */
+export async function setMemberTeam(formData: FormData) {
+  const { user, orgId } = await requireOrg();
+  assertCan(user, "manage_users");
+
+  const userId = String(formData.get("userId") ?? "");
+  const team = String(formData.get("team") ?? "");
+  if (!userId || !TEAMS.includes(team)) throw new Error("Invalid input.");
+
+  const target = await prisma.user.findFirst({ where: { id: userId, orgId } });
+  if (!target) throw new Error("Member not found.");
+
+  await prisma.user.update({ where: { id: userId }, data: { team } });
+  revalidatePath("/team");
+  revalidatePath("/leads");
 }
 
 /** Activate / deactivate a member (we never hard-delete — audit trail). */

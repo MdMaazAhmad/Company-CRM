@@ -7,21 +7,35 @@ import {
   setMemberRole,
   setMemberActive,
   resetMemberPassword,
+  setMemberTeam,
 } from "@/lib/team-actions";
 import { ROLES, ROLE_META, type Role } from "@/lib/permissions";
 import { PageHeader } from "@/components/crm";
-import { Shield, KeyRound, UserMinus, UserPlus, MoreHorizontal } from "lucide-react";
+import { Shield, KeyRound, UserMinus, UserPlus } from "lucide-react";
 
 type Member = {
   id: string;
   name: string;
   email: string;
   role: string;
+  team: string;
   active: boolean;
   avatarColor: string;
   isSuperAdmin: boolean;
   createdAt: Date;
   _count: { assignedTasks: number };
+};
+
+const TEAMS = [
+  { value: "SALES", label: "Sales" },
+  { value: "DELIVERY", label: "Delivery" },
+  { value: "BOTH", label: "Both" },
+];
+
+const TEAM_LABEL: Record<string, string> = {
+  SALES: "Sales",
+  DELIVERY: "Delivery",
+  BOTH: "Both",
 };
 
 function initials(name: string) {
@@ -65,6 +79,7 @@ export function TeamClient({ members, meId }: { members: Member[]; meId: string 
             <tr className="border-b border-line text-left text-xs text-muted">
               <th className="px-4 py-3 font-medium">Member</th>
               <th className="px-4 py-3 font-medium">Role</th>
+              <th className="px-4 py-3 font-medium">Team</th>
               <th className="px-4 py-3 font-medium">Tasks</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium text-right">Actions</th>
@@ -110,6 +125,7 @@ function MemberRow({ m, isSelf }: { m: Member; isSelf: boolean }) {
         </div>
       </td>
       <td className="px-4 py-3"><RoleBadge role={m.role} /></td>
+      <td className="px-4 py-3"><TeamSelect m={m} /></td>
       <td className="px-4 py-3 text-muted">{m._count.assignedTasks}</td>
       <td className="px-4 py-3">
         {m.active ? (
@@ -141,6 +157,37 @@ function MemberRow({ m, isSelf }: { m: Member; isSelf: boolean }) {
       {menuFor === "role" && <RoleDialog m={m} onClose={() => setMenuFor(null)} />}
       {menuFor === "reset" && <ResetDialog m={m} onClose={() => setMenuFor(null)} />}
     </tr>
+  );
+}
+
+function TeamSelect({ m }: { m: Member }) {
+  const [pending, start] = useTransition();
+
+  function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const team = e.target.value;
+    const fd = new FormData();
+    fd.set("userId", m.id);
+    fd.set("team", team);
+    start(async () => {
+      try {
+        await setMemberTeam(fd);
+      } catch (err: any) {
+        alert(err?.message ?? "Failed.");
+      }
+    });
+  }
+
+  return (
+    <select
+      value={m.team}
+      onChange={onChange}
+      disabled={pending}
+      className="rounded-md border border-line bg-white px-2 py-1 text-xs text-ink outline-none focus:border-brand disabled:opacity-50"
+    >
+      {TEAMS.map((t) => (
+        <option key={t.value} value={t.value}>{t.label}</option>
+      ))}
+    </select>
   );
 }
 
@@ -211,13 +258,23 @@ function AddMemberDialog({ onClose }: { onClose: () => void }) {
       <form action={submit} className="mt-4 flex flex-col gap-3">
         <Input name="name" label="Name" placeholder="Full name" />
         <Input name="email" label="Email" type="email" placeholder="person@company.com" />
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-medium text-muted">Role</label>
-          <select name="role" defaultValue="MEMBER" className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-brand">
-            {ROLES.map((r) => (
-              <option key={r} value={r}>{ROLE_META[r].label} — {ROLE_META[r].desc}</option>
-            ))}
-          </select>
+        <div className="flex gap-3">
+          <div className="flex flex-1 flex-col gap-1.5">
+            <label className="text-xs font-medium text-muted">Role</label>
+            <select name="role" defaultValue="MEMBER" className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-brand">
+              {ROLES.map((r) => (
+                <option key={r} value={r}>{ROLE_META[r].label}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-1 flex-col gap-1.5">
+            <label className="text-xs font-medium text-muted">Team</label>
+            <select name="team" defaultValue="BOTH" className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-brand">
+              {TEAMS.map((t) => (
+                <option key={t.value} value={t.value}>{t.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
         <Input name="password" label="Temporary password" type="password" placeholder="At least 8 characters" />
         {err && <div className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">{err}</div>}

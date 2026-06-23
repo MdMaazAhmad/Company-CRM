@@ -29,14 +29,13 @@ const PROJECT_STATUSES = [
 ] as const;
 
 export default async function Dashboard() {
-  const { orgId } = await requireOrg();
+  const { user, orgId } = await requireOrg();
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  
   const [
     org,
     leadCount,
@@ -45,9 +44,11 @@ export default async function Dashboard() {
     sourceGroups,
     dueToday,
     overdue,
+    myOverdueLeads,
     projectGroups,
     projects,
     paymentAgg,
+    convertedBySource,
   ] = await Promise.all([
     prisma.organization.findUnique({
       where: { id: orgId },
@@ -63,11 +64,29 @@ export default async function Dashboard() {
     prisma.followUp.count({
       where: { orgId, done: false, dueDate: { lt: today } },
     }),
+    prisma.contact.count({
+      where: {
+        orgId,
+        stage: "LEAD",
+        assigneeId: user.id,
+        nextActionAt: { lt: new Date() },
+      },
+    }),
     prisma.project.groupBy({ by: ["status"], where: { orgId }, _count: true }),
     prisma.project.findMany({ where: { orgId }, select: { price: true } }),
     prisma.payment.aggregate({ where: { orgId }, _sum: { amount: true } }),
+    prisma.contact.groupBy({
+      by: ["source"],
+      where: { orgId, stage: "CLIENT" },
+      _count: true,
+    }),
   ]);
 
+  const topSources = convertedBySource
+    .filter((s) => s.source)
+    .map((s) => ({ name: s.source as string, value: s._count }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 4);
 
   const countFor = (s: string) =>
     statusGroups.find((g) => g.status === s)?._count ?? 0;
@@ -210,10 +229,39 @@ export default async function Dashboard() {
         ))}
       </div>
 
-      {(dueToday > 0 || overdue > 0) && (
-        <div className="mb-4 flex gap-4">
+      <div className="mb-4 rounded-2xl border border-line bg-surface p-6">
+        <div className="mb-4 flex items-baseline justify-between">
+          <div className="text-sm font-semibold text-ink">Top converting sources</div>
+          <a href="/reports" className="text-xs text-brand hover:underline">Full report →</a>
+        </div>
+        {topSources.length === 0 ? (
+          <div className="text-sm text-faint">No converted clients yet.</div>
+        ) : (
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {topSources.map((s) => (
+              <div key={s.name} className="flex items-center gap-2">
+                <span className="text-sm text-muted">{s.name}</span>
+                <span className="font-heading text-sm font-semibold text-ink tabular-nums">{s.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {(dueToday > 0 || overdue > 0 || myOverdueLeads > 0) && (
+        <div className="mb-4 flex flex-wrap gap-4">
+          {myOverdueLeads > 0 && (
+            <div className="flex-1 min-w-[200px] rounded-xl border border-brand/30 bg-brand-soft px-5 py-4">
+              <div className="text-sm font-semibold text-brand">
+                {myOverdueLeads} of your leads need action
+              </div>
+              <a href="/my-leads" className="text-xs text-muted underline">
+                View now
+              </a>
+            </div>
+          )}
           {overdue > 0 && (
-            <div className="flex-1 rounded-xl border border-st-negotiating-bg bg-st-negotiating-bg px-5 py-4">
+            <div className="flex-1 min-w-[200px] rounded-xl border border-st-negotiating-bg bg-st-negotiating-bg px-5 py-4">
               <div className="text-sm font-semibold text-st-negotiating">
                 {overdue} overdue follow-up{overdue > 1 ? "s" : ""}
               </div>
@@ -223,7 +271,7 @@ export default async function Dashboard() {
             </div>
           )}
           {dueToday > 0 && (
-            <div className="flex-1 rounded-xl border border-st-followup-bg bg-st-followup-bg px-5 py-4">
+            <div className="flex-1 min-w-[200px] rounded-xl border border-st-followup-bg bg-st-followup-bg px-5 py-4">
               <div className="text-sm font-semibold text-st-followup">
                 {dueToday} due today
               </div>

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useTransition } from "react";
-import { LogIn, Ban, Pause, Play } from "lucide-react";
-import { setOrgStatus, impersonateOrg } from "@/lib/superadmin-actions";
+import { Ban, Pause, Play } from "lucide-react";
+import { setOrgStatus } from "@/lib/superadmin-actions";
 
 type OrgRow = {
   id: string;
@@ -11,15 +11,15 @@ type OrgRow = {
   slug: string;
   plan: string;
   status: string;
+  fee: number;
   subscribedUntil: string | null;
   createdAt: string;
   users: number;
-  contacts: number;
   projects: number;
   invoices: number;
 };
 
-type Totals = { orgs: number; users: number; activeOrgs: number; grossRevenue: number };
+type Totals = { orgs: number; users: number; activeOrgs: number; expiringSoon: number; mrr: number };
 
 const inr = (n: number) => "\u20B9" + n.toLocaleString("en-IN");
 const fmtDate = (iso: string) =>
@@ -66,42 +66,26 @@ function StatusButtons({ orgId, status }: { orgId: string; status: string }) {
   );
 }
 
-function ImpersonateButton({ orgId }: { orgId: string }) {
-  const [pending, start] = useTransition();
-  function go() {
-    const fd = new FormData();
-    fd.set("orgId", orgId);
-    start(async () => {
-      try { await impersonateOrg(fd); window.location.href = "/"; }
-      catch (e: any) { alert(e?.message ?? "Failed."); }
-    });
-  }
-  return (
-    <button onClick={go} disabled={pending} title="Impersonate / act as org"
-      className="inline-flex items-center gap-1 rounded-md border border-line px-2 py-1 text-xs text-ink hover:bg-line-soft">
-      <LogIn size={12} /> Act as
-    </button>
-  );
-}
-
 export default function SuperAdminClient({ orgs, totals }: { orgs: OrgRow[]; totals: Totals }) {
   return (
     <div className="mx-auto max-w-7xl space-y-8 p-8">
       <div>
         <div className="text-xs uppercase tracking-widest text-faint">Platform</div>
-        <h1 className="font-heading text-3xl font-bold text-ink">Super Admin</h1>
+        <h1 className="font-heading text-3xl font-bold text-ink">Control plane</h1>
+        <p className="mt-1 text-sm text-muted">Lifecycle, subscriptions & platform billing — tenant data stays private.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
         {[
-          { label: "Organizations", value: totals.orgs },
-          { label: "Active orgs", value: totals.activeOrgs },
-          { label: "Total users", value: totals.users },
-          { label: "Gross revenue", value: inr(totals.grossRevenue) },
+          { label: "Organizations", value: totals.orgs, color: "text-ink" },
+          { label: "Active orgs", value: totals.activeOrgs, color: "text-st-converted" },
+          { label: "Expiring < 7 days", value: totals.expiringSoon, color: totals.expiringSoon > 0 ? "text-amber-600" : "text-ink" },
+          { label: "MRR", value: inr(totals.mrr), color: "text-ink" },
+          { label: "Total seats", value: totals.users, color: "text-ink" },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border border-line bg-surface p-5">
             <div className="text-xs uppercase tracking-wide text-muted">{s.label}</div>
-            <div className="mt-1 font-heading text-2xl tabular-nums text-ink">{s.value}</div>
+            <div className={`mt-1 font-heading text-2xl tabular-nums ${s.color}`}>{s.value}</div>
           </div>
         ))}
       </div>
@@ -112,11 +96,11 @@ export default function SuperAdminClient({ orgs, totals }: { orgs: OrgRow[]; tot
             <tr>
               <th className="px-4 py-3">Organization</th>
               <th className="px-4 py-3">Plan</th>
+              <th className="px-4 py-3 text-right">Fee</th>
               <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Subscribed until</th>
-              <th className="px-4 py-3 text-right">Users</th>
+              <th className="px-4 py-3">Renews</th>
+              <th className="px-4 py-3 text-right">Seats</th>
               <th className="px-4 py-3 text-right">Projects</th>
-              <th className="px-4 py-3 text-right">Invoices</th>
               <th className="px-4 py-3">Created</th>
               <th className="px-4 py-3"></th>
             </tr>
@@ -132,6 +116,7 @@ export default function SuperAdminClient({ orgs, totals }: { orgs: OrgRow[]; tot
                   <div className="text-xs text-faint">{o.slug}</div>
                 </td>
                 <td className="px-4 py-3 text-muted">{o.plan}</td>
+                <td className="px-4 py-3 text-right tabular-nums text-muted">{inr(o.fee)}</td>
                 <td className="px-4 py-3">
                   <span className="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
                     style={{ background: `${STATUS_COLOR[o.status]}1A`, color: STATUS_COLOR[o.status] }}>
@@ -141,12 +126,10 @@ export default function SuperAdminClient({ orgs, totals }: { orgs: OrgRow[]; tot
                 <td className="px-4 py-3 text-muted">{o.subscribedUntil ? fmtDate(o.subscribedUntil) : "—"}</td>
                 <td className="px-4 py-3 text-right tabular-nums">{o.users}</td>
                 <td className="px-4 py-3 text-right tabular-nums">{o.projects}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{o.invoices}</td>
                 <td className="px-4 py-3 text-muted">{fmtDate(o.createdAt)}</td>
                 <td className="px-4 py-3">
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="flex items-center justify-end">
                     <StatusButtons orgId={o.id} status={o.status} />
-                    <ImpersonateButton orgId={o.id} />
                   </div>
                 </td>
               </tr>
