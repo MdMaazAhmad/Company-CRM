@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { createElement } from "react";
-import { renderToBuffer } from "@react-pdf/renderer";
+import { createElement, type ReactElement } from "react";
+import { renderToBuffer, type DocumentProps } from "@react-pdf/renderer";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
 import { InvoicePdf, type InvoicePdfData } from "@/lib/invoice-pdf";
@@ -101,9 +101,11 @@ export async function GET(
     paidAmount: paid,
   };
 
-  const buffer = await renderToBuffer(createElement(InvoicePdf, { data }));
+  const buffer = await renderToBuffer(
+    createElement(InvoicePdf, { data }) as ReactElement<DocumentProps>
+  );
 
-  return new Response(buffer, {
+  return new Response(buffer as unknown as BodyInit, {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="${invoice.number}.pdf"`,

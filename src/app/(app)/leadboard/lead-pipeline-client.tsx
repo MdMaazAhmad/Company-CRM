@@ -6,7 +6,7 @@ import { ArrowLeft, CalendarClock, ChevronDown } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/crm";
 import { STATUSES, STATUS_META } from "@/lib/status";
 import { RAIL_COLORS, inr } from "@/lib/ui";
-import { PipelineBar, SourceDonut } from "../../dashboard-charts";
+import { PipelineBar, SourceDonut } from "../dashboard-charts";
 
 type Lead = {
   id: string;

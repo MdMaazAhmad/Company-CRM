@@ -5,11 +5,7 @@ import { requireOrg } from "@/lib/session";
 import { assertCan, can } from "@/lib/permissions";
 import { cyclesDueFor, formatInvoiceNumber, resolveTaxMode } from "@/lib/billing";
 import { revalidatePath } from "next/cache";
-
-function str(fd: FormData, key: string) {
-  const v = fd.get(key);
-  return v == null ? "" : String(v).trim();
-}
+import { fdStr } from "@/lib/form-utils";
 
 export async function generateDueInvoices(): Promise<number> {
   const { user, orgId } = await requireOrg();
@@ -112,17 +108,17 @@ export async function payInvoice(formData: FormData) {
   const { user, orgId } = await requireOrg();
   assertCan(user, "view");
 
-  const invoiceId = str(formData, "invoiceId");
+  const invoiceId = fdStr(formData,"invoiceId");
   const invoice = await prisma.invoice.findFirst({
     where: { id: invoiceId, orgId },
     select: { id: true, projectId: true, amount: true },
   });
   if (!invoice) throw new Error("NOT_FOUND");
 
-  const amount = parseInt(str(formData, "amount"), 10);
+  const amount = parseInt(fdStr(formData,"amount"), 10);
   if (!Number.isFinite(amount) || amount <= 0) throw new Error("Enter an amount greater than 0.");
 
-  const paidAtRaw = str(formData, "paidAt");
+  const paidAtRaw = fdStr(formData,"paidAt");
   const paidAt = paidAtRaw ? new Date(paidAtRaw) : new Date();
 
   await prisma.payment.create({
@@ -132,8 +128,8 @@ export async function payInvoice(formData: FormData) {
       invoiceId: invoice.id,
       amount,
       kind: "MILESTONE",
-      method: str(formData, "method") || null,
-      note: str(formData, "note") || null,
+      method: fdStr(formData,"method") || null,
+      note: fdStr(formData,"note") || null,
       paidAt,
     },
   });
@@ -150,7 +146,7 @@ export async function voidInvoice(formData: FormData) {
     throw new Error("Only owners and admins can void invoices.");
   }
 
-  const invoiceId = str(formData, "invoiceId");
+  const invoiceId = fdStr(formData,"invoiceId");
   const invoice = await prisma.invoice.findFirst({ where: { id: invoiceId, orgId }, select: { id: true, projectId: true } });
   if (!invoice) throw new Error("NOT_FOUND");
 
@@ -162,7 +158,7 @@ export async function voidInvoice(formData: FormData) {
 
 export async function deleteInvoicePayment(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const paymentId = str(formData, "paymentId");
+  const paymentId = fdStr(formData,"paymentId");
   const payment = await prisma.payment.findFirst({ where: { id: paymentId, orgId } });
   if (!payment) throw new Error("NOT_FOUND");
 

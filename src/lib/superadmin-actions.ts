@@ -4,15 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { requireSuperAdmin } from "@/lib/superadmin";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { fdStr, fdInt } from "@/lib/form-utils";
 
 const IMPERSONATE_COOKIE = "impersonate_org";
-
-function str(fd: FormData, k: string) {
-  return String(fd.get(k) || "").trim();
-}
-function intOrNull(v: string) {
-  return v === "" ? null : parseInt(v, 10);
-}
 
 async function audit(
   actor: { id?: string; email?: string | null },
@@ -38,8 +32,8 @@ function revalidateOrg(orgId: string) {
 
 export async function setOrgStatus(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
-  const status = str(formData, "status");
+  const orgId = fdStr(formData,"orgId");
+  const status = fdStr(formData,"status");
   if (!["ACTIVE", "SUSPENDED", "BLOCKED"].includes(status)) throw new Error("Invalid status.");
 
   await prisma.organization.update({
@@ -47,7 +41,7 @@ export async function setOrgStatus(formData: FormData) {
     data: {
       status,
       active: status === "ACTIVE",
-      blockedReason: status === "BLOCKED" ? str(formData, "reason") || "Blocked by admin" : null,
+      blockedReason: status === "BLOCKED" ? fdStr(formData,"reason") || "Blocked by admin" : null,
     },
   });
   await audit(actor, orgId, "STATUS_CHANGED", `→ ${status}`);
@@ -56,28 +50,28 @@ export async function setOrgStatus(formData: FormData) {
 
 export async function setOrgSubscription(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
-  const plan = str(formData, "plan") || "FREE";
-  const untilRaw = str(formData, "subscribedUntil");
-  const feeRaw = str(formData, "monthlyFee");
+  const orgId = fdStr(formData,"orgId");
+  const plan = fdStr(formData,"plan") || "FREE";
+  const untilRaw = fdStr(formData,"subscribedUntil");
+  const monthlyFee = fdInt(formData, "monthlyFee");
 
   await prisma.organization.update({
     where: { id: orgId },
     data: {
       plan,
       subscribedUntil: untilRaw ? new Date(untilRaw) : null,
-      monthlyFee: intOrNull(feeRaw),
+      monthlyFee,
     },
   });
-  await audit(actor, orgId, "SUBSCRIPTION_UPDATED", `plan=${plan} fee=${feeRaw || "(plan default)"} until=${untilRaw || "none"}`);
+  await audit(actor, orgId, "SUBSCRIPTION_UPDATED", `plan=${plan} fee=${monthlyFee ?? "(plan default)"} until=${untilRaw || "none"}`);
   revalidateOrg(orgId);
 }
 
 export async function recordPlatformPayment(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
-  const amount = parseInt(str(formData, "amount"), 10);
-  const untilRaw = str(formData, "until");
+  const orgId = fdStr(formData,"orgId");
+  const amount = parseInt(fdStr(formData,"amount"), 10);
+  const untilRaw = fdStr(formData,"until");
   if (!amount || amount <= 0) throw new Error("Enter a valid amount.");
   if (!untilRaw) throw new Error("Pick the date this payment covers until.");
 
@@ -85,7 +79,7 @@ export async function recordPlatformPayment(formData: FormData) {
   if (isNaN(until.getTime())) throw new Error("Invalid date.");
 
   const period =
-    str(formData, "period") ||
+    fdStr(formData,"period") ||
     until.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 
   await prisma.$transaction(async (tx) => {
@@ -94,7 +88,7 @@ export async function recordPlatformPayment(formData: FormData) {
         orgId,
         amount,
         period,
-        note: str(formData, "note") || null,
+        note: fdStr(formData,"note") || null,
       },
     });
     await tx.organization.update({
@@ -116,8 +110,8 @@ export async function recordPlatformPayment(formData: FormData) {
 
 export async function deletePlatformPayment(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
-  const id = str(formData, "id");
+  const orgId = fdStr(formData,"orgId");
+  const id = fdStr(formData,"id");
   await prisma.platformPayment.deleteMany({ where: { id, orgId } });
   await audit(actor, orgId, "PAYMENT_DELETED", id);
   revalidateOrg(orgId);
@@ -125,8 +119,8 @@ export async function deletePlatformPayment(formData: FormData) {
 
 export async function renewOrg(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
-  const cycles = parseInt(str(formData, "cycles") || "1", 10);
+  const orgId = fdStr(formData,"orgId");
+  const cycles = parseInt(fdStr(formData,"cycles") || "1", 10);
 
   const org = await prisma.organization.findUnique({
     where: { id: orgId },
@@ -174,17 +168,17 @@ export async function renewOrg(formData: FormData) {
 
 export async function setPlatformPlanPrice(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const id = str(formData, "id");
-  const monthlyPrice = parseInt(str(formData, "monthlyPrice"), 10);
+  const id = fdStr(formData,"id");
+  const monthlyPrice = parseInt(fdStr(formData,"monthlyPrice"), 10);
   if (isNaN(monthlyPrice) || monthlyPrice < 0) throw new Error("Invalid price.");
   await prisma.platformPlan.update({ where: { id }, data: { monthlyPrice } });
-  await audit(actor, null, "PLAN_PRICE_CHANGED", `${str(formData, "name")} → ₹${monthlyPrice}`);
+  await audit(actor, null, "PLAN_PRICE_CHANGED", `${fdStr(formData,"name")} → ₹${monthlyPrice}`);
   revalidatePath("/superadmin");
 }
 
 export async function impersonateOrg(formData: FormData) {
   const actor = await requireSuperAdmin();
-  const orgId = str(formData, "orgId");
+  const orgId = fdStr(formData,"orgId");
   const org = await prisma.organization.findUnique({ where: { id: orgId }, select: { id: true } });
   if (!org) throw new Error("Org not found.");
 

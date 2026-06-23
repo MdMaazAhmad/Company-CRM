@@ -3,8 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
-
-const str = (fd: FormData, k: string) => String(fd.get(k) || "") || null;
+import { fd } from "@/lib/form-utils";
 
 export async function createMeeting(formData: FormData) {
   const { user, orgId } = await requireOrg();
@@ -28,8 +27,8 @@ export async function createMeeting(formData: FormData) {
       title: String(formData.get("title") || "Meeting"),
       startAt: new Date(startRaw),
       endAt: endRaw ? new Date(endRaw) : null,
-      location: str(formData, "location"),
-      link: str(formData, "link"),
+      location: fd(formData,"location"),
+      link: fd(formData,"link"),
       status: "SCHEDULED",
     },
   });
@@ -57,8 +56,8 @@ export async function updateMeeting(formData: FormData) {
       title: String(formData.get("title") || "Meeting"),
       startAt: startRaw ? new Date(startRaw) : undefined,
       endAt: endRaw ? new Date(endRaw) : null,
-      location: str(formData, "location"),
-      link: str(formData, "link"),
+      location: fd(formData,"location"),
+      link: fd(formData,"link"),
     },
   });
   revalidatePath(`/leads/${existing.contactId}`);

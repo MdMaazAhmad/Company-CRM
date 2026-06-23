@@ -37,7 +37,7 @@ const nav = [
   { href: "/my-tasks", label: "My Tasks", icon: ListChecks },
   { href: "/my-leads", label: "My Leads", icon: UserCheck },
   { href: "/clients", label: "Clients", icon: Users },
-  { href: "/leads/board", label: "Lead board", icon: Columns3 },
+  { href: "/leadboard", label: "Lead board", icon: Columns3 },
   { href: "/leads", label: "Leads", icon: Filter },
   { href: "/follow-ups", label: "Follow-ups", icon: CalendarDays },
   { href: "/calendar", label: "Calendar", icon: Calendar },

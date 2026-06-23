@@ -4,22 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/session";
 import { assertCan } from "@/lib/permissions";
-
-const str = (fd: FormData, k: string) => String(fd.get(k) || "") || null;
-const intOrNull = (v: FormDataEntryValue | null) =>
-  v == null || v === "" ? null : parseInt(String(v), 10);
-const floatOrNull = (v: FormDataEntryValue | null) =>
-  v == null || v === "" ? null : parseFloat(String(v));
-
-function normPhone(v: string | null) {
-  if (!v) return null;
-  const d = v.replace(/\D/g, "");
-  return d.length >= 7 ? d.slice(-10) : null;
-}
-
-function normEmail(v: string | null) {
-  return v ? v.trim().toLowerCase() : null;
-}
+import { fd, fdInt, fdFloat, normPhone, normEmail } from "@/lib/form-utils";
 
 export type CreateContactResult =
   | { ok: true }
@@ -28,8 +13,8 @@ export type CreateContactResult =
 export async function createContact(formData: FormData): Promise<CreateContactResult> {
   const { orgId } = await requireOrg();
 
-  const phone = str(formData, "phone");
-  const email = str(formData, "email");
+  const phone = fd(formData, "phone");
+  const email = fd(formData, "email");
   const np = normPhone(phone);
   const ne = normEmail(email);
 
@@ -60,18 +45,18 @@ export async function createContact(formData: FormData): Promise<CreateContactRe
     data: {
       orgId,
       name: String(formData.get("name") || "Unnamed"),
-      business: str(formData, "business"),
+      business: fd(formData, "business"),
       phone,
-      whatsapp: str(formData, "whatsapp"),
+      whatsapp: fd(formData, "whatsapp"),
       email,
-      city: str(formData, "city"),
-      source: str(formData, "source"),
-      notes: str(formData, "notes"),
-      plan: str(formData, "plan"),
-      quotedPrice: intOrNull(formData.get("quotedPrice")),
-      gstin: str(formData, "gstin"),
-      state: str(formData, "state"),
-      billingAddress: str(formData, "billingAddress"),
+      city: fd(formData, "city"),
+      source: fd(formData, "source"),
+      notes: fd(formData, "notes"),
+      plan: fd(formData, "plan"),
+      quotedPrice: fdInt(formData, "quotedPrice"),
+      gstin: fd(formData, "gstin"),
+      state: fd(formData, "state"),
+      billingAddress: fd(formData, "billingAddress"),
       stage: "LEAD",
       status: String(formData.get("status") || "NEW"),
     },
@@ -89,18 +74,18 @@ export async function updateContact(formData: FormData) {
     where: { id, orgId },
     data: {
       name: String(formData.get("name") || "Unnamed"),
-      business: str(formData, "business"),
-      phone: str(formData, "phone"),
-      whatsapp: str(formData, "whatsapp"),
-      email: str(formData, "email"),
-      city: str(formData, "city"),
-      source: str(formData, "source"),
-      notes: str(formData, "notes"),
-      plan: str(formData, "plan"),
-      quotedPrice: intOrNull(formData.get("quotedPrice")),
-      gstin: str(formData, "gstin"),
-      state: str(formData, "state"),
-      billingAddress: str(formData, "billingAddress"),
+      business: fd(formData, "business"),
+      phone: fd(formData, "phone"),
+      whatsapp: fd(formData, "whatsapp"),
+      email: fd(formData, "email"),
+      city: fd(formData, "city"),
+      source: fd(formData, "source"),
+      notes: fd(formData, "notes"),
+      plan: fd(formData, "plan"),
+      quotedPrice: fdInt(formData, "quotedPrice"),
+      gstin: fd(formData, "gstin"),
+      state: fd(formData, "state"),
+      billingAddress: fd(formData, "billingAddress"),
     },
   });
   revalidatePath("/leads");
@@ -171,17 +156,17 @@ export async function createProject(formData: FormData) {
       contactId,
       name: String(formData.get("name") || "Untitled project"),
       status: String(formData.get("status") || "NOT_STARTED"),
-      price: monthly ? null : intOrNull(formData.get("price")),
+      price: monthly ? null : fdInt(formData, "price"),
       dueDate: dueRaw ? new Date(dueRaw) : null,
-      liveUrl: str(formData, "liveUrl"),
-      notes: str(formData, "notes"),
+      liveUrl: fd(formData, "liveUrl"),
+      notes: fd(formData, "notes"),
       billingType,
-      monthlyAmount: monthly ? intOrNull(formData.get("monthlyAmount")) : null,
+      monthlyAmount: monthly ? fdInt(formData, "monthlyAmount") : null,
       splitBilling: monthly && formData.get("splitBilling") === "true",
       billingActive: monthly ? formData.get("billingActive") === "on" : true,
       billingStart: monthly ? new Date() : null,
-      gstRate: floatOrNull(formData.get("gstRate")),
-      hsnSac: str(formData, "hsnSac"),
+      gstRate: fdFloat(formData, "gstRate"),
+      hsnSac: fd(formData, "hsnSac"),
       taxMode: String(formData.get("taxMode") || "INTRA"),
     },
   });
@@ -210,17 +195,17 @@ export async function updateProject(formData: FormData) {
     data: {
       name: String(formData.get("name") || "Untitled project"),
       status: String(formData.get("status") || "NOT_STARTED"),
-      price: monthly ? null : intOrNull(formData.get("price")),
+      price: monthly ? null : fdInt(formData, "price"),
       dueDate: dueRaw ? new Date(dueRaw) : null,
-      liveUrl: str(formData, "liveUrl"),
-      notes: str(formData, "notes"),
+      liveUrl: fd(formData, "liveUrl"),
+      notes: fd(formData, "notes"),
       billingType,
-      monthlyAmount: monthly ? intOrNull(formData.get("monthlyAmount")) : null,
+      monthlyAmount: monthly ? fdInt(formData, "monthlyAmount") : null,
       splitBilling: monthly && formData.get("splitBilling") === "true",
       billingActive: monthly ? formData.get("billingActive") === "on" : true,
       billingStart: monthly ? existing.billingStart ?? new Date() : null,
-      gstRate: floatOrNull(formData.get("gstRate")),
-      hsnSac: str(formData, "hsnSac"),
+      gstRate: fdFloat(formData, "gstRate"),
+      hsnSac: fd(formData, "hsnSac"),
       taxMode: String(formData.get("taxMode") || "INTRA"),
     },
   });
@@ -257,10 +242,10 @@ export async function addPayment(formData: FormData) {
     data: {
       orgId,
       projectId,
-      amount: intOrNull(formData.get("amount")) ?? 0,
+      amount: fdInt(formData, "amount") ?? 0,
       kind: String(formData.get("kind") || "PARTIAL"),
-      method: str(formData, "method"),
-      note: str(formData, "note"),
+      method: fd(formData, "method"),
+      note: fd(formData, "note"),
       paidAt: paidRaw ? new Date(paidRaw) : new Date(),
     },
   });
@@ -323,7 +308,7 @@ export async function createLeadActivity(formData: FormData) {
       contactId,
       type: String(formData.get("type") || "FOLLOW_UP"),
       dueDate: dueRaw ? new Date(dueRaw) : null,
-      outcome: str(formData, "outcome"),
+      outcome: fd(formData, "outcome"),
     },
   });
   revalidatePath("/follow-ups");
@@ -352,13 +337,13 @@ export async function createPlan(formData: FormData) {
       orgId,
       name: String(formData.get("name") || "Untitled plan"),
       category: String(formData.get("category") || "WordPress"),
-      sellPrice: intOrNull(formData.get("sellPrice")) ?? 0,
-      breakPrice: intOrNull(formData.get("breakPrice")) ?? 0,
+      sellPrice: fdInt(formData, "sellPrice") ?? 0,
+      breakPrice: fdInt(formData, "breakPrice") ?? 0,
       delivery: String(formData.get("delivery") || ""),
       active: formData.get("active") === "on",
-      sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
-      gstRate: floatOrNull(formData.get("gstRate")),
-      hsnSac: String(formData.get("hsnSac") ?? "") || null,
+      sortOrder: fdInt(formData, "sortOrder") ?? 0,
+      gstRate: fdFloat(formData, "gstRate"),
+      hsnSac: fd(formData, "hsnSac"),
     },
   });
   revalidatePath("/manage");
@@ -380,22 +365,22 @@ export async function updatePlan(formData: FormData) {
     data: {
       name: String(formData.get("name")),
       category: String(formData.get("category")),
-      sellPrice: intOrNull(formData.get("sellPrice")) ?? 0,
-      regularPrice: intOrNull(formData.get("regularPrice")),
-      breakPrice: intOrNull(formData.get("breakPrice")) ?? 0,
+      sellPrice: fdInt(formData, "sellPrice") ?? 0,
+      regularPrice: fdInt(formData, "regularPrice"),
+      breakPrice: fdInt(formData, "breakPrice") ?? 0,
       delivery: String(formData.get("delivery")),
       active: formData.get("active") === "on",
-      sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
-      gstRate: floatOrNull(formData.get("gstRate")),
-      hsnSac: String(formData.get("hsnSac") ?? "") || null,
-      tagline: String(formData.get("tagline") ?? "") || null,
+      sortOrder: fdInt(formData, "sortOrder") ?? 0,
+      gstRate: fdFloat(formData, "gstRate"),
+      hsnSac: fd(formData, "hsnSac"),
+      tagline: fd(formData, "tagline"),
       features,
-      costMin: intOrNull(formData.get("costMin")),
-      costMax: intOrNull(formData.get("costMax")),
-      target: String(formData.get("target") ?? "") || null,
-      pitch: String(formData.get("pitch") ?? "") || null,
-      objection: String(formData.get("objection") ?? "") || null,
-      upsell: String(formData.get("upsell") ?? "") || null,
+      costMin: fdInt(formData, "costMin"),
+      costMax: fdInt(formData, "costMax"),
+      target: fd(formData, "target"),
+      pitch: fd(formData, "pitch"),
+      objection: fd(formData, "objection"),
+      upsell: fd(formData, "upsell"),
     },
   });
   revalidatePath(`/manage/plans/${id}`);
@@ -433,7 +418,7 @@ export async function createCategory(formData: FormData) {
       orgId,
       label: String(formData.get("label") || "Untitled"),
       color: String(formData.get("color") || "#94A3B8"),
-      sortOrder: intOrNull(formData.get("sortOrder")) ?? 0,
+      sortOrder: fdInt(formData, "sortOrder") ?? 0,
     },
   });
   revalidatePath("/manage");
@@ -470,7 +455,7 @@ export async function setNextAction(formData: FormData) {
     where: { id, orgId },
     data: {
       nextActionAt: atRaw ? new Date(atRaw) : null,
-      nextActionNote: str(formData, "nextActionNote"),
+      nextActionNote: fd(formData, "nextActionNote"),
     },
   });
   revalidatePath("/leads");

@@ -6,6 +6,7 @@ import { requireOrg } from "@/lib/session";
 import { assertCan, canAssignRole, type Role, ROLES } from "@/lib/permissions";
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
+import { normEmail } from "@/lib/form-utils";
 
 const PALETTE = [
   "#FF6B00", "#2563EB", "#16A34A", "#DB2777",
@@ -16,10 +17,6 @@ function pickColor() {
 }
 
 const TEAMS = ["SALES", "DELIVERY", "BOTH"];
-
-function normEmail(v: FormDataEntryValue | null) {
-  return String(v ?? "").trim().toLowerCase();
-}
 
 /** Add a team member to the current org. OWNER only. */
 export async function addTeamMember(formData: FormData) {

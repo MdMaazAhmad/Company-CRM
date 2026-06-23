@@ -23,6 +23,10 @@ export function LoginForm() {
         password,
         redirect: false,
       });
+      if (res?.status === 429) {
+        setError("Too many login attempts. Please wait a minute and try again.");
+        return;
+      }
       if (res?.error) {
         setError("Wrong email or password.");
         return;

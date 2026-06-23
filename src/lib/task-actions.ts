@@ -7,6 +7,7 @@ import { can, canEditTask, assertCan } from "@/lib/permissions";
 import { isTaskStatus, TASK_STATUSES } from "@/lib/task-status";
 import { isTaskPriority } from "@/lib/task-priority";
 import { revalidatePath } from "next/cache";
+import { fdStr, fdInt, fdDate } from "@/lib/form-utils";
 
 // ── helpers ──────────────────────────────────────────────
 
@@ -38,38 +39,23 @@ async function logActivity(
   });
 }
 
-function str(fd: FormData, key: string) {
-  const v = fd.get(key);
-  return v == null ? "" : String(v).trim();
-}
-function intOrNull(fd: FormData, key: string) {
-  const v = str(fd, key);
-  if (!v) return null;
-  const n = parseInt(v, 10);
-  return Number.isFinite(n) ? n : null;
-}
-function dateOrNull(fd: FormData, key: string) {
-  const v = str(fd, key);
-  return v ? new Date(v) : null;
-}
-
 // ── create ───────────────────────────────────────────────
 
 export async function createTask(formData: FormData) {
   const { user, orgId } = await requireOrg();
   assertCan(user, "create_task");
 
-  const projectId = str(formData, "projectId");
-  const title = str(formData, "title");
+  const projectId = fdStr(formData,"projectId");
+  const title = fdStr(formData,"title");
   if (!projectId || !title) throw new Error("Project and title are required.");
   await assertProjectInOrg(projectId, orgId);
 
-  const status = str(formData, "status") || "BACKLOG";
-  const priority = str(formData, "priority") || "MEDIUM";
+  const status = fdStr(formData,"status") || "BACKLOG";
+  const priority = fdStr(formData,"priority") || "MEDIUM";
   if (!isTaskStatus(status)) throw new Error("Invalid status.");
   if (!isTaskPriority(priority)) throw new Error("Invalid priority.");
 
-  let assigneeId: string | null = str(formData, "assigneeId") || null;
+  let assigneeId: string | null = fdStr(formData,"assigneeId") || null;
   if (assigneeId) {
     // assignee must be an active member of the same org
     const a = await prisma.user.findFirst({ where: { id: assigneeId, orgId, active: true }, select: { id: true } });
@@ -89,13 +75,13 @@ export async function createTask(formData: FormData) {
       orgId,
       projectId,
       title,
-      description: str(formData, "description") || null,
+      description: fdStr(formData,"description") || null,
       status,
       priority,
       assigneeId,
       reporterId: user.id,
-      dueDate: dateOrNull(formData, "dueDate"),
-      estimateHours: intOrNull(formData, "estimateHours"),
+      dueDate: fdDate(formData,"dueDate"),
+      estimateHours: fdInt(formData,"estimateHours"),
       order,
     },
   });
@@ -111,33 +97,33 @@ export async function createTask(formData: FormData) {
 
 export async function updateTask(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const taskId = str(formData, "taskId");
+  const taskId = fdStr(formData,"taskId");
   const task = await getOwnedTask(taskId, orgId);
   if (!canEditTask(user, task, user.id)) throw new Error("FORBIDDEN");
 
-  const title = str(formData, "title");
+  const title = fdStr(formData,"title");
   if (!title) throw new Error("Title is required.");
 
-  const priority = str(formData, "priority") || task.priority;
+  const priority = fdStr(formData,"priority") || task.priority;
   if (!isTaskPriority(priority)) throw new Error("Invalid priority.");
 
-  let assigneeId: string | null = str(formData, "assigneeId") || null;
+  let assigneeId: string | null = fdStr(formData,"assigneeId") || null;
   if (assigneeId) {
     const a = await prisma.user.findFirst({ where: { id: assigneeId, orgId, active: true }, select: { id: true } });
     if (!a) throw new Error("Assignee not found in your team.");
   }
 
-  const dueDate = dateOrNull(formData, "dueDate");
+  const dueDate = fdDate(formData,"dueDate");
 
   await prisma.task.update({
     where: { id: taskId },
     data: {
       title,
-      description: str(formData, "description") || null,
+      description: fdStr(formData,"description") || null,
       priority,
       assigneeId,
       dueDate,
-      estimateHours: intOrNull(formData, "estimateHours"),
+      estimateHours: fdInt(formData,"estimateHours"),
     },
   });
 
@@ -158,8 +144,8 @@ export async function updateTask(formData: FormData) {
 
 export async function setTaskStatus(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const taskId = str(formData, "taskId");
-  const status = str(formData, "status");
+  const taskId = fdStr(formData,"taskId");
+  const status = fdStr(formData,"status");
   if (!isTaskStatus(status)) throw new Error("Invalid status.");
 
   const task = await getOwnedTask(taskId, orgId);
@@ -259,7 +245,7 @@ export async function reorderColumn(args: {
 
 export async function deleteTask(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const taskId = str(formData, "taskId");
+  const taskId = fdStr(formData,"taskId");
   const task = await getOwnedTask(taskId, orgId);
   if (!canEditTask(user, task, user.id)) throw new Error("FORBIDDEN");
 
@@ -272,8 +258,8 @@ export async function deleteTask(formData: FormData) {
 export async function addComment(formData: FormData) {
   const { user, orgId } = await requireOrg();
   assertCan(user, "comment_task");
-  const taskId = str(formData, "taskId");
-  const body = str(formData, "body");
+  const taskId = fdStr(formData,"taskId");
+  const body = fdStr(formData,"body");
   if (!body) throw new Error("Comment can't be empty.");
 
   const task = await getOwnedTask(taskId, orgId);
@@ -286,7 +272,7 @@ export async function addComment(formData: FormData) {
 
 export async function deleteComment(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const commentId = str(formData, "commentId");
+  const commentId = fdStr(formData,"commentId");
   const comment = await prisma.taskComment.findFirst({ where: { id: commentId, orgId } });
   if (!comment) throw new Error("NOT_FOUND");
 
@@ -304,16 +290,16 @@ export async function deleteComment(formData: FormData) {
 export async function addTimeLog(formData: FormData) {
   const { user, orgId } = await requireOrg();
   assertCan(user, "log_time");
-  const taskId = str(formData, "taskId");
-  const hoursRaw = str(formData, "hours");
+  const taskId = fdStr(formData,"taskId");
+  const hoursRaw = fdStr(formData,"hours");
   const hours = parseFloat(hoursRaw);
   if (!Number.isFinite(hours) || hours <= 0) throw new Error("Enter hours greater than 0.");
 
   const task = await getOwnedTask(taskId, orgId);
-  const spentOn = dateOrNull(formData, "spentOn") ?? new Date();
+  const spentOn = fdDate(formData,"spentOn") ?? new Date();
 
   await prisma.timeLog.create({
-    data: { orgId, taskId, userId: user.id, hours, note: str(formData, "note") || null, spentOn },
+    data: { orgId, taskId, userId: user.id, hours, note: fdStr(formData,"note") || null, spentOn },
   });
   await logActivity(orgId, taskId, user.id, "LOGGED_TIME", null, String(hours));
 
@@ -322,7 +308,7 @@ export async function addTimeLog(formData: FormData) {
 
 export async function deleteTimeLog(formData: FormData) {
   const { user, orgId } = await requireOrg();
-  const logId = str(formData, "logId");
+  const logId = fdStr(formData,"logId");
   const log = await prisma.timeLog.findFirst({ where: { id: logId, orgId } });
   if (!log) throw new Error("NOT_FOUND");
 
