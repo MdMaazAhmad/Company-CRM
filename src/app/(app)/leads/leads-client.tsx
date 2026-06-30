@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Pencil, Plus, ArrowRightCircle, ChevronDown, AlertTriangle } from "lucide-react";
+import {
+  Pencil,
+  Plus,
+  ArrowRightCircle,
+  ChevronDown,
+  AlertTriangle,
+  Download,
+} from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import NextLink from "next/link";
@@ -135,7 +142,9 @@ function LeadFields({ lead }: { lead?: Lead }) {
       <div className="grid gap-1.5">
         <label className="text-sm font-medium text-ink">
           Billing address{" "}
-          <span className="font-normal text-muted">(one line per row — used on invoices)</span>
+          <span className="font-normal text-muted">
+            (one line per row — used on invoices)
+          </span>
         </label>
         <textarea
           name="billingAddress"
@@ -168,9 +177,9 @@ function DuplicateModal({
           </DialogTitle>
         </DialogHeader>
         <div className="py-2 text-sm text-muted">
-          <span className="font-medium text-ink">{dup.name}</span> is already in your system as a{" "}
-          {where} (same phone or email). Open that record and add a new project instead of
-          creating a duplicate.
+          <span className="font-medium text-ink">{dup.name}</span> is already in
+          your system as a {where} (same phone or email). Open that record and
+          add a new project instead of creating a duplicate.
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
@@ -188,7 +197,11 @@ function DuplicateModal({
 function NewLeadDialog() {
   const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
-  const [dup, setDup] = useState<{ id: string; name: string; stage: string } | null>(null);
+  const [dup, setDup] = useState<{
+    id: string;
+    name: string;
+    stage: string;
+  } | null>(null);
 
   function submit(fd: FormData) {
     start(async () => {
@@ -222,7 +235,9 @@ function NewLeadDialog() {
             <LeadFields />
             <DialogFooter>
               <DialogClose asChild>
-                <Button type="button" variant="outline">Cancel</Button>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
               </DialogClose>
               <Button type="submit" disabled={pending}>
                 {pending ? "Adding…" : "Add lead"}
@@ -266,7 +281,14 @@ function AssigneeSelect({
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-medium text-white"
         style={{ background: current?.avatarColor ?? "#CBD5E1" }}
       >
-        {current ? current.name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase() : "—"}
+        {current
+          ? current.name
+              .split(" ")
+              .map((p) => p[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase()
+          : "—"}
       </span>
       <select
         value={assigneeId ?? ""}
@@ -300,7 +322,7 @@ export default function LeadsClient({
       acc[s] = leads.filter((l) => l.status === s).length;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   const filtered =
@@ -308,7 +330,10 @@ export default function LeadsClient({
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
-  const shown = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const shown = filtered.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
 
   function changeFilter(v: string) {
     setFilter(v);
@@ -330,7 +355,16 @@ export default function LeadsClient({
         subtitle={`${leads.length} prospect${
           leads.length === 1 ? "" : "s"
         } in the funnel`}
-        action={<NewLeadDialog />}
+        action={
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline" className="gap-1.5">
+              <NextLink href="/api/leads/export" prefetch={false}>
+                <Download className="h-4 w-4" /> Export
+              </NextLink>
+            </Button>
+            <NewLeadDialog />
+          </div>
+        }
       />
 
       <FilterChips
@@ -371,7 +405,10 @@ export default function LeadsClient({
                   style={{ boxShadow: `inset 3px 0 0 ${color}` }}
                 >
                   <TableCell>
-                    <NextLink href={`/leads/${l.id}`} className="font-medium text-ink hover:text-brand hover:underline">
+                    <NextLink
+                      href={`/leads/${l.id}`}
+                      className="font-medium text-ink hover:text-brand hover:underline"
+                    >
                       {l.name}
                     </NextLink>
                     <div className="text-xs text-faint">
@@ -434,7 +471,11 @@ export default function LeadsClient({
                       />
                       <FormDialog
                         trigger={
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
                             <Pencil className="h-3.5 w-3.5" />
                           </Button>
                         }
